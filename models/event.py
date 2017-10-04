@@ -30,3 +30,6 @@ class Event(db.Model):
     image_big = db.Column(db.String(120), default="//localhost:5000/static/img/event.png")
 
     published = db.Column(db.Boolean, default=False)
+
+    def __repr__(self):
+        return "<Event %r>" % self.title

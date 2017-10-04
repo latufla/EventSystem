@@ -1,3 +1,4 @@
+from sqlalchemy import Integer, Table, Column, ForeignKey
 from sqlalchemy_utils import PasswordType, force_auto_coercion
 
 from EventSystem import db
@@ -5,6 +6,15 @@ from enums.enums import Gender
 
 force_auto_coercion()
 
+events_participate = Table('events_participate', db.Model.metadata,
+    Column('user_id', Integer, ForeignKey('user.id')),
+    Column('event_id', Integer, ForeignKey('event.id'))
+)
+
+events_history = Table('events_history', db.Model.metadata,
+    Column('user_id', Integer, ForeignKey('user.id')),
+    Column('event_id', Integer, ForeignKey('event.id'))
+)
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -21,8 +31,9 @@ class User(db.Model):
 
     role = db.Column(db.String(80), default="User")
 
-    # events_participate = ListField()
-    # events_history = ListField(EmbeddedDocumentField(EventHistoryRecord))
+    events_participate = db.relationship("Event", secondary=events_participate, lazy='dynamic')
+
+    events_history = db.relationship("Event", secondary=events_history, lazy='dynamic')
 
     def __repr__(self):
         return "<User %r>" % self.login
