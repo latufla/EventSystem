@@ -1,6 +1,7 @@
 from sqlalchemy_utils import PasswordType, force_auto_coercion
 
 from EventSystem import db
+from enums.enums import Gender
 
 force_auto_coercion()
 
@@ -12,7 +13,7 @@ class User(db.Model):
         schemes=['pbkdf2_sha512', 'md5_crypt'], deprecated=['md5_crypt']
     ))
 
-    gender = db.Column(db.String(80), default="Male")
+    gender = db.Column(db.String(80), default=Gender.MALE.name)
 
     xp = db.Column(db.Integer, default=0)
 
