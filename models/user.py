@@ -3,6 +3,7 @@ from sqlalchemy_utils import PasswordType, force_auto_coercion
 
 from EventSystem import db
 from enums.enums import Gender
+from models import event_result
 
 force_auto_coercion()
 
@@ -33,7 +34,7 @@ class User(db.Model):
 
     events_participate = db.relationship("Event", secondary=events_participate, lazy='dynamic')
 
-    events_history = db.relationship("Event", secondary=events_history, lazy='dynamic')
+    events_history = db.relationship("EventResult", backref="user", lazy='dynamic')
 
     def __repr__(self):
         return "<User %r>" % self.login

@@ -22,7 +22,7 @@ class Event(db.Model):
     # rewards = ListField()
     best_player_reward = db.Column(db.Integer, default=0)
 
-    # results = ListField(EmbeddedDocumentField(EventResult))
+    results = db.relationship("EventResult", backref="event", lazy='dynamic')
     # result_file = StringField()
 
     # date_start = DateTimeField()
