@@ -1,0 +1,162 @@
+{% extends  'layouts/layout.html' %}
+
+{% block head %}
+<Title>Создание события</Title>
+
+<script type="text/javascript"
+        src="{{ url_for('static', filename='node_modules/semantic-ui-calendar/dist/calendar.min.js') }}"></script>
+<link rel="stylesheet"
+      href="{{ url_for('static', filename='node_modules/semantic-ui-calendar/dist/calendar.min.css') }}"/>
+
+<script type="text/javascript" src="//cdn.ckeditor.com/4.7.3/basic/ckeditor.js"></script>
+
+{% endblock %}
+
+{% block body %}
+
+{% include 'includes/_main_menu.html' %}
+
+<div class="ui grid">
+    <div class="one wide column"></div>
+
+    <div class="two wide column">
+        <img class="ui small rounded image" src={{image_big}}>
+    </div>
+
+    <div class="twelve wide column">
+        <form class="ui form error" method="post">
+
+            <div class="field">
+                <label>Событие</label>
+                <input name="title" placeholder="" value="Заголовок" type="text">
+            </div>
+
+            <div class="field">
+                <label>Краткое описание</label>
+                <textarea id="description_short" name="description_short" placeholder="">Краткое описание</textarea>
+            </div>
+
+            <div class="field">
+                <label>Описание</label>
+                <textarea id="description" name="description" placeholder="">Описание</textarea>
+            </div>
+
+            <div class="ui hidden divider"></div>
+
+
+            <div class="field">
+                <label>Начало</label>
+                <div class="inline field">
+                    <div class="ui calendar" id="date_start">
+                        <div class="ui input right icon">
+                            <i class="calendar icon"></i>
+                            <input name="date_start" type="text" placeholder="Дата">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="field">
+                <label>Макс. участников</label>
+                <div class="inline field">
+                    <input name="max_participants" type="text" value="10">
+                </div>
+            </div>
+
+            <div class="ui hidden divider"></div>
+
+            <div class="field">
+                <label>Награды</label>
+                <div class="inline field">
+                    <label>1</label>
+                    <input name="rewards" value="0" type="text">
+                </div>
+                <div class="inline field">
+                    <label>2</label>
+                    <input name="rewards" value="0" type="text">
+                </div>
+                <div class="inline field">
+                    <label>3</label>
+                    <input name="rewards" value="0" type="text">
+                </div>
+                <div class="inline field">
+                    <label>4</label>
+                    <input name="rewards" value="0" type="text">
+                </div>
+                <div class="inline field">
+                    <label>5</label>
+                    <input name="rewards" value="0" type="text">
+                </div>
+                <div class="inline field">
+                    <label>6</label>
+                    <input name="rewards" value="0" type="text">
+                </div>
+                <div class="inline field">
+                    <label>7</label>
+                    <input name="rewards" value="0" type="text">
+                </div>
+                <div class="inline field">
+                    <label>8</label>
+                    <input name="rewards" value="0" type="text">
+                </div>
+                <div class="inline field">
+                    <label>9</label>
+                    <input name="rewards" value="0" type="text">
+                </div>
+                <div class="inline field">
+                    <label>10</label>
+                    <input name="rewards" value="0" type="text">
+                </div>
+                <div class="inline field">
+                    <label>Лучший игрок</label>
+                    <input name="best_player_reward" value="0" type="text">
+                </div>
+            </div>
+
+            <button class="ui primary right floated button" type="submit">Сохранить</button>
+
+            <div class="ui error message"></div>
+
+        </form>
+    </div>
+
+    <div class="one wide column"></div>
+
+</div>
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript">
+    function addZero(i) {
+        if (i < 10) {
+            i = "0" + i;
+        }
+        return i;
+    }
+
+    $('#date_start').calendar({
+        monthFirst: false,
+        formatter: {
+            date: function (d, settings) {
+                if (!d) return '';
+                var day = d.getDate();
+                var month = d.getMonth() + 1;
+                var year = d.getFullYear();
+                return addZero(day) + '.' + addZero(month) + '.' + year;
+            },
+            time: function (t, settings) {
+                var hour = addZero(t.getHours());
+                var min = addZero(t.getMinutes());
+                return hour + ':' + min;
+            }
+        }
+    });
+
+</script>
+
+
+<script type="text/javascript">
+    CKEDITOR.replace('description_short');
+    CKEDITOR.replace('description');
+</script>
+{% endblock %}

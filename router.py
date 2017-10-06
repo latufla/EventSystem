@@ -76,5 +76,12 @@ def invites():
     return controller.getInvites()
 
 
+@app.route('/event_create', methods=['GET', 'POST'])
+@is_logged_in
+@is_admin
+def event_create():
+    return controller.createEvent()
+
+
 if __name__ == '__main__':
     app.run(debug=True)

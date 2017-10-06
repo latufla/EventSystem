@@ -2,6 +2,7 @@ from flask import request, render_template, session, redirect, url_for
 
 from enums.enums import UserRole
 from models.event import Event
+from models.forms.event_form import EventForm
 from models.forms.register_form import RegisterForm
 
 from models.user import User
@@ -113,3 +114,39 @@ class Controller:
         user = self.getUser()
         invites = self.invites.getInvites()
         return render_template('invites.html', user=user, invites=invites)
+
+    def createEvent(self):
+        if request.method == 'GET':
+            user = self.getUser()
+            return render_template("event_create.html", user=user, image_big="static/img/event.png")
+
+        if request.method == 'POST':
+            form = EventForm(request.form)
+
+            rewards = request.form.getlist("rewards")
+            for r in rewards:
+                if r:
+                    form.rewards.append_entry(r)
+
+            if form.validate():
+                user = self.getUser()
+
+                event = Event(
+                    author_id=user.id,
+
+                    title=form.title.data,
+                    description_short=form.description_short.data,
+                    description=form.description.data,
+
+                    date_start=form.date_start.data,
+
+                    max_participants=form.max_participants.data,
+
+                    # rewards=form.rewards.data,
+                    best_player_reward=form.best_player_reward.data
+                )
+
+                self.db.session.add(event)
+                self.db.session.commit()
+
+            return redirect(url_for("events"))
