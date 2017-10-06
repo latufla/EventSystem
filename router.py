@@ -1,21 +1,18 @@
-from flask import Flask, request, render_template
-from flask_sqlalchemy import SQLAlchemy
+from flask import request, render_template
 
-import controller
-from services.UserService import *
+from initter import *
 
-app = Flask(__name__)
-app.secret_key = "iodehjoiwjetsadfokiapserq"
+from controller import Controller
+# from services.UserService import is_not_logged_in
 
-app.config.from_pyfile("app.cfg")
-
-db = SQLAlchemy(app)
+ctr = Controller(app, db)
 
 
 @app.route('/register', methods=['GET', 'POST'])
+# @is_not_logged_in
 def register():
     if request.method == 'POST':
-        return controller.registerUser(db)
+        return ctr.registerUser()
 
     return render_template('register.html')
 

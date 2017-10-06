@@ -1,4 +1,4 @@
-from router import db
+from initter import db
 
 from models.event_result import EventResult
 from models.user import User

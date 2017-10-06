@@ -6,32 +6,37 @@ from models.forms.register_form import RegisterForm
 import models.user
 
 
-def registerUser(db):
-    form = RegisterForm(request.form)
+class Controller:
+    def __init__(self, app, db):
+        self.app = app
+        self.db = db
 
-    # inv = str(form.invite.data)
-    # if not self.invites.tryUseInvite(inv):
-    #     error = "Неправильный или использованный инвайт"
-    #     return render_template("register.html", error=error)
+    def registerUser(self):
+        form = RegisterForm(request.form)
 
-    if form.validate():
-        user = models.user.User(
-            login=form.login.data,
-            password=str(form.password.data),
-            gender=form.gender.data
-        )
+        # inv = str(form.invite.data)
+        # if not self.invites.tryUseInvite(inv):
+        #     error = "Неправильный или использованный инвайт"
+        #     return render_template("register.html", error=error)
 
-        user.image_big = "static/img/male256.png"
-        if user.gender == "Female":
-            user.image_big = "static/img/female256.png"
+        if form.validate():
+            user = models.user.User(
+                login=form.login.data,
+                password=str(form.password.data),
+                gender=form.gender.data
+            )
 
-        db.session.add(user)
-        db.session.commit()
+            user.image_big = "static/img/male256.png"
+            if user.gender == "Female":
+                user.image_big = "static/img/female256.png"
 
-        session["logged_in"] = True
-        session["login"] = user.login
-        session["admin"] = user.role == UserRole.ADMIN.name
+            self.db.session.add(user)
+            self.db.session.commit()
 
-        return redirect(url_for('register'))
+            session["logged_in"] = True
+            session["login"] = user.login
+            session["admin"] = user.role == UserRole.ADMIN.name
 
-    return render_template('register.html')
+            return redirect(url_for('register'))
+
+        return render_template('register.html')

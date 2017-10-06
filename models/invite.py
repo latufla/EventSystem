@@ -1,4 +1,4 @@
-from router import db
+from initter import db
 
 
 class Invite(db.Model):

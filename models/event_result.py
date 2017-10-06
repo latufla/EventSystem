@@ -1,4 +1,4 @@
-from router import db
+from initter import db
 
 
 class EventResult(db.Model):
