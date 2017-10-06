@@ -5,12 +5,14 @@ from models.event import Event
 from models.forms.register_form import RegisterForm
 
 from models.user import User
+from services.InviteService import InviteService
 
 
 class Controller:
     def __init__(self, app, db):
         self.app = app
         self.db = db
+        self.invites = InviteService()
 
     @classmethod
     def getUser(cls):
@@ -19,10 +21,10 @@ class Controller:
     def registerUser(self):
         form = RegisterForm(request.form)
 
-        # inv = str(form.invite.data)
-        # if not self.invites.tryUseInvite(inv):
-        #     error = "Неправильный или использованный инвайт"
-        #     return render_template("register.html", error=error)
+        inv = str(form.invite.data)
+        if not self.invites.tryUseInvite(inv):
+            error = "Неправильный или использованный инвайт"
+            return render_template("register.html", error=error)
 
         if form.validate():
             user = User(
@@ -103,3 +105,11 @@ class Controller:
         events = user.events_participate.all()
         return render_template('events.html', user=user, events=events, participate=True)
 
+    def getInvites(self):
+        if request.method == 'POST':
+            self.invites.createInvites(100, 10)
+            return redirect(url_for('invites'))
+
+        user = self.getUser()
+        invites = self.invites.getInvites()
+        return render_template('invites.html', user=user, invites=invites)

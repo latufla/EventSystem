@@ -33,10 +33,8 @@ def logout():
 
 
 @app.route('/', methods=['GET'])
+@is_logged_in
 def index():
-    if 'logged_in' not in session:
-        return redirect(url_for('login'))
-
     return redirect(url_for('profile'))
 
 
@@ -69,6 +67,13 @@ def events_participate():
 @is_logged_in
 def events_published():
     return controller.getPublishedEvents()
+
+
+@app.route('/invites', methods=['GET', 'POST'])
+@is_logged_in
+@is_admin
+def invites():
+    return controller.getInvites()
 
 
 if __name__ == '__main__':
