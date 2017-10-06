@@ -20,7 +20,7 @@ def is_not_logged_in(f):
         if 'logged_in' not in session:
             return f(*args, **kwargs)
         else:
-            return redirect(url_for('index'))
+            return redirect(url_for('login'))
 
     return wrap
 
@@ -31,6 +31,6 @@ def is_admin(f):
         if session["admin"]:
             return f(*args, **kwargs)
         else:
-            return redirect(url_for('index'))
+            return redirect(url_for('login')) # logout
 
     return wrap
