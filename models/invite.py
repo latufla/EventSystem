@@ -1,4 +1,4 @@
-from EventSystem import db
+from router import db
 
 
 class Invite(db.Model):

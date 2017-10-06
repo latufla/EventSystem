@@ -1,13 +1,14 @@
-from sqlalchemy import Integer, Table, Column, ForeignKey
+from sqlalchemy.orm import relationship
 from sqlalchemy_utils import PasswordType, force_auto_coercion
-
-from EventSystem import db
 from enums.enums import Gender
+from router import db
+
+from models.event_result import EventResult
 
 force_auto_coercion()
 
-
 class User(db.Model):
+
     id = db.Column(db.Integer, primary_key=True)
     login = db.Column(db.String(80), unique=True)
     password = db.Column(PasswordType(
@@ -22,7 +23,7 @@ class User(db.Model):
 
     role = db.Column(db.String(80), default="User")
 
-    events_history = db.relationship("EventResult", backref="user", lazy='dynamic')
+    events_history = relationship("EventResult", backref="user", lazy='dynamic')
 
     def __repr__(self):
         return "<User %r>" % self.login

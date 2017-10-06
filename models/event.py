@@ -1,4 +1,7 @@
-from EventSystem import db
+from router import db
+
+from models.event_result import EventResult
+from models.user import User
 from enums.enums import EventStatus
 
 

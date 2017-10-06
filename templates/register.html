@@ -1,0 +1,150 @@
+{% extends  'layouts/layout.html' %}
+
+{% block head %}
+<Title>Регистрация</Title>
+{% endblock %}
+
+{% block body %}
+
+{% if error %}
+<div class="ui error message">{{error}}</div>
+{% endif %}
+
+<div class="ui grid">
+    <div class="five wide column"></div>
+
+    <div class="six wide column">
+
+        <div class="ui hidden section divider"></div>
+        <div class="ui hidden section divider"></div>
+
+        <form class="ui form clearing segment error" method="post">
+
+            <div class="field">
+                <label>Логин</label>
+                <input name="login" placeholder="" type="text">
+            </div>
+
+            <div class="field">
+                <label>Пароль</label>
+                <input type="password" name="password" placeholder="" type="text">
+            </div>
+
+            <div class="field">
+                <label>Подтвердите пароль</label>
+                <input type="password" name="confirm" placeholder="" type="text">
+            </div>
+
+
+            <div class="ui hidden divider"></div>
+
+            <div class="field">
+                <label>Приглашение</label>
+                <input type="password" name="invite" placeholder="" type="text">
+            </div>
+
+
+            <div class="ui hidden divider"></div>
+
+            <div class="field">
+                <label>Пол</label>
+                <div id="gender_dropdown" class="ui selection dropdown">
+                    <input name="gender" type="hidden">
+                    <i class="dropdown icon"></i>
+                    <div class="default text"></div>
+                    <div class="menu">
+                        <div class="item" data-value="Male">Male</div>
+                        <div class="item" data-value="Female">Female</div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="ui right floated primary button" type="submit">Зарегистрироваться</button>
+            <a href="/login" class="ui button">Войти</a>
+
+            <div class="ui error message"></div>
+
+        </form>
+    </div>
+
+    <div class="five wide column"></div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+    $('.ui.form')
+        .form({
+            fields: {
+                name: {
+                    identifier: 'login',
+                    rules: [
+                        {
+                            type: 'empty',
+                            prompt: 'Please enter your login'
+                        },
+                        {
+                            type: 'minLength[1]',
+                            prompt: 'Your login must be at least {ruleValue} characters'
+                        },
+                        {
+                            type: 'maxLength[20]',
+                            prompt: 'Your login must be less than {ruleValue} characters'
+                        },
+                    ]
+                },
+                password: {
+                    identifier: 'password',
+                    rules: [
+                        {
+                            type: 'empty',
+                            prompt: 'Please enter a password'
+                        },
+                        {
+                            type: 'minLength[3]',
+                            prompt: 'Your password must be at least {ruleValue} characters'
+                        },
+                        {
+                            type: 'maxLength[20]',
+                            prompt: 'Your password must less than {ruleValue} characters'
+                        }
+                    ]
+                },
+                confirm: {
+                    identifier: 'confirm',
+                    rules: [
+                        {
+                            type: 'empty',
+                            prompt: 'Please confirm password'
+                        },
+                        {
+                            type: 'match[password]',
+                            prompt: 'Passwords do not match'
+                        }
+                    ]
+                },
+                password: {
+                    identifier: 'invite',
+                    rules: [
+                        {
+                            type: 'empty',
+                            prompt: 'Please enter an invite'
+                        },
+                        {
+                            type: 'minLength[10]',
+                            prompt: 'Your invite must be at least {ruleValue} characters'
+                        },
+                        {
+                            type: 'maxLength[10]',
+                            prompt: 'Your invite must be less than {ruleValue} characters'
+                        }
+                    ]
+                },
+            }
+        });
+
+    $(gender_dropdown).dropdown();
+
+</script>
+
+{% endblock %}
