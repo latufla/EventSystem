@@ -1,0 +1,16 @@
+<div class="ui feed">
+    {% for e in user.events_history %}
+    <div class="ui hidden divider"></div>
+    <div class="event">
+        <div class="content">
+            <div class="summary">
+                Участвовали в <a>{{e.title}}</a>
+                <div class="date">{{e.date_start}}</div>
+            </div>
+            <div class="extra text">
+                Заняли {{e.place}} место и получили {{e.reward}}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>

@@ -26,5 +26,25 @@ def login():
     return render_template('login.html')
 
 
+@app.route('/logout', methods=['GET'])
+@is_logged_in
+def logout():
+    return controller.logoutUser()
+
+
+@app.route('/', methods=['GET'])
+def index():
+    if 'logged_in' not in session:
+        return redirect(url_for('login'))
+
+    return redirect(url_for('profile'))
+
+
+@app.route('/profile', methods=['GET'])
+@is_logged_in
+def profile():
+    return controller.getUserProfile()
+
+
 if __name__ == '__main__':
     app.run(debug=True)

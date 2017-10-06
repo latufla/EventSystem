@@ -1,0 +1,47 @@
+<div class="ui fixed menu">
+
+    <a class="item" href="/">
+        Профаил
+    </a>
+
+
+    <div id="events_dropdown" class="ui dropdown item">
+
+        События <i class="dropdown icon"></i>
+
+        <div class="menu">
+            <a class="item" href="/events_published">
+                Все
+            </a>
+            <a class="item" href="/events_participate">
+                Участвую
+            </a>
+            {% if user.role == "ADMIN" %}
+            <a class="item" href="/events_created">
+                Созданные
+            </a>
+            {% endif %}
+        </div>
+
+    </div>
+
+    {% if user.role == "ADMIN" %}
+    <a class="item" href="/invites">
+        Приглашения
+    </a>
+    {% endif %}
+
+
+    <div class="right menu">
+        <a class="item" href="/logout">
+            Выход
+        </a>
+    </div>
+
+</div>
+
+<div class="ui section hidden divider"></div>
+
+<script type="text/javascript">
+    $(events_dropdown).dropdown();
+</script>

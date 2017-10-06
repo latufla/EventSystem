@@ -1,0 +1,20 @@
+<form action="{{ image_load_action }}" method=POST enctype=multipart/form-data style="display: none">
+    <input id="load_avatar_browse" type="file" name="image">
+    <button id="load_avatar_submit" class="ui primary button" type="submit"></button>
+</form>
+
+<div id="load_avatar_button" class="ui primary button">
+    <i class="upload icon"></i>
+    Загрузить
+</div>
+
+<script type="text/javascript">
+
+    $("#load_avatar_button").on("click", function () {
+        $("#load_avatar_browse").click();
+    });
+    $("#load_avatar_browse").on("change", function () {
+        $("#load_avatar_submit").click();
+    })
+
+</script>

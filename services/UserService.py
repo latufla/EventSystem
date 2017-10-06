@@ -31,6 +31,6 @@ def is_admin(f):
         if session["admin"]:
             return f(*args, **kwargs)
         else:
-            return redirect(url_for('login')) # logout
+            return redirect(url_for('index'))
 
     return wrap

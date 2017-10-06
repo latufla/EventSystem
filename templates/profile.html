@@ -1,0 +1,56 @@
+{% extends  'layouts/layout.html' %}
+
+{% block head %}
+<Title>Профаил</Title>
+{% endblock %}
+
+{% block body %}
+
+{% include 'includes/_main_menu.html' %}
+
+<div class="ui grid">
+
+    <div class="one wide column"></div>
+
+    <div class="two wide column">
+        <div class="ui hidden divider"></div>
+
+        <img class="ui small rounded centered image" src={{user.image_big}}>
+
+{#        <div class="ui center aligned basic segment">#}
+{#            {% set image_load_action = url_for('upload_avatar') %}#}
+{#            {% include 'includes/_image_uploader.html' %}#}
+{#        </div>#}
+    </div>
+
+    <div class="ten wide column">
+        <div class="ui hidden divider"></div>
+        <h3>
+            {{user.login}}
+        </h3>
+        {{user.xp}} XP
+
+
+        <div class="ui hidden section divider"></div>
+        <div class="ui hidden section divider"></div>
+        <div class="ui hidden section divider"></div>
+        <h4 class="ui horizontal divider header">
+          <i class="history icon"></i>
+          История событий
+        </h4>
+{#        {% include 'includes/_user_events_history.html' %}#}
+
+    </div>
+
+    <div class="two wide column">
+        <!--<a href='/' class="ui basic blue icon button">-->
+        <!--<i class="edit icon"></i>-->
+        <!--Изменить-->
+        <!--</a>-->
+    </div>
+
+    <div class="one wide column"></div>
+
+</div>
+
+{% endblock %}

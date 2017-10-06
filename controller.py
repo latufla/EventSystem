@@ -41,7 +41,7 @@ class Controller:
             session["login"] = user.login
             session["admin"] = user.role == UserRole.ADMIN.name
 
-            return redirect(url_for('register'))
+            return redirect(url_for('index'))
 
         return render_template('register.html')
 
@@ -63,3 +63,15 @@ class Controller:
         else:
             error = "No user"
             return render_template("login.html", error=error)
+
+    def logoutUser(self):
+        session.clear()
+        return redirect(url_for('login'))
+
+    def getUserProfile(self):
+        login = session["login"]
+        user = User.query.filter_by(login=login).first()
+        if user is None:
+            return redirect(url_for('login'))
+
+        return render_template('profile.html', user=user)
