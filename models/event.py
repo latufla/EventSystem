@@ -20,7 +20,6 @@ class Event(db.Model):
     id = db.Column(db.Integer, primary_key=True)
 
     author_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    author = db.relationship("User")
 
     title = db.Column(db.String(80))
     description_short = db.Column(db.String(80))
@@ -47,3 +46,39 @@ class Event(db.Model):
 
     def __repr__(self):
         return "<Event %r>" % self.title
+
+    def participantsCount(self):
+        return len(self.participants.all())
+
+    def waitersCount(self):
+        return len(self.wait_list.all())
+
+    def resultsCount(self):
+        return len(self.results.all())
+
+    def getReward(self, place):
+        return 0
+
+        if place > len(self.rewards):
+            return 0
+        return self.rewards[place - 1]
+
+    def getDateStartStr(self):
+        if self.date_start is None:
+            return ""
+
+        return self.date_start.strftime("%d.%m.%Y %H:%M")
+
+    # def hasParticipant(self, user):
+    #     for u in self.participants:
+    #         if u["id"] == user.id:
+    #             return True
+    #
+    #     return False
+    #
+    # def hasWaiter(self, user):
+    #     for u in self.wait_list:
+    #         if u["id"] == user.id:
+    #             return True
+    #
+    #     return False

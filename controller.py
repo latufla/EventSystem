@@ -1,6 +1,7 @@
 from flask import request, render_template, session, redirect, url_for
 
 from enums.enums import UserRole
+from models.event import Event
 from models.forms.register_form import RegisterForm
 
 from models.user import User
@@ -75,3 +76,30 @@ class Controller:
             return redirect(url_for('login'))
 
         return render_template('profile.html', user=user)
+
+    def getCreatedEvents(self):
+        user = self.getUser()
+        if user is None:
+            return redirect(url_for('login'))
+
+        events = user.events_created.order_by('date_start')
+        return render_template('events.html', user=user, events=events, created=True)
+
+
+    def getPublishedEvents(self):
+        user = self.getUser()
+        if user is None:
+            return redirect(url_for('login'))
+
+        events = user.events_participate.filter_by(published=True).order_by('date_start')
+        return render_template('events.html', user=user, events=events)
+
+
+    def getParticipateEvents(self):
+        user = self.getUser()
+        if user is None:
+            return redirect(url_for('login'))
+
+        events = user.events_participate.all()
+        return render_template('events.html', user=user, events=events, participate=True)
+

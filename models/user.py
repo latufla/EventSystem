@@ -23,6 +23,7 @@ class User(db.Model):
 
     role = db.Column(db.String(80), default=UserRole.USER.name)
 
+    events_created = db.relationship("Event", lazy='dynamic', backref="author")
     events_history = relationship("EventResult", backref="user", lazy='dynamic')
 
     def __repr__(self):

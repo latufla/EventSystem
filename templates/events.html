@@ -1,0 +1,41 @@
+{% extends  'layouts/layout.html' %}
+
+{% block head %}
+{% if created == True %}
+    <Title>Созданные события</Title>
+{% elif participate == True %}
+    <Title>Участвую в событиях</Title>
+{% endif %}
+{% endblock %}
+
+{% block body %}
+
+{% include 'includes/_main_menu.html' %}
+
+<div class="ui grid">
+
+  <div class="one wide column"></div>
+
+  <div class="fourteen wide column">
+
+    {% if created == True %}
+        <a class="ui basic blue icon button" href="/event_create">
+           <i class="add icon"></i>
+            Создать
+        </a>
+    {% endif %}
+
+    <div class="ui unstackable divided items">
+
+       {% for event in events%}
+            {% set event_id = 'event_' + loop.index|string %}
+            {% include 'includes/_events_item.html' %}
+       {% endfor %}
+
+    </div>
+  </div>
+
+  <div class="one wide column"></div>
+
+</div>
+{% endblock %}
