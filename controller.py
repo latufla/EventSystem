@@ -6,7 +6,7 @@ from models.forms.event_form import EventForm
 from models.forms.register_form import RegisterForm
 
 from models.user import User
-from services.InviteService import InviteService
+from services.invite_service import InviteService
 
 
 class Controller:

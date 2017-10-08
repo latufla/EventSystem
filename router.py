@@ -3,7 +3,7 @@ from flask import request, render_template
 from initter import *
 
 from controller import Controller
-from services.UserService import *
+from services.user_service import *
 
 controller = Controller(app, db)
 
