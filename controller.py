@@ -29,23 +29,33 @@ class Controller:
     def registerUser(self):
         form = RegisterForm(request.form)
 
+        login = str(form.login.data)
+        user = User.query.filter_by(login=login).first()
+        if user is not None and user.password is not None:
+            error = "Такой юзер уже существует"
+            return render_template("register.html", error=error)
+
         inv = str(form.invite.data)
         if not self.invites.tryUseInvite(inv):
             error = "Неправильный или использованный инвайт"
             return render_template("register.html", error=error)
 
         if form.validate():
-            user = User(
-                login=form.login.data,
-                password=str(form.password.data),
-                gender=form.gender.data
-            )
+            if user is not None and user.password is None:
+                user.password = str(form.password.data)
+            else:
+                user = User(
+                    login=form.login.data,
+                    password=str(form.password.data),
+                    gender=form.gender.data
+                )
 
-            user.image_big = "static/img/male256.png"
-            if user.gender == "Female":
-                user.image_big = "static/img/female256.png"
+                user.image_big = "static/img/male256.png"
+                if user.gender == "Female":
+                    user.image_big = "static/img/female256.png"
 
-            self.db.session.add(user)
+                self.db.session.add(user)
+
             self.db.session.commit()
 
             session["logged_in"] = True
