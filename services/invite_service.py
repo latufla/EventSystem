@@ -1,20 +1,21 @@
 import random
 
-from initter import db
-
 from models.invite import Invite
 
 
 class InviteService:
     __alphabet = "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
+    def __init(self, db):
+        self.db = db
+
     def tryUseInvite(self, key):
         inv = Invite.query.filter_by(key=key).first()
         if inv is None:
             return False
 
-        db.session.delete(inv)
-        db.session.commit()
+        self.db.delete(inv)
+        self.db.commit()
 
         return True
 
@@ -22,9 +23,9 @@ class InviteService:
         invites = self.__generator(count, length)
         for i in invites:
             inv = Invite(key=i)
-            db.session.add(inv)
+            self.db.add(inv)
 
-        db.session.commit()
+        self.db.commit()
 
     def getInvites(self):
         invites = Invite.query.all()

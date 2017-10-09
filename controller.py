@@ -8,12 +8,13 @@ from models.user import User
 from services.invite_service import InviteService
 from services.media_service import MediaService
 from services.reward_service import RewardService
+from tools.db_wrapper import DBWrapper
 
 
 class Controller:
     def __init__(self, app, db):
         self.app = app
-        self.db = db
+        self.db = DBWrapper(db)
         self.invites = InviteService()
         self.media = MediaService(app)
         self.rewards = RewardService()
@@ -54,9 +55,9 @@ class Controller:
                 if user.gender == "Female":
                     user.image_big = "static/img/female256.png"
 
-                self.db.session.add(user)
+                self.db.add(user)
 
-            self.db.session.commit()
+            self.db.commit()
 
             session["logged_in"] = True
             session["login"] = user.login
@@ -167,8 +168,8 @@ class Controller:
                 for r in rewards:
                     event.rewards.append(int(r))
 
-                self.db.session.add(event)
-                self.db.session.commit()
+                self.db.add(event)
+                self.db.commit()
 
             return redirect(url_for("events"))
 
@@ -188,7 +189,7 @@ class Controller:
                 user = self._getUser()
                 event.wait_list.append(user)
 
-                self.db.session.commit()
+                self.db.commit()
 
         return redirect(url_for('event', event_id=event_id))
 
@@ -211,7 +212,7 @@ class Controller:
                         event.wait_list.remove(u)
                         break
 
-                self.db.session.commit()
+                self.db.commit()
 
         return redirect(url_for('event', event_id=event_id))
 
@@ -221,7 +222,7 @@ class Controller:
 
             if event is not None:
                 event.published = True
-                self.db.session.commit()
+                self.db.commit()
 
         return redirect(url_for('event', event_id=event_id))
 
@@ -231,7 +232,7 @@ class Controller:
 
             if event is not None:
                 event.published = False
-                self.db.session.commit()
+                self.db.commit()
 
         return redirect(url_for('event', event_id=event_id))
 
@@ -252,7 +253,7 @@ class Controller:
                 if status != EventStatus.REWARDED.name:
                     results = event.results.all()
                     for r in results:
-                        self.db.session.delete(r)
+                        self.db.delete(r)
 
                 if status == EventStatus.FINISHED.name:
                     result_file = self.media.uploadExcel(request.files["result"])
@@ -262,7 +263,7 @@ class Controller:
                 elif status == EventStatus.REWARDED.name:
                     self.rewards.giveRewards(event)
 
-                self.db.session.commit()
+                self.db.commit()
 
         return redirect(url_for('event', event_id=event_id))
 
@@ -288,7 +289,7 @@ class Controller:
                 if user in users:
                     event.wait_list.remove(user)
 
-                self.db.session.commit()
+                self.db.commit()
 
         return redirect(url_for('event', event_id=event_id))
 
@@ -314,7 +315,7 @@ class Controller:
                 if user not in users:
                     event.wait_list.append(user)
 
-                self.db.session.commit()
+                self.db.commit()
 
         return redirect(url_for('event', event_id=event_id))
 
@@ -329,7 +330,7 @@ class Controller:
                     user = self._getUser()
                     user.image_big = image_big
 
-                    self.db.session.commit()
+                    self.db.commit()
 
         return redirect(url_for('profile'))
 
@@ -345,6 +346,6 @@ class Controller:
 
                     if event is not None:
                         event.image_big = image_big
-                        self.db.session.commit()
+                        self.db.commit()
 
         return redirect(url_for('event', event_id=event_id))

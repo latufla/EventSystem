@@ -3,10 +3,10 @@ from openpyxl import load_workbook
 from models.event_result import EventResult
 from models.user import User
 
-from initter import db
-
 
 class RewardService:
+    def __init(self, db):
+        self.db = db
 
     def collectResults(self, event):
         wb = load_workbook(event.result_file)
@@ -22,7 +22,7 @@ class RewardService:
             user = User.query.filter_by(login=login).first()
             if user is None:
                 user = User(login=login)
-                db.session.add(user)
+                self.db.add(user)
 
             event.results.append(res)
             user.events_history.append(res)
