@@ -118,7 +118,9 @@ class Controller:
         if user is None:
             return redirect(url_for('login'))
 
-        events = user.events_participate.all()
+        events_participate = user.events_participate.all()
+        events_wait = user.events_wait.all()
+        events = events_participate + events_wait
         return render_template('events.html', user=user, events=events, participate=True)
 
     def getInvites(self):
