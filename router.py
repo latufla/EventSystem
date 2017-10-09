@@ -83,5 +83,54 @@ def event_create():
     return controller.createEvent()
 
 
+@app.route('/event/<int:event_id>')
+@is_logged_in
+def event(event_id):
+    return controller.getEvent(event_id)
+
+
+@app.route('/participate_event/<int:event_id>', methods=['POST'])
+@is_logged_in
+def participate_event(event_id):
+    return controller.participateEvent(event_id)
+
+
+@app.route('/leave_event/<int:event_id>', methods=['POST'])
+@is_logged_in
+def leave_event(event_id):
+    return controller.leaveEvent(event_id)
+
+
+@app.route('/publish_event/<int:event_id>', methods=['POST'])
+@is_logged_in
+def publish_event(event_id):
+    return controller.publishEvent(event_id)
+
+
+@app.route('/unpublish_event/<int:event_id>', methods=['POST'])
+@is_logged_in
+def unpublish_event(event_id):
+    return controller.unpublishEvent(event_id)
+
+
+@app.route('/event_state_change', methods=['POST'])
+@is_logged_in
+@is_admin
+def event_state_change():
+    return controller.changeEventState()
+
+
+@app.route('/upload_avatar', methods=['POST'])
+@is_logged_in
+def upload_avatar():
+    return controller.uploadAvatar()
+
+
+@app.route('/upload_event_avatar/<int:event_id>', methods=['POST'])
+@is_logged_in
+def upload_event_avatar(event_id):
+    return controller.uploadEventAvatar(event_id)
+
+
 if __name__ == '__main__':
     app.run(debug=True)

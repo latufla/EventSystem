@@ -17,10 +17,10 @@
 
         <img class="ui small rounded centered image" src={{user.image_big}}>
 
-{#        <div class="ui center aligned basic segment">#}
-{#            {% set image_load_action = url_for('upload_avatar') %}#}
-{#            {% include 'includes/_image_uploader.html' %}#}
-{#        </div>#}
+        <div class="ui center aligned basic segment">
+            {% set image_load_action = url_for('upload_avatar') %}
+            {% include 'includes/_image_uploader.html' %}
+        </div>
     </div>
 
     <div class="ten wide column">

@@ -1,12 +1,12 @@
-from flask import request, render_template, session, redirect, url_for
+from flask import request, render_template, session, redirect, url_for, abort
 
-from enums.enums import UserRole
+from enums.enums import UserRole, EventStatus
 from models.event import Event
 from models.forms.event_form import EventForm
 from models.forms.register_form import RegisterForm
-
 from models.user import User
 from services.invite_service import InviteService
+from services.media_service import MediaService
 
 
 class Controller:
@@ -14,10 +14,15 @@ class Controller:
         self.app = app
         self.db = db
         self.invites = InviteService()
+        self.media = MediaService(app)
 
     @classmethod
-    def getUser(cls):
+    def _getUser(cls):
         return User.query.filter_by(login=session["login"]).first()
+
+    @classmethod
+    def _getEvent(cls, event_id):
+        return Event.query.filter_by(id=event_id).first()
 
     def registerUser(self):
         form = RegisterForm(request.form)
@@ -81,25 +86,23 @@ class Controller:
         return render_template('profile.html', user=user)
 
     def getCreatedEvents(self):
-        user = self.getUser()
+        user = self._getUser()
         if user is None:
             return redirect(url_for('login'))
 
         events = user.events_created.order_by('date_start')
         return render_template('events.html', user=user, events=events, created=True)
 
-
     def getPublishedEvents(self):
-        user = self.getUser()
+        user = self._getUser()
         if user is None:
             return redirect(url_for('login'))
 
-        events = user.events_participate.filter_by(published=True).order_by('date_start')
+        events = Event.query.filter_by(published=True).order_by('date_start')
         return render_template('events.html', user=user, events=events)
 
-
     def getParticipateEvents(self):
-        user = self.getUser()
+        user = self._getUser()
         if user is None:
             return redirect(url_for('login'))
 
@@ -111,13 +114,13 @@ class Controller:
             self.invites.createInvites(100, 10)
             return redirect(url_for('invites'))
 
-        user = self.getUser()
+        user = self._getUser()
         invites = self.invites.getInvites()
         return render_template('invites.html', user=user, invites=invites)
 
     def createEvent(self):
         if request.method == 'GET':
-            user = self.getUser()
+            user = self._getUser()
             return render_template("event_create.html", user=user, image_big="static/img/event.png")
 
         if request.method == 'POST':
@@ -129,7 +132,7 @@ class Controller:
                     form.rewards.append_entry(r)
 
             if form.validate():
-                user = self.getUser()
+                user = self._getUser()
 
                 event = Event(
                     author_id=user.id,
@@ -150,3 +153,125 @@ class Controller:
                 self.db.session.commit()
 
             return redirect(url_for("events"))
+
+    def getEvent(self, event_id):
+        event = self._getEvent(event_id)
+        if event is None:
+            return abort(404)
+
+        user = self._getUser()
+        return render_template('event.html', user=user, event=event)
+
+    def participateEvent(self, event_id):
+        if request.method == 'POST':
+            event = self._getEvent(event_id)
+
+            if event is not None:
+                user = self._getUser()
+                event.wait_list.append(user)
+
+                self.db.session.commit()
+
+        return redirect(url_for('event', event_id=event_id))
+
+    def leaveEvent(self, event_id):
+        if request.method == 'POST':
+            event = self._getEvent(event_id)
+
+            if event is not None:
+                user = self._getUser()
+
+                users = event.participants.all()
+                for u in users:
+                    if u.id == user.id:
+                        event.participants.remove(u)
+                        break
+
+                users = event.wait_list.all()
+                for u in users:
+                    if u.id == user.id:
+                        event.wait_list.remove(u)
+                        break
+
+                self.db.session.commit()
+
+        return redirect(url_for('event', event_id=event_id))
+
+    def publishEvent(self, event_id):
+        if request.method == 'POST':
+            event = self._getEvent(event_id)
+
+            if event is not None:
+                event.published = True
+                self.db.session.commit()
+
+        return redirect(url_for('event', event_id=event_id))
+
+    def unpublishEvent(self, event_id):
+        if request.method == 'POST':
+            event = self._getEvent(event_id)
+
+            if event is not None:
+                event.published = False
+                self.db.session.commit()
+
+        return redirect(url_for('event', event_id=event_id))
+
+    def changeEventState(self):
+        if 'event_id' not in request.form \
+                or 'status' not in request.form:
+            return ""
+
+        event_id = request.form["event_id"]
+        status = request.form["status"]
+
+        # event = self._getEvent(event_id)
+        # if event is not None:
+        #     if EventStatus.HasName(status):
+        #         event.status = status
+        #
+        #         if status == EventStatus.FINISHED.name:
+        #             result_file = self.media.uploadExcel(request.files["result"])
+        #             event.result_file = result_file
+        #             self.rewards.collectResults(event)
+        #
+        #         elif status == EventStatus.REWARDED.name:
+        #             self.rewards.giveRewards(event)
+        #
+        #         else:
+        #             event.results = []
+        #
+        #         event.save()
+
+        return redirect(url_for('event', event_id=event_id))
+
+    def uploadAvatar(self):
+        if request.method == 'POST':
+            files = request.files
+
+            if 'image' in files:
+                image_big = self.media.uploadImage(files['image'])
+
+                if image_big is not None:
+                    user = self._getUser()
+                    user.image_big = image_big
+
+                    self.db.session.commit()
+
+        return redirect(url_for('profile'))
+
+    def uploadEventAvatar(self, event_id):
+        if request.method == 'POST':
+            files = request.files
+
+            if 'image' in files:
+                image_big = self.media.uploadImage(files['image'])
+
+                if image_big is not None:
+                    event = self._getEvent(event_id)
+
+                    if event is not None:
+                        event.image_big = image_big
+                        self.db.session.commit()
+
+        return redirect(url_for('event', event_id=event_id))
