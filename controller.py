@@ -159,9 +159,13 @@ class Controller:
 
                     max_participants=form.max_participants.data,
 
-                    # rewards=form.rewards.data,
                     best_player_reward=form.best_player_reward.data
                 )
+
+                event.rewards = []
+                rewards = form.rewards.data
+                for r in rewards:
+                    event.rewards.append(int(r))
 
                 self.db.session.add(event)
                 self.db.session.commit()

@@ -33,7 +33,7 @@ class Event(db.Model):
 
     status = db.Column(db.String(80), default=EventStatus.NOT_READY.name)
 
-    # rewards = ListField()
+    rewards = db.Column(db.ARRAY(db.Integer))
     best_player_reward = db.Column(db.Integer, default=0)
 
     result_file = db.Column(db.String(120))
