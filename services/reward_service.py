@@ -30,23 +30,7 @@ class RewardService:
         wb.close()
 
     def giveRewards(self, event):
-        pass
-        # not_rewarded_results = [r for r in event.results if not r.rewarded]
-        # for r in not_rewarded_results:
-        #     u = User.objects(login=r.user_name).first()
-        #     if u is not None:
-        #         u.xp += r.reward
-        #
-        #         event_record = next((e for e in u.events_history if e.event_id == event.id), None)
-        #         if event_record is None:
-        #             u.events_history.append(EventHistoryRecord(
-        #                 event_id= event.id,
-        #                 title=event.title,
-        #                 place=None,
-        #                 reward=r.reward,
-        #                 date_start=event.date_start
-        #             ))
-        #
-        #         u.save()
-        #
-        #         r.rewarded = True
+        not_rewarded_results = event.results.filter_by(rewarded=False)
+        for result in not_rewarded_results:
+            result.user.xp += result.reward
+            result.rewarded = True
