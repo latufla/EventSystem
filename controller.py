@@ -252,8 +252,7 @@ class Controller:
 
                 if status != EventStatus.REWARDED.name:
                     results = event.results.all()
-                    for r in results:
-                        self.db.delete(r)
+                    self.db.delete(results)
 
                 if status == EventStatus.FINISHED.name:
                     result_file = self.media.uploadExcel(request.files["result"])
