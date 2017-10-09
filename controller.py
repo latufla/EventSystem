@@ -7,6 +7,7 @@ from models.forms.register_form import RegisterForm
 from models.user import User
 from services.invite_service import InviteService
 from services.media_service import MediaService
+from services.reward_service import RewardService
 
 
 class Controller:
@@ -15,6 +16,7 @@ class Controller:
         self.db = db
         self.invites = InviteService()
         self.media = MediaService(app)
+        self.rewards = RewardService()
 
     @classmethod
     def _getUser(cls):
@@ -225,23 +227,25 @@ class Controller:
         event_id = request.form["event_id"]
         status = request.form["status"]
 
-        # event = self._getEvent(event_id)
-        # if event is not None:
-        #     if EventStatus.HasName(status):
-        #         event.status = status
-        #
-        #         if status == EventStatus.FINISHED.name:
-        #             result_file = self.media.uploadExcel(request.files["result"])
-        #             event.result_file = result_file
-        #             self.rewards.collectResults(event)
-        #
-        #         elif status == EventStatus.REWARDED.name:
-        #             self.rewards.giveRewards(event)
-        #
-        #         else:
-        #             event.results = []
-        #
-        #         event.save()
+        event = self._getEvent(event_id)
+
+        if event is not None:
+            if EventStatus.HasName(status):
+                event.status = status
+
+                results = event.results.all()
+                for r in results:
+                    self.db.session.delete(r)
+
+                if status == EventStatus.FINISHED.name:
+                    result_file = self.media.uploadExcel(request.files["result"])
+                    event.result_file = result_file
+                    self.rewards.collectResults(event)
+
+                elif status == EventStatus.REWARDED.name:
+                    self.rewards.giveRewards(event)
+
+                self.db.session.commit()
 
         return redirect(url_for('event', event_id=event_id))
 

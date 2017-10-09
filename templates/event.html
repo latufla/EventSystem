@@ -164,10 +164,10 @@
                         <button class="ui basic negative tiny icon button" type="submit">
                             <i class="minus icon"></i>
                         </button>
-                        {{p["name"]}}
+                        {{p.login}}
                     </form>
                     {% else: %}
-                    {{p["name"]}}
+                    {{p.login}}
                     {% endif %}
                 </div>
                 <p>
@@ -193,10 +193,10 @@
                         <button class="ui basic positive tiny icon button" type="submit">
                             <i class="plus icon"></i>
                         </button>
-                        {{w["name"]}}
+                        {{w.login}}
                     </form>
                     {% else: %}
-                    {{w["name"]}}
+                    {{w.login}}
                     {% endif %}
 
                 </div>
@@ -221,7 +221,7 @@
             {% for r in event.results %}
             <tr>
                 <td>
-                    {{ r.user_name }}
+                    {{ r.user.login }}
                 </td>
                 <td>
                     {{ r.place }}
