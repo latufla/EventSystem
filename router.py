@@ -124,16 +124,14 @@ def event_state_change():
 @is_logged_in
 @is_admin
 def event_add_participant():
-    pass
-    # return controller.addParticipantToEvent()
+    return controller.addParticipantToEvent()
 
 
 @app.route('/event_remove_participant', methods=['POST'])
 @is_logged_in
 @is_admin
 def event_remove_participant():
-    pass
-    # return controller.removeParticipantFromEvent()
+    return controller.removeParticipantFromEvent()
 
 
 @app.route('/upload_avatar', methods=['POST'])

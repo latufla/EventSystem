@@ -266,6 +266,58 @@ class Controller:
 
         return redirect(url_for('event', event_id=event_id))
 
+    def addParticipantToEvent(self):
+        if 'event_id' not in request.form \
+                or 'user_id' not in request.form:
+            return ""
+
+        event_id = request.form['event_id']
+        user_id = request.form['user_id']
+
+        event = self._getEvent(event_id)
+
+        if event is not None:
+            user = User.query.filter_by(id=user_id).first()
+
+            if user is not None:
+                users = event.participants.all()
+                if user not in users:
+                    event.participants.append(user)
+
+                users = event.wait_list.all()
+                if user in users:
+                    event.wait_list.remove(user)
+
+                self.db.session.commit()
+
+        return redirect(url_for('event', event_id=event_id))
+
+    def removeParticipantFromEvent(self):
+        if 'event_id' not in request.form \
+                or 'user_id' not in request.form:
+            return ""
+
+        event_id = request.form['event_id']
+        user_id = request.form['user_id']
+
+        event = self._getEvent(event_id)
+
+        if event is not None:
+            user = User.query.filter_by(id=user_id).first()
+
+            if user is not None:
+                users = event.participants.all()
+                if user in users:
+                    event.participants.remove(user)
+
+                users = event.wait_list.all()
+                if user not in users:
+                    event.wait_list.append(user)
+
+                self.db.session.commit()
+
+        return redirect(url_for('event', event_id=event_id))
+
     def uploadAvatar(self):
         if request.method == 'POST':
             files = request.files
