@@ -5,6 +5,9 @@ from initter import *
 from controller import Controller
 from services.user_service import *
 
+import json
+import requests
+
 controller = Controller(app, db)
 
 
@@ -22,6 +25,19 @@ def register():
 def login():
     if request.method == 'POST':
         return controller.loginUser()
+
+    return render_template('login.html')
+
+
+@app.route('/social_enter', methods=['POST'])
+@is_not_logged_in
+def social_enter():
+    token = request.form["token"]
+    response = requests.get('http://ulogin.ru/token.php?token=' + token)
+    user = json.loads(str(response.text))
+    first_name = user["first_name"]
+    last_name = user["last_name"]
+    uid = user["uid"]
 
     return render_template('login.html')
 
