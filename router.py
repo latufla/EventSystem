@@ -60,6 +60,13 @@ def profile(user_name):
     return controller.getUserProfile(user_name)
 
 
+@app.route('/all', methods=['GET'])
+@is_logged_in
+@is_admin
+def all_users():
+    return controller.getAllUsers()
+
+
 @app.route('/events', methods=['GET'])
 @is_logged_in
 def events():

@@ -102,6 +102,11 @@ class Controller:
 
         return render_template('profile.html', user=user)
 
+    def getAllUsers(self):
+        user = self._getUser()
+        users = User.query.all()
+        return render_template('all_users.html', users = users, user=user)
+
     def getCreatedEvents(self):
         user = self._getUser()
         if user is None:

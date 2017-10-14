@@ -17,18 +17,30 @@
                 Участвую
             </a>
             {% if user.role == "ADMIN" %}
-            <a class="item" href="/events_created">
-                Созданные
-            </a>
+                <a class="item" href="/events_created">
+                    Созданные
+                </a>
             {% endif %}
         </div>
 
     </div>
 
     {% if user.role == "ADMIN" %}
-    <a class="item" href="/invites">
-        Приглашения
-    </a>
+        <div id="admin_dropdown" class="ui dropdown item">
+
+            Админ <i class="dropdown icon"></i>
+
+            <div class="menu">
+
+                <a class="item" href="/invites">
+                    Приглашения
+                </a>
+                <a class="item" href="/all">
+                    Все пользователи
+                </a>
+            </div>
+
+        </div>
     {% endif %}
 
 
@@ -44,4 +56,5 @@
 
 <script type="text/javascript">
     $(events_dropdown).dropdown();
+    $(admin_dropdown).dropdown();
 </script>

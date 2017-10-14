@@ -1,0 +1,25 @@
+{% extends  'layouts/layout.html' %}
+
+{% block head %}
+    <Title>Все пользователи</Title>
+{% endblock %}
+
+{% block body %}
+
+    {% include 'includes/_main_menu.html' %}
+
+    <div class="ui grid">
+        <div class="one wide column"></div>
+
+
+        <div class="fourteen wide column">
+            {% for u in users %}
+                <p><a href="{{ '/' + u.login }}">{{ u.login }}</a>
+            {% endfor %}
+        </div>
+
+
+        <div class="one wide column"></div>
+    </div>
+
+{% endblock %}
