@@ -39,14 +39,6 @@
                 <div class="ui hidden divider"></div>
 
                 <div class="field">
-                    <label>Приглашение</label>
-                    <input type="password" name="invite" placeholder="" type="text">
-                </div>
-
-
-                <div class="ui hidden divider"></div>
-
-                <div class="field">
                     <label>Пол</label>
                     <div id="gender_dropdown" class="ui selection dropdown">
                         <input name="gender" type="hidden">
@@ -127,24 +119,7 @@
                                 prompt: 'Passwords do not match'
                             }
                         ]
-                    },
-                    password: {
-                        identifier: 'invite',
-                        rules: [
-                            {
-                                type: 'empty',
-                                prompt: 'Please enter an invite'
-                            },
-                            {
-                                type: 'minLength[10]',
-                                prompt: 'Your invite must be at least {ruleValue} characters'
-                            },
-                            {
-                                type: 'maxLength[10]',
-                                prompt: 'Your invite must be less than {ruleValue} characters'
-                            }
-                        ]
-                    },
+                    }
                 }
             });
 

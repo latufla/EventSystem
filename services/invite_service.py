@@ -6,8 +6,12 @@ from models.invite import Invite
 class InviteService:
     __alphabet = "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
-    def __init(self, db):
+    def __init__(self, db):
         self.db = db
+
+    def hasInvite(self, key):
+        inv = Invite.query.filter_by(key=key).first()
+        return inv is not None
 
     def tryUseInvite(self, key):
         inv = Invite.query.filter_by(key=key).first()

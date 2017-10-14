@@ -11,4 +11,4 @@ class RegisterForm(Form):
     confirm = PasswordField('Confirm')
     gender = StringField('Gender')
 
-    invite = PasswordField('Invite')
+    # invite = PasswordField('Invite')

@@ -5,7 +5,7 @@ from models.user import User
 
 
 class RewardService:
-    def __init(self, db):
+    def __init__(self, db):
         self.db = db
 
     def collectResults(self, event):

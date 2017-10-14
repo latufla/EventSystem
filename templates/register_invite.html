@@ -1,0 +1,67 @@
+{% extends  'layouts/layout.html' %}
+
+{% block head %}
+    <Title>Приглашение</Title>
+{% endblock %}
+
+{% block body %}
+
+    {% if error %}
+        <div class="ui error message">{{ error }}</div>
+    {% endif %}
+
+    <div class="ui grid">
+        <div class="five wide column"></div>
+
+        <div class="six wide column">
+
+            <div class="ui hidden section divider"></div>
+            <div class="ui hidden section divider"></div>
+
+            <form class="ui form clearing segment error" method="post">
+                <div class="field">
+                    <label>Приглашение</label>
+                    <input type="password" name="invite" placeholder="" type="text">
+                </div>
+
+                <button class="ui primary right floated button" type="submit">Отправить</button>
+
+                 <div class="ui hidden section divider"></div>
+
+                <div class="ui error message"></div>
+
+            </form>
+        </div>
+
+        <div class="five wide column"></div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script>
+        $('.ui.form')
+            .form({
+                fields: {
+                    invite: {
+                        identifier: 'invite',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: 'Please enter an invite'
+                            },
+                            {
+                                type: 'minLength[10]',
+                                prompt: 'Your invite must be at least {ruleValue} characters'
+                            },
+                            {
+                                type: 'maxLength[10]',
+                                prompt: 'Your invite must be less than {ruleValue} characters'
+                            }
+                        ]
+                    }
+                }
+            });
+
+    </script>
+
+{% endblock %}

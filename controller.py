@@ -15,9 +15,9 @@ class Controller:
     def __init__(self, app, db):
         self.app = app
         self.db = DBWrapper(db)
-        self.invites = InviteService()
+        self.invites = InviteService(self.db)
         self.media = MediaService(app)
-        self.rewards = RewardService()
+        self.rewards = RewardService(self.db)
 
     @classmethod
     def _getUser(cls):
@@ -27,7 +27,25 @@ class Controller:
     def _getEvent(cls, event_id):
         return Event.query.filter_by(id=event_id).first()
 
+    def registerInvite(self):
+        if request.method == 'POST':
+            if 'invite' in request.form:
+                invite = request.form["invite"]
+                if self.invites.hasInvite(invite):
+                    session["invite"] = invite
+                    return redirect(url_for("register"))
+                else:
+                    error = "Неправильный или использованный инвайт"
+                    return render_template("register_invite.html", error=error)
+
+        return render_template("register_invite.html")
+
     def registerUser(self):
+        if "invite" not in session:
+            return redirect(url_for("register_invite"))
+
+        invite = session["invite"]
+
         form = RegisterForm(request.form)
 
         login = str(form.login.data)
@@ -36,10 +54,11 @@ class Controller:
             error = "Такой юзер уже существует"
             return render_template("register.html", error=error)
 
-        inv = str(form.invite.data)
-        if not self.invites.tryUseInvite(inv):
+        if not self.invites.tryUseInvite(invite):
             error = "Неправильный или использованный инвайт"
             return render_template("register.html", error=error)
+        else:
+            session.pop("invite")
 
         if form.validate():
             if user is not None and user.password is None:

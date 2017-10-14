@@ -11,6 +11,12 @@ import requests
 controller = Controller(app, db)
 
 
+@app.route('/register_invite', methods=['GET', 'POST'])
+@is_not_logged_in
+def register_invite():
+    return controller.registerInvite()
+
+
 @app.route('/register', methods=['GET', 'POST'])
 @is_not_logged_in
 def register():
