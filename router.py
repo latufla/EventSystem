@@ -51,13 +51,13 @@ def logout():
 @app.route('/', methods=['GET'])
 @is_logged_in
 def index():
-    return redirect(url_for('profile'))
+    return controller.getIndex()
 
 
-@app.route('/profile', methods=['GET'])
+@app.route('/<string:user_name>', methods=['GET'])
 @is_logged_in
-def profile():
-    return controller.getUserProfile()
+def profile(user_name):
+    return controller.getUserProfile(user_name)
 
 
 @app.route('/events', methods=['GET'])

@@ -90,11 +90,15 @@ class Controller:
         session.clear()
         return redirect(url_for('login'))
 
-    def getUserProfile(self):
-        login = session["login"]
-        user = User.query.filter_by(login=login).first()
+    def getIndex(self):
+        user = self._getUser()
+        return redirect(url_for('profile', user_name=user.login))
+
+    def getUserProfile(self, user_name):
+        user = User.query.filter_by(login=user_name).first()
         if user is None:
-            return redirect(url_for('login'))
+            user = self._getUser()
+            return redirect(url_for('profile', user_name=user.login))
 
         return render_template('profile.html', user=user)
 
