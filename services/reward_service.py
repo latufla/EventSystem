@@ -8,7 +8,7 @@ class RewardService:
     def __init__(self, db):
         self.db = db
 
-    def collectResults(self, event):
+    def collectResults(self, event, password_generator):
         wb = load_workbook(event.result_file)
         sheet = wb.get_sheet_by_name('Sheet1')
         for row in sheet.rows:
@@ -21,7 +21,7 @@ class RewardService:
             login = row[0].value
             user = User.query.filter_by(login=login).first()
             if user is None:
-                user = User(login=login)
+                user = User(login=login, password = password_generator.generate(10))
                 self.db.add(user)
 
             event.results.append(res)

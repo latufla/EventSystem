@@ -38,6 +38,9 @@ class InviteService:
 
         return [item.key for item in invites]
 
+    def generate(self, length):
+        return self.__generator(1, length)[0]
+
     @classmethod
     def __generator(cls, count, length):
         invites = []

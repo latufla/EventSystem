@@ -1,4 +1,6 @@
 from flask import request, render_template, session, redirect, url_for, abort
+from sqlalchemy_utils import Password
+from sqlalchemy_utils.types.password import passlib
 
 from enums.enums import UserRole, EventStatus, Gender
 from models.event import Event
@@ -282,7 +284,7 @@ class Controller:
                 if status == EventStatus.FINISHED.name:
                     result_file = self.media.uploadExcel(request.files["result"])
                     event.result_file = result_file
-                    self.rewards.collectResults(event)
+                    self.rewards.collectResults(event, self.invites)
 
                 elif status == EventStatus.REWARDED.name:
                     self.rewards.giveRewards(event)
