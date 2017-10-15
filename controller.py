@@ -51,7 +51,7 @@ class Controller:
 
         login = str(form.login.data)
         user = User.query.filter_by(login=login).first()
-        if user is not None and user.password is not None:
+        if user is not None:
             error = "Такой юзер уже существует"
             return render_template("register.html", error=error)
 
@@ -62,21 +62,17 @@ class Controller:
             session.pop("invite")
 
         if form.validate():
-            if user is not None and user.password is None:
-                user.password = str(form.password.data)
-            else:
-                user = User(
-                    login=form.login.data,
-                    password=str(form.password.data),
-                    gender=form.gender.data
-                )
+            user = User(
+                login=form.login.data,
+                password=str(form.password.data),
+                gender=form.gender.data
+            )
 
-                user.image_big = "static/img/male256.png"
-                if user.gender == "Female":
-                    user.image_big = "static/img/female256.png"
+            user.image_big = "static/img/male256.png"
+            if user.gender == "Female":
+                user.image_big = "static/img/female256.png"
 
-                self.db.add(user)
-
+            self.db.add(user)
             self.db.commit()
 
             session["logged_in"] = True
