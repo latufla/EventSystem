@@ -17,7 +17,7 @@
         <!--SIDE MENU-->
         <div class="four wide column">
 
-            <img class="ui rounded image" src="{{ event.image_big }}">
+            <img class="ui small rounded centered image" src="{{ event.image_big }}">
 
             {% if user.id == event.author_id %}
                 <div class="ui center aligned basic segment">
@@ -123,7 +123,7 @@
             <div class="ui hidden divider"></div>
 
             {% if event.status != "FINISHED" and event.status != "REWARDED" %}
-                <table class="ui very basic collapsing celled table">
+                <table class="ui very basic collapsing unstackable celled table">
                     <thead>
                     <tr>
                         <th>Место</th>
@@ -209,7 +209,7 @@
 
             {% if event.status == "FINISHED" or event.status == "REWARDED" %}
                 <h3> Результаты </h3>
-                <table class="ui very basic collapsing celled table">
+                <table class="ui very basic collapsing unstackable celled table">
                     <thead>
                     <tr>
                         <th>Участник</th>
