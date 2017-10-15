@@ -8,14 +8,14 @@
 
     {% include 'includes/_main_menu.html' %}
 
-    <div class="ui grid">
+    <div class="ui stackable grid">
 
 
         <div class="one wide column"></div>
 
 
         <!--SIDE MENU-->
-        <div class="two wide column">
+        <div class="four wide column">
 
             <img class="ui rounded image" src="{{ event.image_big }}">
 
@@ -79,7 +79,7 @@
 
 
         <!--EVENT CONTENT-->
-        <div class="twelve wide column">
+        <div class="ten wide column">
             {% if user.id == event.author_id %}
                 {% include 'includes/_event_state_menu.html' %}
             {% endif %}
