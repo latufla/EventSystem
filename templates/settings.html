@@ -1,0 +1,100 @@
+{% extends  'layouts/layout.html' %}
+
+{% block head %}
+    <Title>Настройки</Title>
+{% endblock %}
+
+{% block body %}
+
+    {% include 'includes/_main_menu.html' %}
+
+    {% if error %}
+        <div class="ui error message">{{ error }}</div>
+    {% endif %}
+
+    <div class="ui grid">
+
+        <div class="one wide column"></div>
+
+        <div class="five wide column">
+
+            <div class="ui hidden section divider"></div>
+
+            <form class="ui form error" method="post">
+
+                <div class="field">
+                    <label>Логин</label>
+                    <input name="login" placeholder="" type="text" value="{{ user.login }}">
+                </div>
+
+                <div class="field">
+                    <label>Новый пароль</label>
+                    <input type="password" name="password" placeholder="" type="text">
+                </div>
+
+                <div class="field">
+                    <label>Подтвердите пароль</label>
+                    <input type="password" name="confirm" placeholder="" type="text">
+                </div>
+
+
+                {% if user.gender == "MALE"%}
+                    {% set gender_value="Male" %}
+                {% else %}
+                    {% set gender_value="Female" %}
+                {% endif %}
+                <div class="field">
+                    <label>Пол</label>
+                    <div id="gender_dropdown" class="ui selection dropdown">
+                        <input name="gender" type="hidden" value="{{ gender_value }}">
+                        <i class="dropdown icon"></i>
+                        <div class="default text"></div>
+                        <div class="menu">
+                            <div class="item" data-value="Male">Male</div>
+                            <div class="item" data-value="Female">Female</div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="ui right floated primary button" type="submit">Сохранить</button>
+
+                <div class="ui error message"></div>
+
+            </form>
+        </div>
+
+
+        <div class="eight wide column"></div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script>
+        $('.ui.form')
+            .form({
+                fields: {
+                    name: {
+                        identifier: 'login',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: 'Please enter your login'
+                            },
+                            {
+                                type: 'minLength[1]',
+                                prompt: 'Your login must be at least {ruleValue} characters'
+                            },
+                            {
+                                type: 'maxLength[20]',
+                                prompt: 'Your login must be less than {ruleValue} characters'
+                            },
+                        ]
+                    }
+                }
+            });
+
+        $(gender_dropdown).dropdown();
+
+    </script>
+
+{% endblock %}

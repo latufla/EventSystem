@@ -175,5 +175,11 @@ def upload_event_avatar(event_id):
     return controller.uploadEventAvatar(event_id)
 
 
+@app.route('/settings', methods=['GET','POST'])
+@is_logged_in
+def settings():
+    return controller.getSettings()
+
+
 if __name__ == '__main__':
     app.run(debug=True)

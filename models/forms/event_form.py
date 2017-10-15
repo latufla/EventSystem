@@ -1,9 +1,11 @@
-from wtforms import Form, StringField, IntegerField, FieldList
+from wtforms import StringField, IntegerField, FieldList
 
 from wtforms.ext.dateutil.fields import DateTimeField
 
+from models.forms.form_base import FormBase
 
-class EventForm(Form):
+
+class EventForm(FormBase):
     title = StringField()
 
     description_short = StringField()

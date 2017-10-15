@@ -1,7 +1,8 @@
 from flask import request, render_template, session, redirect, url_for, abort
 
-from enums.enums import UserRole, EventStatus
+from enums.enums import UserRole, EventStatus, Gender
 from models.event import Event
+from models.forms.edit_settings_form import EditSettingsForm, EditSettingsNoPasswordForm
 from models.forms.event_form import EventForm
 from models.forms.register_form import RegisterForm
 from models.user import User
@@ -124,7 +125,7 @@ class Controller:
     def getAllUsers(self):
         user = self._getUser()
         users = User.query.all()
-        return render_template('all_users.html', users = users, user=user)
+        return render_template('all_users.html', users=users, user=user)
 
     def getCreatedEvents(self):
         user = self._getUser()
@@ -376,3 +377,50 @@ class Controller:
                         self.db.commit()
 
         return redirect(url_for('event', event_id=event_id))
+
+    def getSettings(self):
+        user = self._getUser()
+        if request.method == "POST":
+
+            other_user = User.query.filter_by(login=request.form["login"]).first()
+            if other_user is not None and user != other_user:
+                error = "Такой юзер уже существует"
+                return render_template("settings.html", user=user, error=error)
+
+            if request.form["password"]:
+                form = EditSettingsForm(request.form)
+                if form.validate():
+                    user.login = str(form.login.data)
+                    user.password = str(form.password.data)
+
+                    user.gender = 'Male'
+
+                    gender = str(form.gender.data)
+                    if gender == 'Male':
+                        user.gender = Gender.MALE.name
+                else:
+                    return render_template("settings.html", user=user, error=form.errors_str())
+            else:
+                form = EditSettingsNoPasswordForm(request.form)
+                if form.validate():
+                    user.login = str(form.login.data)
+
+                    user.gender = 'Male'
+
+                    gender = str(form.gender.data)
+                    if gender == 'Male':
+                        user.gender = Gender.MALE.name
+                else:
+                    return render_template("settings.html", user=user, error=form.errors_str())
+
+            self.db.commit()
+
+            session["login"] = user.login
+
+        return render_template('settings.html', user=user)
+
+    def _errorsToString(self, form):
+        error = ""
+        for k, v in form.errors.items():
+            error += v[0] + '\n'
+        return
