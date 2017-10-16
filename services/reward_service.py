@@ -1,6 +1,7 @@
 from openpyxl import load_workbook
 
 from models.event_result import EventResult
+from models.unregistered_password import UnregisteredPassword
 from models.user import User
 
 
@@ -21,7 +22,9 @@ class RewardService:
             login = row[0].value
             user = User.query.filter_by(login=login).first()
             if user is None:
-                user = User(login=login, password = password_generator.generate(10))
+                user = User(login=login)
+                password = UnregisteredPassword(password=password_generator.generate(10))
+                user.unregistered_password = password
                 self.db.add(user)
 
             event.results.append(res)

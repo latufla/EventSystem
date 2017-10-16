@@ -10,6 +10,7 @@ from models.user import User
 from models.event_result import EventResult
 from models.event import Event
 from models.invite import Invite
+from models.unregistered_password import UnregisteredPassword
 # --
 
 from initter import db, app

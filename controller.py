@@ -92,7 +92,17 @@ class Controller:
         user = User.query.filter_by(login=login).first()
         if user is not None:
             password = user.password
+            if not password:
+                unregistered_password = user.unregistered_password.password
+                password = unregistered_password
+
             if password == password_candidate:
+                user.password = password
+                if user.unregistered_password:
+                    self.db.delete(user.unregistered_password)
+
+                self.db.commit()
+
                 session["logged_in"] = True
                 session["login"] = login
                 session["admin"] = user.role == UserRole.ADMIN.name

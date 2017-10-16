@@ -5,6 +5,8 @@ from initter import db
 
 from models.event_result import EventResult
 
+from models.unregistered_password import UnregisteredPassword
+
 force_auto_coercion()
 
 
@@ -14,6 +16,8 @@ class User(db.Model):
     password = db.Column(PasswordType(
         schemes=['pbkdf2_sha512', 'md5_crypt'], deprecated=['md5_crypt']
     ))
+
+    unregistered_password = db.relationship("UnregisteredPassword", uselist=False, back_populates="user")
 
     gender = db.Column(db.String(80), default=Gender.MALE.name)
 
