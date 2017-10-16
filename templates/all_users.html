@@ -15,6 +15,9 @@
         <div class="fourteen wide column">
             {% for u in users %}
                 <p><a href="{{ '/' + u.login }}">{{ u.login }}</a>
+                {% if  u.unregistered_password %}
+                    {{ u.unregistered_password.password }}
+                {% endif %}
             {% endfor %}
         </div>
 
