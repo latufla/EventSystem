@@ -119,6 +119,13 @@ def edit_event(event_id):
     return controller.editEvent(event_id)
 
 
+@app.route('/delete_event', methods=['POST'])
+@is_logged_in
+@is_admin
+def delete_event():
+    return controller.deleteEvent()
+
+
 @app.route('/event/<int:event_id>')
 @is_logged_in
 def event(event_id):

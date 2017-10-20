@@ -199,7 +199,7 @@ class Controller:
 
     def editEvent(self, event_id):
         if request.method == 'GET':
-            event = Event.query.filter_by(id=event_id).first()
+            event = self._getEvent(event_id)
             if event:
                 return self._renderUserTemplate("event_edit.html", event=event)
             else:
@@ -236,6 +236,19 @@ class Controller:
                     self.db.commit()
 
             return redirect(url_for("events"))
+
+    def deleteEvent(self):
+        if 'event_id' not in request.form:
+            return abort(404)
+
+        event_id = request.form["event_id"]
+        event = self._getEvent(event_id)
+        if event:
+            self.db.delete(event)
+            self.db.commit()
+            return redirect(url_for("events"))
+
+        return redirect(url_for("event", event_id=event_id))
 
     def getEvent(self, event_id):
         event = self._getEvent(event_id)

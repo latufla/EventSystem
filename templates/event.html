@@ -31,11 +31,11 @@
 
                 {% if event.hasParticipant(user) or event.hasWaiter(user) %}
                     <form action="{{ url_for('leave_event', event_id=event.id) }}" method="post">
-                        <button class="ui primary fluid button" type="submit">Не участвовать</button>
+                        <button class="ui primary button" type="submit">Не участвовать</button>
                     </form>
                 {% else %}
                     <form action="{{ url_for('participate_event', event_id=event.id) }}" method="post">
-                        <button class="ui primary fluid button" type="submit">Участвовать</button>
+                        <button class="ui primary button" type="submit">Участвовать</button>
                     </form>
                 {% endif %}
             {% endif %}
@@ -47,11 +47,11 @@
                 <div>
                     {% if event.published %}
                         <form action="{{ url_for('unpublish_event', event_id=event.id) }}" method="post">
-                            <button class="ui basic blue fluid button" type="submit">Скрыть</button>
+                            <button class="ui basic blue button" type="submit">Скрыть</button>
                         </form>
                     {% else %}
                         <form action="{{ url_for('publish_event', event_id=event.id) }}" method="post">
-                            <button class="ui basic blue fluid button" type="submit">Опубликовать</button>
+                            <button class="ui basic blue button" type="submit">Опубликовать</button>
                         </form>
                     {% endif %}
 
@@ -60,15 +60,17 @@
                 {% if event.status == "NOT_READY" %}
                     <p>
                     <div>
-                        <a class="ui basic positive fluid icon button" href={{ "/edit_event/" + event.id|string }}>
+                        <a class="ui basic positive icon button" href={{ "/edit_event/" + event.id|string }}>
                             <i class="edit icon"></i>Изменить
                         </a>
                     </div>
                     <p>
                     <div>
-                        <a class="ui basic negative fluid icon button" href="/delete_event">
-                            <i class="trash icon"></i>Удалить
-                        </a>
+                        <form action="{{ url_for('delete_event') }}" method="post">
+                            <input type="text" name="event_id" value="{{ event.id }}" style="display: none">
+                            <button class="ui basic negative icon button" type="submit">
+                                <i class="trash icon"></i>Удалить</button>
+                        </form>
                     </div>
                 {% endif %}
 
