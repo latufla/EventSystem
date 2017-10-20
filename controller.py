@@ -128,52 +128,39 @@ class Controller:
             user = self._getUser()
             return redirect(url_for('profile', user_name=user.login))
 
-        return render_template('profile.html', user=user)
+        return self._renderUserTemplate('profile.html', user=user)
 
     def getAllUsers(self):
-        user = self._getUser()
         users = User.query.all()
-        return render_template('all_users.html', users=users, user=user)
+        return self._renderUserTemplate('all_users.html', users=users)
 
     def getCreatedEvents(self):
         user = self._getUser()
-        if user is None:
-            return redirect(url_for('login'))
-
         events = user.events_created.order_by('date_start')
-        return render_template('events.html', user=user, events=events, created=True)
+        return self._renderUserTemplate('events.html', events=events, created=True)
 
     def getPublishedEvents(self):
-        user = self._getUser()
-        if user is None:
-            return redirect(url_for('login'))
-
         events = Event.query.filter_by(published=True).order_by('date_start')
-        return render_template('events.html', user=user, events=events)
+        return self._renderUserTemplate('events.html', events=events)
 
     def getParticipateEvents(self):
         user = self._getUser()
-        if user is None:
-            return redirect(url_for('login'))
-
         events_participate = user.events_participate.all()
         events_wait = user.events_wait.all()
         events = events_participate + events_wait
-        return render_template('events.html', user=user, events=events, participate=True)
+        return self._renderUserTemplate('events.html', events=events, participate=True)
 
     def getInvites(self):
         if request.method == 'POST':
             self.invites.createInvites(100, 10)
             return redirect(url_for('invites'))
 
-        user = self._getUser()
         invites = self.invites.getInvites()
-        return render_template('invites.html', user=user, invites=invites)
+        return self._renderUserTemplate('invites.html', invites=invites)
 
     def createEvent(self):
         if request.method == 'GET':
-            user = self._getUser()
-            return render_template("event_create.html", user=user, image_big="static/img/event.png")
+            return self._renderUserTemplate("event_create.html", image_big="static/img/event.png")
 
         if request.method == 'POST':
             form = EventForm(request.form)
@@ -215,8 +202,7 @@ class Controller:
         if event is None:
             return abort(404)
 
-        user = self._getUser()
-        return render_template('event.html', user=user, event=event)
+        return self._renderUserTemplate('event.html', event=event)
 
     def participateEvent(self, event_id):
         if request.method == 'POST':
@@ -393,7 +379,7 @@ class Controller:
             other_user = User.query.filter_by(login=request.form["login"]).first()
             if other_user is not None and user != other_user:
                 error = "Такой юзер уже существует"
-                return render_template("settings.html", user=user, error=error)
+                return self._renderUserTemplate("settings.html", error=error)
 
             if request.form["password"]:
                 form = EditSettingsForm(request.form)
@@ -407,7 +393,7 @@ class Controller:
                     if gender == 'Male':
                         user.gender = Gender.MALE.name
                 else:
-                    return render_template("settings.html", user=user, error=form.errors_str())
+                    return self._renderUserTemplate("settings.html", error=form.errors_str())
             else:
                 form = EditSettingsNoPasswordForm(request.form)
                 if form.validate():
@@ -419,16 +405,24 @@ class Controller:
                     if gender == 'Male':
                         user.gender = Gender.MALE.name
                 else:
-                    return render_template("settings.html", user=user, error=form.errors_str())
+                    return self._renderUserTemplate("settings.html", error=form.errors_str())
 
             self.db.commit()
 
             session["login"] = user.login
 
-        return render_template('settings.html', user=user)
+        return self._renderUserTemplate('settings.html')
 
-    def _errorsToString(self, form):
+    @staticmethod
+    def _errorsToString(form):
         error = ""
         for k, v in form.errors.items():
             error += v[0] + '\n'
         return
+
+    def _renderUserTemplate(self, path: str, **kwargs: object):
+        viewer = self._getUser()
+        if 'user' not in kwargs:
+            return render_template(path, viewer=viewer, user=viewer, **kwargs)
+
+        return render_template(path, viewer=viewer, **kwargs)
