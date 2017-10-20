@@ -60,7 +60,7 @@
                 {% if event.status == "NOT_READY" %}
                     <p>
                     <div>
-                        <a class="ui basic positive fluid icon button" href="/edit_event">
+                        <a class="ui basic positive fluid icon button" href={{ "/edit_event/" + event.id|string }}>
                             <i class="edit icon"></i>Изменить
                         </a>
                     </div>

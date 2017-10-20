@@ -112,6 +112,13 @@ def event_create():
     return controller.createEvent()
 
 
+@app.route('/edit_event/<int:event_id>', methods=['GET', 'POST'])
+@is_logged_in
+@is_admin
+def edit_event(event_id):
+    return controller.editEvent(event_id)
+
+
 @app.route('/event/<int:event_id>')
 @is_logged_in
 def event(event_id):
@@ -175,7 +182,7 @@ def upload_event_avatar(event_id):
     return controller.uploadEventAvatar(event_id)
 
 
-@app.route('/settings', methods=['GET','POST'])
+@app.route('/settings', methods=['GET', 'POST'])
 @is_logged_in
 def settings():
     return controller.getSettings()

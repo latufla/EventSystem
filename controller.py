@@ -197,6 +197,46 @@ class Controller:
 
             return redirect(url_for("events"))
 
+    def editEvent(self, event_id):
+        if request.method == 'GET':
+            event = Event.query.filter_by(id=event_id).first()
+            if event:
+                return self._renderUserTemplate("event_edit.html", event=event)
+            else:
+                return redirect(url_for("events"))
+
+        if request.method == 'POST':
+            if "event_id" not in request.form:
+                return redirect(url_for("events"))
+
+            event_id = request.form["event_id"]
+
+            form = EventForm(request.form)
+
+            rewards = request.form.getlist("rewards")
+            for r in rewards:
+                if r:
+                    form.rewards.append_entry(r)
+
+            if form.validate():
+                event = Event.query.filter_by(id=event_id).first()
+                if event:
+                    event.title = form.title.data
+                    event.description_short = form.description_short.data
+                    event.description = form.description.data
+                    event.date_start = form.date_start.data
+                    event.max_participants = form.max_participants.data
+                    event.best_player_reward = form.best_player_reward.data
+
+                    event.rewards = []
+                    rewards = form.rewards.data
+                    for r in rewards:
+                        event.rewards.append(int(r))
+
+                    self.db.commit()
+
+            return redirect(url_for("events"))
+
     def getEvent(self, event_id):
         event = self._getEvent(event_id)
         if event is None:

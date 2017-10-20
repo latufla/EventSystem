@@ -20,7 +20,7 @@
         <div class="one wide column"></div>
 
         <div class="two wide column">
-            <img class="ui small rounded image" src={{ image_big }}>
+            <img class="ui small rounded image" src={{ event.image_big }}>
         </div>
 
         <div class="twelve wide column">
@@ -28,17 +28,18 @@
 
                 <div class="field">
                     <label>Событие</label>
-                    <input name="title" placeholder="" value="Заголовок" type="text">
+                    <input name="title" placeholder="" value="{{ event.title }}" type="text">
                 </div>
 
                 <div class="field">
                     <label>Краткое описание</label>
-                    <textarea id="description_short" name="description_short" placeholder="">Краткое описание</textarea>
+                    <textarea id="description_short" name="description_short"
+                              placeholder="">{{ event.description_short }}</textarea>
                 </div>
 
                 <div class="field">
                     <label>Описание</label>
-                    <textarea id="description" name="description" placeholder="">Описание</textarea>
+                    <textarea id="description" name="description" placeholder="">{{ event.description }}</textarea>
                 </div>
 
                 <div class="ui hidden divider"></div>
@@ -50,7 +51,7 @@
                         <div class="ui calendar" id="date_start">
                             <div class="ui input right icon">
                                 <i class="calendar icon"></i>
-                                <input name="date_start" type="text" placeholder="Дата">
+                                <input name="date_start" type="text" placeholder="Дата" value="{{ event.date_start }}">
                             </div>
                         </div>
                     </div>
@@ -59,7 +60,7 @@
                 <div class="field">
                     <label>Макс. участников</label>
                     <div class="inline field">
-                        <input name="max_participants" type="text" value="10">
+                        <input name="max_participants" type="text" value="{{ event.max_participants }}">
                     </div>
                 </div>
 
@@ -67,52 +68,19 @@
 
                 <div class="field">
                     <label>Награды</label>
-                    <div class="inline field">
-                        <label>1</label>
-                        <input name="rewards" value="0" type="text">
-                    </div>
-                    <div class="inline field">
-                        <label>2</label>
-                        <input name="rewards" value="0" type="text">
-                    </div>
-                    <div class="inline field">
-                        <label>3</label>
-                        <input name="rewards" value="0" type="text">
-                    </div>
-                    <div class="inline field">
-                        <label>4</label>
-                        <input name="rewards" value="0" type="text">
-                    </div>
-                    <div class="inline field">
-                        <label>5</label>
-                        <input name="rewards" value="0" type="text">
-                    </div>
-                    <div class="inline field">
-                        <label>6</label>
-                        <input name="rewards" value="0" type="text">
-                    </div>
-                    <div class="inline field">
-                        <label>7</label>
-                        <input name="rewards" value="0" type="text">
-                    </div>
-                    <div class="inline field">
-                        <label>8</label>
-                        <input name="rewards" value="0" type="text">
-                    </div>
-                    <div class="inline field">
-                        <label>9</label>
-                        <input name="rewards" value="0" type="text">
-                    </div>
-                    <div class="inline field">
-                        <label>10</label>
-                        <input name="rewards" value="0" type="text">
-                    </div>
+                    {% for r in event.rewards %}
+                        <div class="inline field">
+                            <label>{{ loop.index }}</label>
+                            <input name="rewards" value="{{ r }}" type="text">
+                        </div>
+                    {% endfor %}
                     <div class="inline field">
                         <label>Лучший игрок</label>
-                        <input name="best_player_reward" value="0" type="text">
+                        <input name="best_player_reward" value="{{ event.best_player_reward }}" type="text">
                     </div>
                 </div>
 
+                <input type="text" name="event_id" value="{{ event.id }}" style="display: none">
                 <button class="ui primary right floated button" type="submit">Сохранить</button>
 
                 <div class="ui error message"></div>
