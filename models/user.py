@@ -1,4 +1,3 @@
-from sqlalchemy.orm import relationship
 from sqlalchemy_utils import PasswordType, force_auto_coercion
 from enums.enums import Gender, UserRole
 from initter import db
@@ -28,7 +27,7 @@ class User(db.Model):
     role = db.Column(db.String(80), default=UserRole.USER.name)
 
     events_created = db.relationship("Event", lazy='dynamic', backref="author")
-    events_history = relationship("EventResult", backref="user", lazy='dynamic')
+    events_history = db.relationship("EventResult", backref="user", lazy='dynamic')
 
     def __repr__(self):
         return "<User %r>" % self.login
