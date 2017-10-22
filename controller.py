@@ -407,7 +407,7 @@ class Controller:
 
                     self.db.commit()
 
-        return redirect(url_for('profile'))
+        return redirect(url_for('profile', user_name=session["login"]))
 
     def uploadEventAvatar(self, event_id):
         if request.method == 'POST':

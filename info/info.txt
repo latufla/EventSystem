@@ -51,6 +51,24 @@
 подключить database к базе в pymongo
 
 
+- поправить с аватарками и картинками загрузка на сторонний сервер
+
+
+
+Либы:
+flask_sqlalchemy
+sqlalchemy_utils
+
+flask_uploads
+openpyxl
+wtforms
+passlib
+python-dateutil
+requests
+psycopg2
+
+
+
 Разворачиваем на стороннем сервере:
 
 - nginx - настроим и уйдет надобность порта в адресе
