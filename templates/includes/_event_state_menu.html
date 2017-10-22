@@ -1,38 +1,38 @@
 <div class="ui four steps">
-    <form action="{{url_for('event_state_change')}}" method="post" style="display: none">
-        <input name="event_id" type="hidden" value="{{event.id}}">
+    <form action="{{ url_for('event_state_change') }}" method="post" style="display: none">
+        <input name="event_id" type="hidden" value="{{ event.id }}">
         <input name="status" type="hidden" value="NOT_READY">
 
         <button id="not_ready_submit" type="submit"></button>
     </form>
 
     {% if event.status == "NOT_READY" %}
-    {% set c = "active step" %}
+        {% set c = "active step" %}
     {% else %}
-    {% set c = "step" %}
+        {% set c = "step" %}
     {% endif %}
 
-    <a id="not_ready" class="{{c}}">
+    <a id="not_ready" class="{{ c }}">
         <div class="content">
             <div class="title">Не началось</div>
         </div>
     </a>
 
 
-    <form action="{{url_for('event_state_change')}}" method="post" style="display: none">
-        <input name="event_id" type="hidden" value="{{event.id}}">
+    <form action="{{ url_for('event_state_change') }}" method="post" style="display: none">
+        <input name="event_id" type="hidden" value="{{ event.id }}">
         <input name="status" type="hidden" value="STARTED">
 
         <button id="started_submit" type="submit"></button>
     </form>
 
     {% if event.status == "STARTED" %}
-    {% set c = "active step" %}
+        {% set c = "active step" %}
     {% else %}
-    {% set c = "step" %}
+        {% set c = "step" %}
     {% endif %}
 
-    <a id="started" class="{{c}}">
+    <a id="started" class="{{ c }}">
         <div class="content">
             <div class="title">Идет</div>
         </div>
@@ -40,32 +40,34 @@
 
 
     {% if event.status == "FINISHED" %}
-    {% set c = "active step" %}
+        {% set c = "active step" %}
     {% else %}
-    {% set c = "step" %}
+        {% set c = "step" %}
     {% endif %}
 
-    <a id="finished" class="{{c}}">
+    <a id="finished" class="{{ c }}">
         <div class="content">
             <div class="title">Завершено</div>
         </div>
     </a>
 
 
-    <form action="{{url_for('event_state_change')}}" method="post" style="display: none">
-        <input name="event_id" type="hidden" value="{{event.id}}">
+    <form action="{{ url_for('event_state_change') }}" method="post" style="display: none">
+        <input name="event_id" type="hidden" value="{{ event.id }}">
         <input name="status" type="hidden" value="REWARDED">
 
         <button id="rewarded_submit" type="submit"></button>
     </form>
 
     {% if event.status == "REWARDED" %}
-    {% set c = "active step" %}
+        {% set c = "active step" %}
+    {% elif event.status != "FINISHED" %}
+        {% set c = "disabled step" %}
     {% else %}
-    {% set c = "step" %}
+        {% set c = "step" %}
     {% endif %}
 
-    <a id="rewarded" class="{{c}}">
+    <a id="rewarded" class="{{ c }}">
         <div class="content">
             <div class="title">Награды розданы</div>
         </div>
@@ -76,9 +78,9 @@
 <div id="finished_modal" class="ui modal">
     <div class="header">Завершение события</div>
     <div class="content">
-        <form action="{{url_for('event_state_change')}}" class="ui form basic clearing segment error" method="post"
+        <form action="{{ url_for('event_state_change') }}" class="ui form basic clearing segment error" method="post"
               enctype=multipart/form-data>
-            <input name="event_id" type="hidden" value="{{event.id}}" style="display: none">
+            <input name="event_id" type="hidden" value="{{ event.id }}" style="display: none">
             <input name="status" type="hidden" value="FINISHED" style="display: none">
 
             <label>Результат в формате *.xlsx</label>

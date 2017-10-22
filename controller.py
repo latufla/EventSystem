@@ -314,7 +314,7 @@ class Controller:
     def changeEventState(self):
         if 'event_id' not in request.form \
                 or 'status' not in request.form:
-            return ""
+            return abort(404)
 
         event_id = request.form["event_id"]
         status = request.form["status"]
@@ -323,6 +323,9 @@ class Controller:
 
         if event is not None:
             if EventStatus.HasName(status):
+                if status == EventStatus.REWARDED.name and event.status != EventStatus.FINISHED.name:
+                    return abort(404)
+
                 event.status = status
 
                 if status != EventStatus.REWARDED.name:
