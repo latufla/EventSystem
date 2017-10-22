@@ -15,7 +15,7 @@
         <div class="four wide column">
             <div class="ui hidden divider"></div>
 
-            <img class="ui small rounded centered image" src={{ user.image_big }}>
+            <img class="ui small rounded centered image" src="{{ get_image_path(user.image_big) }}">
 
             {% if user == viewer %}
                 <div class="ui center aligned basic segment">

@@ -41,7 +41,7 @@ class Event(db.Model):
 
     date_start = db.Column(db.DateTime)
 
-    image_big = db.Column(db.String(120), default="//localhost:5000/static/img/event.png")
+    image_big = db.Column(db.String(120), default="img/event.png")
 
     published = db.Column(db.Boolean, default=False)
 

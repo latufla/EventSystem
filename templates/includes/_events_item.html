@@ -1,14 +1,15 @@
-<div id={{event_id}} class="item">
+<div id={{ event_id }} class="item">
 
     <div class="ui small image">
-        <img src="{{event.image_big}}">
+
+        <img src="{{ get_image_path(event.image_big) }}">
     </div>
 
     <div class="content">
         <div>
             <div id="rewards" data-html="
         {% for r in event.rewards if r != 0|string() %}
-        <div>{{loop.index}} - {{r}}</div>
+        <div>{{ loop.index }} - {{ r }}</div>
         {% endfor %}
         " class="ui orange right ribbon label rewards">
                 <i class="trophy icon"></i>
@@ -18,30 +19,30 @@
             </div>
         </div>
 
-        <a class="ui header" href="/event/{{event.id}}">{{event.title}}</a>
+        <a class="ui header" href="/event/{{ event.id }}">{{ event.title }}</a>
 
         <div class="description">
-            <p>{{event.description_short|safe}}</p>
+            <p>{{ event.description_short|safe }}</p>
         </div>
 
         <div class="extra">
 
             {% if event.status == "NOT_READY" %}
-            <div class="ui left floated label">
-                Статус: не началось
-            </div>
+                <div class="ui left floated label">
+                    Статус: не началось
+                </div>
             {% elif event.status == "STARTED" %}
-            <div class="ui left floated green label">
-                Статус: идет
-            </div>
+                <div class="ui left floated green label">
+                    Статус: идет
+                </div>
             {% elif event.status == "FINISHED" %}
-            <div class="ui left floated orange label">
-                Статус: завершено
-            </div>
+                <div class="ui left floated orange label">
+                    Статус: завершено
+                </div>
             {% elif event.status == "REWARDED" %}
-            <div class="ui left floated red label">
-                Статус: награды розданы
-            </div>
+                <div class="ui left floated red label">
+                    Статус: награды розданы
+                </div>
             {% endif %}
 
             <div class="ui left floated label">
@@ -49,40 +50,40 @@
             </div>
 
             {% if event.waitersCount() != 0 %}
-            <div id="waiters" class="ui right floated label waiters">
-                Ожидают: {{event.waitersCount()}}
-            </div>
+                <div id="waiters" class="ui right floated label waiters">
+                    Ожидают: {{ event.waitersCount() }}
+                </div>
             {% endif %}
 
             <div id="participants" class="ui right floated label participants" data-html="
         {% for p in event.participants %}
-        <div>{{p}}</div>
+        <div>{{ p }}</div>
         {% endfor %}
         ">
-                Участников: {{event.participantsCount()}} / {{event.max_participants}}
+                Участников: {{ event.participantsCount() }} / {{ event.max_participants }}
             </div>
 
         </div>
 
         <!--{% if created == True %}-->
-        <!--<div class="ui hidden divider"></div>-->
-        <!--<div class="ui secondary right floated menu">-->
-        <!--{% if event.status != "FINISHED" %}-->
-        <!--<div>-->
-        <!--<a class="ui basic positive icon button" href="/edit_event">-->
-        <!--<i class="edit icon"></i>-->
-        <!--Изменить-->
-        <!--</a>-->
-        <!--</div>-->
-        <!--{% endif %}-->
-        <!--<div>-->
-        <!--<a class="ui basic negative icon button" href="/delete_event">-->
-        <!--<i class="trash icon"></i>-->
-        <!--Удалить-->
-        <!--</a>-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--{% endif %}-->
+            <!--<div class="ui hidden divider"></div>-->
+            <!--<div class="ui secondary right floated menu">-->
+            <!--{% if event.status != "FINISHED" %}-->
+                <!--<div>-->
+                <!--<a class="ui basic positive icon button" href="/edit_event">-->
+                <!--<i class="edit icon"></i>-->
+                <!--Изменить-->
+                <!--</a>-->
+                <!--</div>-->
+                <!--{% endif %}-->
+            <!--<div>-->
+            <!--<a class="ui basic negative icon button" href="/delete_event">-->
+            <!--<i class="trash icon"></i>-->
+            <!--Удалить-->
+            <!--</a>-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--{% endif %}-->
 
     </div>
 </div>

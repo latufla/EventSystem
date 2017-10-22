@@ -17,7 +17,7 @@
         <!--SIDE MENU-->
         <div class="four wide column">
 
-            <img class="ui small rounded centered image" src="{{ event.image_big }}">
+            <img class="ui small rounded centered image" src="{{ get_image_path(event.image_big) }}">
 
             {% if user.id == event.author_id %}
                 <div class="ui center aligned basic segment">

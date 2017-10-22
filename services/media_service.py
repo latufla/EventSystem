@@ -1,4 +1,12 @@
+from flask import url_for
 from flask_uploads import UploadSet, IMAGES, configure_uploads, UploadNotAllowed
+
+
+def get_image_path(path):
+    if 'http://' in path:
+        return path
+    else:
+        return url_for('static', filename=path)
 
 
 class MediaService:
@@ -30,3 +38,4 @@ class MediaService:
             return None
         else:
             return "uploads/events/" + filename
+

@@ -22,7 +22,7 @@ class User(db.Model):
 
     xp = db.Column(db.Integer, default=0)
 
-    image_big = db.Column(db.String(120), default="static/img/male256.png")
+    image_big = db.Column(db.String(120), default="img/male256.png")
 
     role = db.Column(db.String(80), default=UserRole.USER.name)
 

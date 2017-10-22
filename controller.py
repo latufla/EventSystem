@@ -1,6 +1,4 @@
 from flask import request, render_template, session, redirect, url_for, abort
-from sqlalchemy_utils import Password
-from sqlalchemy_utils.types.password import passlib
 
 from enums.enums import UserRole, EventStatus, Gender
 from models.event import Event
@@ -70,9 +68,9 @@ class Controller:
                 gender=form.gender.data
             )
 
-            user.image_big = "static/img/male256.png"
+            user.image_big = "img/male256.png"
             if user.gender == "Female":
-                user.image_big = "static/img/female256.png"
+                user.image_big = "img/female256.png"
 
             self.db.add(user)
             self.db.commit()
@@ -160,7 +158,7 @@ class Controller:
 
     def createEvent(self):
         if request.method == 'GET':
-            return self._renderUserTemplate("event_create.html", image_big="static/img/event.png")
+            return self._renderUserTemplate("event_create.html", image_big="img/event.png")
 
         if request.method == 'POST':
             form = EventForm(request.form)
@@ -184,7 +182,8 @@ class Controller:
 
                     max_participants=form.max_participants.data,
 
-                    best_player_reward=form.best_player_reward.data
+                    best_player_reward=form.best_player_reward.data,
+                    image_big= "img/event.png"
                 )
 
                 event.rewards = []
