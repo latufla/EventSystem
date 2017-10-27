@@ -1,0 +1,64 @@
+<div style="position:fixed; right:20px; bottom:20px;">
+    <div class="ui vertical labeled icon menu">
+
+        {% if event.published %}
+
+            <form action="{{ url_for('unpublish_event', event_id=event.id) }}" method="post"
+                  style="display: none">
+                <button id="unpublish_event_submit" type="submit"></button>
+            </form>
+
+            <a id="unpublish_event_button" class="item">
+                <i class="toggle on icon"></i>Скрыть
+            </a>
+
+            <script type="text/javascript">
+                $("#unpublish_event_button").on("click", function () {
+                    $("#unpublish_event_submit").click();
+                });
+            </script>
+
+        {% else %}
+
+            <form action="{{ url_for('publish_event', event_id=event.id) }}" method="post"
+                  style="display: none">
+                <button id="publish_event_submit" type="submit"></button>
+            </form>
+
+            <a id="publish_event_button" class="item">
+                <i class="toggle off icon"></i>Открыть
+            </a>
+
+            <script type="text/javascript">
+                $("#publish_event_button").on("click", function () {
+                    $("#publish_event_submit").click();
+                });
+            </script>
+
+        {% endif %}
+
+        {% if event.status == "NOT_READY" %}
+
+            <a class="item" href={{ "/edit_event/" + event.id|string }}>
+                <i class="edit icon"></i>Изменить
+            </a>
+
+            <form action="{{ url_for('delete_event') }}" method="post" style="display: none">
+                <input type="text" name="event_id" value="{{ event.id }}">
+                <button id="delete_event_submit" type="submit"></button>
+            </form>
+
+            <a id="delete_event_button" class="item">
+                <i class="trash icon"></i>Удалить
+            </a>
+
+            <script type="text/javascript">
+                $("#delete_event_button").on("click", function () {
+                    $("#delete_event_submit").click();
+                });
+            </script>
+
+        {% endif %}
+
+    </div>
+</div>
