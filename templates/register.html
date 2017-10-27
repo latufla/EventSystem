@@ -11,9 +11,9 @@
     {% endif %}
 
     <div class="ui grid">
-        <div class="five wide column"></div>
+        <div class="six wide column"></div>
 
-        <div class="six wide column">
+        <div class="four wide column">
 
             <div class="ui hidden section divider"></div>
             <div class="ui hidden section divider"></div>
@@ -35,12 +35,9 @@
                     <input type="password" name="confirm" placeholder="" type="text">
                 </div>
 
-
-                <div class="ui hidden divider"></div>
-
                 <div class="field">
                     <label>Пол</label>
-                    <div id="gender_dropdown" class="ui selection dropdown">
+                    <div id="gender_dropdown" class="ui fluid selection dropdown">
                         <input name="gender" type="hidden">
                         <i class="dropdown icon"></i>
                         <div class="default text"></div>
@@ -51,20 +48,21 @@
                     </div>
                 </div>
 
-                <button class="ui right floated primary button" type="submit">Зарегистрироваться</button>
-                <script src="//ulogin.ru/js/ulogin.js"></script>
-                <div class="ui right floated button" id="uLogin"
-                     data-ulogin="display=panel;theme=classic;fields=first_name,last_name;providers=vkontakte,odnoklassniki,mailru,facebook;hidden=;redirect_uri=%2Fsocial_enter;mobilebuttons=0;"></div>
 
-                <a href="/login" class="ui button">Войти</a>
-
+                <button class="ui primary fluid button" type="submit">Зарегистрироваться</button>
+                <div style="height: 10px;"></div>
+                <a href="/login" class="ui fluid button">Войти</a>
 
                 <div class="ui error message"></div>
+
+                {#                <script src="//ulogin.ru/js/ulogin.js"></script>#}
+                {#                <div class="ui right floated button" id="uLogin"#}
+                {#                     data-ulogin="display=panel;theme=classic;fields=first_name,last_name;providers=vkontakte,odnoklassniki,mailru,facebook;hidden=;redirect_uri=%2Fsocial_enter;mobilebuttons=0;"></div>#}
 
             </form>
         </div>
 
-        <div class="five wide column"></div>
+        <div class="six wide column"></div>
     </div>
 {% endblock %}
 

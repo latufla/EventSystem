@@ -1,89 +1,90 @@
 {% extends  'layouts/layout.html' %}
 
 {% block head %}
-<Title>Вход</Title>
+    <Title>Вход</Title>
 {% endblock %}
 
 {% block body %}
 
-{% if error %}
-<div class="ui error message">{{error}}</div>
-{% endif %}
+    {% if error %}
+        <div class="ui error message">{{ error }}</div>
+    {% endif %}
 
-<div class="ui grid">
-    <div class="five wide column"></div>
+    <div class="ui grid">
+        <div class="six wide column"></div>
 
-    <div class="six wide column">
+        <div class="four wide column">
 
-        <div class="ui hidden section divider"></div>
-        <div class="ui hidden section divider"></div>
-        <form class="ui form clearing segment error" method="post">
+            <div class="ui hidden section divider"></div>
+            <div class="ui hidden section divider"></div>
+            <form class="ui form clearing segment error" method="post">
 
-            <div class="field">
-                <label>Логин</label>
-                <input name="login" placeholder="Логин" type="text">
-            </div>
+                <div class="field">
+                    <label>Логин</label>
+                    <input name="login" placeholder="Логин" type="text">
+                </div>
 
-            <div class="field">
-                <label>Пароль</label>
-                <input type="password" name="password" placeholder="Пароль" type="text">
-            </div>
+                <div class="field">
+                    <label>Пароль</label>
+                    <input type="password" name="password" placeholder="Пароль" type="text">
+                </div>
 
-            <div class="ui right floated primary submit button">Вход</div>
-            <a href='/register_invite' class="ui button">Регистрация</a>
+                <div class="ui fluid primary submit button">Вход</div>
+                <div style="height: 10px;"></div>
+                <a href='/register_invite' class="ui fluid button">Регистрация</a>
 
-            <div class="ui error message"></div>
+                <div class="ui error message"></div>
 
-        </form>
+            </form>
+        </div>
+
+        <div class="six wide column"></div>
+
     </div>
-
-    <div class="five wide column"></div>
-
-</div>
 
 {% endblock %}
 
 {% block script %}
-<script>
-    $('.ui.form')
-        .form({
-            fields: {
-                name: {
-                    identifier: 'login',
-                    rules: [
-                        {
-                            type: 'empty',
-                            prompt: 'Please enter your login'
-                        },
-                        {
-                            type: 'minLength[1]',
-                            prompt: 'Your login must be at least {ruleValue} characters'
-                        },
-                        {
-                            type: 'maxLength[20]',
-                            prompt: 'Your login must be less than {ruleValue} characters'
-                        },
-                    ]
-                },
-                password: {
-                    identifier: 'password',
-                    rules: [
-                        {
-                            type: 'empty',
-                            prompt: 'Please enter a password'
-                        },
-                        {
-                            type: 'minLength[3]',
-                            prompt: 'Your password must be at least {ruleValue} characters'
-                        },
-                        {
-                            type: 'maxLength[20]',
-                            prompt: 'Your password must less than {ruleValue} characters'
-                        }
-                    ]
+    <script>
+        $('.ui.form')
+            .form({
+                fields: {
+                    name: {
+                        identifier: 'login',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: 'Please enter your login'
+                            },
+                            {
+                                type: 'minLength[1]',
+                                prompt: 'Your login must be at least {ruleValue} characters'
+                            },
+                            {
+                                type: 'maxLength[20]',
+                                prompt: 'Your login must be less than {ruleValue} characters'
+                            },
+                        ]
+                    },
+                    password: {
+                        identifier: 'password',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: 'Please enter a password'
+                            },
+                            {
+                                type: 'minLength[3]',
+                                prompt: 'Your password must be at least {ruleValue} characters'
+                            },
+                            {
+                                type: 'maxLength[20]',
+                                prompt: 'Your password must less than {ruleValue} characters'
+                            }
+                        ]
+                    }
                 }
-            }
-        });
-</script>
+            });
+    </script>
 
 {% endblock %}

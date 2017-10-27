@@ -82,7 +82,7 @@ psycopg2
 	
 - gunicorn - запустим демона с нашим приложением
 	
-	gunicorn -w 4 -b 0.0.0.0:8000 -p pidfile -D hello:app
+	gunicorn -w 4 -b 0.0.0.0:8000 -p pidfile -D router:app
 
 	
 - postgres
