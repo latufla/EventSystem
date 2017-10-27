@@ -1,3 +1,4 @@
+import os
 from flask import url_for
 from flask_uploads import UploadSet, IMAGES, configure_uploads, UploadNotAllowed
 
@@ -30,6 +31,16 @@ class MediaService:
             return None
         else:
             return self.photos.url(filename)
+
+    def removeImage(self, url):
+        try:
+            image_name = url.split("/")[-1]
+            path = self.photos.path(image_name)
+            os.remove(path)
+        except OSError:
+            return None
+
+        return image_name
 
     def uploadExcel(self, doc):
         try:

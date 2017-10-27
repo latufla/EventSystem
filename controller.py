@@ -183,7 +183,7 @@ class Controller:
                     max_participants=form.max_participants.data,
 
                     best_player_reward=form.best_player_reward.data,
-                    image_big= "img/event.png"
+                    image_big="img/event.png"
                 )
 
                 event.rewards = []
@@ -401,10 +401,12 @@ class Controller:
             files = request.files
 
             if 'image' in files:
-                image_big = self.media.uploadImage(files['image'])
+                user = self._getUser()
+                if user.image_big:
+                    self.media.removeImage(user.image_big)
 
+                image_big = self.media.uploadImage(files['image'])
                 if image_big is not None:
-                    user = self._getUser()
                     user.image_big = image_big
 
                     self.db.commit()
@@ -416,12 +418,13 @@ class Controller:
             files = request.files
 
             if 'image' in files:
-                image_big = self.media.uploadImage(files['image'])
+                event = self._getEvent(event_id)
+                if event is not None:
+                    if event.image_big:
+                        self.media.removeImage(event.image_big)
 
-                if image_big is not None:
-                    event = self._getEvent(event_id)
-
-                    if event is not None:
+                    image_big = self.media.uploadImage(files['image'])
+                    if image_big is not None:
                         event.image_big = image_big
                         self.db.commit()
 
