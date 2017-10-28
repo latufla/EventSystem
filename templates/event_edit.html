@@ -77,10 +77,10 @@
                     </div>
                 </div>
 
+                <div class="ui error message"></div>
+
                 <input type="text" name="event_id" value="{{ event.id }}" style="display: none">
                 <button class="ui primary right floated button" type="submit">Сохранить</button>
-
-                <div class="ui error message"></div>
 
             </form>
         </div>
@@ -116,6 +116,21 @@
                 }
             }
         });
+
+        $('.ui.form')
+            .form({
+                fields: {
+                    name: {
+                        identifier: 'date_start',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: 'Введите дату события'
+                            }
+                        ]
+                    }
+                }
+            });
 
     </script>
 
