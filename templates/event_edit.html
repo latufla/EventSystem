@@ -1,7 +1,7 @@
 {% extends  'layouts/layout.html' %}
 
 {% block head %}
-    <Title>Создание события</Title>
+    <Title>Редактирование события</Title>
 
     <script type="text/javascript"
             src="{{ url_for('static', filename='node_modules/semantic-ui-calendar/dist/calendar.min.js') }}"></script>
@@ -19,11 +19,7 @@
     <div class="ui stackable grid">
         <div class="one wide column"></div>
 
-        <div class="four wide column">
-            <img class="ui small rounded centered image" src="{{ event.image_big }}">
-        </div>
-
-        <div class="ten wide column">
+        <div class="fourteen wide column">
             <form class="ui form error" method="post">
 
                 <div class="field">
