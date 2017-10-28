@@ -8,7 +8,8 @@
     <link rel="stylesheet"
           href="{{ url_for('static', filename='node_modules/semantic-ui-calendar/dist/calendar.min.css') }}"/>
 
-    <script type="text/javascript" src="//cdn.ckeditor.com/4.7.3/basic/ckeditor.js"></script>
+    <script type="text/javascript"
+            src="{{ url_for('static', filename='node_modules/ckeditor/ckeditor.js') }}"></script>
 
 {% endblock %}
 
