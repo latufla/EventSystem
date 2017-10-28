@@ -194,6 +194,8 @@ class Controller:
                 self.db.add(event)
                 self.db.commit()
 
+                return redirect(url_for("event", event_id=event.id))
+
             return redirect(url_for("events"))
 
     def editEvent(self, event_id):
@@ -233,6 +235,8 @@ class Controller:
                         event.rewards.append(int(r))
 
                     self.db.commit()
+
+                    return redirect(url_for("event", event_id=event.id))
 
             return redirect(url_for("events"))
 
