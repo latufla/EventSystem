@@ -407,9 +407,9 @@ class Controller:
             if 'image' in files:
                 user = self._getUser()
                 if user.image_big:
-                    self.media.removeImage(user.image_big)
+                    self.media.removeUserImage(user.image_big, user.id)
 
-                image_big = self.media.uploadImage(files['image'])
+                image_big = self.media.uploadUserImage(files['image'], user.id)
                 if image_big is not None:
                     user.image_big = image_big
 
@@ -425,9 +425,10 @@ class Controller:
                 event = self._getEvent(event_id)
                 if event is not None:
                     if event.image_big:
-                        self.media.removeImage(event.image_big)
+                        self.media.removeEventImage(event.image_big, event.id)
 
-                    image_big = self.media.uploadImage(files['image'])
+                    user = self._getUser()
+                    image_big = self.media.uploadEventImage(files['image'], event.id)
                     if image_big is not None:
                         event.image_big = image_big
                         self.db.commit()

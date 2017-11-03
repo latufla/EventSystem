@@ -1,4 +1,4 @@
-from flask import request, render_template
+from flask import request, render_template, send_file
 
 from initter import *
 
@@ -193,6 +193,12 @@ def upload_event_avatar(event_id):
 @is_logged_in
 def settings():
     return controller.getSettings()
+
+
+@app.route('/<path:filename>', methods=['GET'])
+@is_logged_in
+def uploads(filename):
+    return send_file(filename)
 
 
 if __name__ == '__main__':
