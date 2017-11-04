@@ -48,7 +48,11 @@ class MediaService:
         filename = secure_filename(image.filename)
 
         folder = Path().user(user_id).images()
-        path = os.path.join(self.root, self.uploads, folder.path, filename)
+        path = os.path.join(self.root, self.uploads, folder.path)
+        if not os.path.exists(path):
+            os.makedirs(path)
+
+        path = os.path.join(path, filename)
         image.save(path)
 
         url = folder.url + filename
@@ -58,35 +62,37 @@ class MediaService:
         filename = secure_filename(image.filename)
 
         folder = Path().event(event_id).images()
-        path = os.path.join(self.root, self.uploads, folder.path, filename)
+        path = os.path.join(self.root, self.uploads, folder.path)
+        if not os.path.exists(path):
+            os.makedirs(path)
+
+        path = os.path.join(path, filename)
         image.save(path)
 
         url = folder.url + filename
         return url_for(self.uploads, filename=url)
 
     def removeUserImage(self, url, user_id):
-        pass
-        # try:
-        #     image_name = url.split("/")[-1]
-        #     folder = Path().user(user_id).images().path
-        #     path = self.images.path(image_name, folder)
-        #     os.remove(path)
-        # except OSError:
-        #     return None
-        #
-        # return image_name
+        try:
+            filename = url.split("/")[-1]
+            folder = Path().user(user_id).images()
+            path = os.path.join(self.root, self.uploads, folder.path, filename)
+            os.remove(path)
+        except OSError:
+            return None
+
+        return filename
 
     def removeEventImage(self, url, event_id):
-        pass
-        # try:
-        #     image_name = url.split("/")[-1]
-        #     folder = Path().event(event_id).images().path
-        #     path = self.images.path(image_name, folder)
-        #     os.remove(path)
-        # except OSError:
-        #     return None
-        #
-        # return image_name
+        try:
+            filename = url.split("/")[-1]
+            folder = Path().event(event_id).images()
+            path = os.path.join(self.root, self.uploads, folder.path, filename)
+            os.remove(path)
+        except OSError:
+            return None
+
+        return filename
 
     def uploadExcel(self, doc):
         pass
