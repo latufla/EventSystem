@@ -195,10 +195,10 @@ def settings():
     return controller.getSettings()
 
 
-@app.route('/<path:filename>', methods=['GET'])
+@app.route("/" + app.config['UPLOAD_FOLDER'] + "/" + "<path:filename>", methods=['GET'])
 @is_logged_in
 def uploads(filename):
-    return send_file(filename)
+    return send_file(app.config['UPLOAD_FOLDER'] + "/" + filename)
 
 
 if __name__ == '__main__':

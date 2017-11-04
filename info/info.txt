@@ -67,7 +67,7 @@ python-dateutil
 requests
 psycopg2
 
-
+'uploads/events/2/images/zarubin_4bb.jpg'
 
 Разворачиваем на стороннем сервере:
 

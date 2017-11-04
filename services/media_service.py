@@ -14,41 +14,26 @@ def get_image_path(path):
 class Path:
     def __init__(self):
         self.path = ""
+        self.url = ""
 
     def user(self, user_id):
         self.path = os.path.join(self.path, "users", str(user_id))
+        self.url += "users/" + str(user_id) + "/"
         return self
 
     def event(self, event_id):
         self.path = os.path.join(self.path, "events", str(event_id))
+        self.url += "events/" + str(event_id) + "/"
         return self
 
     def images(self):
         self.path = os.path.join(self.path, "images")
+        self.url += "images/"
         return self
 
     def clear(self):
         self.path = ""
-
-
-class Url:
-    def __init__(self):
-        self.path = ""
-
-    def user(self, user_id):
-        self.path += "users/" + str(user_id) + "/"
-        return self
-
-    def event(self, event_id):
-        self.path += "events/" + str(event_id) + "/"
-        return self
-
-    def images(self):
-        self.path += "images/"
-        return self
-
-    def clear(self):
-        self.path = ""
+        self.url = ""
 
 
 class MediaService:
@@ -60,31 +45,24 @@ class MediaService:
         self.uploads = app.config['UPLOAD_FOLDER']
 
     def uploadUserImage(self, image, user_id):
-        try:
+        filename = secure_filename(image.filename)
 
-            filename = secure_filename(image.filename)
+        folder = Path().user(user_id).images()
+        path = os.path.join(self.root, self.uploads, folder.path, filename)
+        image.save(path)
 
-            path = Path().user(user_id).images().path
-            path = os.path.join(self.root, self.uploads, path, filename)
-            image.save(path)
-
-        except:
-            return None
-
-        else:
-            url = Url().user(user_id).images().path
-            url = self.uploads + "/" + url + filename
-            return url
+        url = folder.url + filename
+        return url_for(self.uploads, filename=url)
 
     def uploadEventImage(self, image, event_id):
-        pass
-        # try:
-        #     folder = Path().event(event_id).images().path
-        #     filename = self.images.save(image, folder)
-        # except UploadNotAllowed:
-        #     return None
-        # else:
-        #     return self.images.url(filename)
+        filename = secure_filename(image.filename)
+
+        folder = Path().event(event_id).images()
+        path = os.path.join(self.root, self.uploads, folder.path, filename)
+        image.save(path)
+
+        url = folder.url + filename
+        return url_for(self.uploads, filename=url)
 
     def removeUserImage(self, url, user_id):
         pass
