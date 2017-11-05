@@ -20,9 +20,9 @@ class Event(db.Model):
 
     author_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
-    title = db.Column(db.String(80))
-    description_short = db.Column(db.String(80))
-    description = db.Column(db.String(120))
+    title = db.Column(db.Text)
+    description_short = db.Column(db.Text)
+    description = db.Column(db.Text)
 
     max_participants = db.Column(db.Integer, default=10)
 
@@ -31,17 +31,17 @@ class Event(db.Model):
     wait_list = db.relationship("User", secondary=event_wait, lazy='dynamic',
                                 backref=db.backref("events_wait", lazy='dynamic'))
 
-    status = db.Column(db.String(80), default=EventStatus.NOT_READY.name)
+    status = db.Column(db.String(20), default=EventStatus.NOT_READY.name)
 
     rewards = db.Column(db.ARRAY(db.Integer))
     best_player_reward = db.Column(db.Integer, default=0)
 
-    result_file = db.Column(db.String(120))
+    result_file = db.Column(db.Text)
     results = db.relationship("EventResult", backref="event", lazy='dynamic')
 
     date_start = db.Column(db.DateTime)
 
-    image_big = db.Column(db.String(120), default="img/event.png")
+    image_big = db.Column(db.Text, default="img/event.png")
 
     published = db.Column(db.Boolean, default=False)
 
