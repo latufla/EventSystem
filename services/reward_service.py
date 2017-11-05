@@ -1,3 +1,4 @@
+import os
 from openpyxl import load_workbook
 
 from models.event_result import EventResult
@@ -6,11 +7,13 @@ from models.user import User
 
 
 class RewardService:
-    def __init__(self, db):
+    def __init__(self, db, app):
         self.db = db
+        self.app = app
 
     def collectResults(self, event, password_generator):
-        wb = load_workbook(event.result_file)
+        path = os.path.join(self.app.root_path, event.result_file)
+        wb = load_workbook(path)
         sheet = wb.get_sheet_by_name('Sheet1')
         for row in sheet.rows:
             res = EventResult(

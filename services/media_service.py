@@ -31,6 +31,11 @@ class Path:
         self.url += "images/"
         return self
 
+    def results(self):
+        self.path = os.path.join(self.path, "results")
+        self.url += "results/"
+        return self
+
     def clear(self):
         self.path = ""
         self.url = ""
@@ -94,11 +99,24 @@ class MediaService:
 
         return filename
 
-    def uploadExcel(self, doc):
-        pass
-        # try:
-        #     filename = self.excel.save(doc)
-        # except UploadNotAllowed:
-        #     return None
-        # else:
-        #     return "uploads/events/" + filename
+    def uploadEventResult(self, doc, event_id):
+        filename = secure_filename(doc.filename)
+
+        folder = Path().event(event_id).results()
+        path = os.path.join(self.root, self.uploads, folder.path)
+        if not os.path.exists(path):
+            os.makedirs(path)
+
+        path = os.path.join(path, filename)
+        doc.save(path)
+
+        return os.path.join(self.uploads, folder.path, filename)
+
+    def removeEventResult(self, path):
+        try:
+            path = os.path.join(self.root, path)
+            os.remove(path)
+        except OSError:
+            return None
+
+        return path

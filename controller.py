@@ -18,7 +18,7 @@ class Controller:
         self.db = DBWrapper(db)
         self.invites = InviteService(self.db)
         self.media = MediaService(app)
-        self.rewards = RewardService(self.db)
+        self.rewards = RewardService(self.db, app)
 
     @classmethod
     def _getUser(cls):
@@ -337,7 +337,10 @@ class Controller:
                     self.db.delete(results)
 
                 if status == EventStatus.FINISHED.name:
-                    result_file = self.media.uploadExcel(request.files["result"])
+                    if event.result_file is not None:
+                        self.media.removeEventResult(event.result_file)
+
+                    result_file = self.media.uploadEventResult(request.files["result"], event.id)
                     event.result_file = result_file
                     self.rewards.collectResults(event, self.invites)
 
