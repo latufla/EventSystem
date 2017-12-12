@@ -201,6 +201,12 @@ def uploads(filename):
     return send_file(app.config['UPLOAD_FOLDER'] + "/" + filename)
 
 
+@app.route('/create_pass_card', methods=['POST'])
+@is_logged_in
+@is_admin
+def create_pass_card():
+    return controller.createPassCard()
+
 if __name__ == '__main__':
     app.run(debug=True)
     # app.run("0.0.0.0", port=8000)

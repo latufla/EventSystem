@@ -8,6 +8,7 @@ from models.forms.register_form import RegisterForm
 from models.user import User
 from services.invite_service import InviteService
 from services.media_service import MediaService
+from services.pass_card_service import PassCardService
 from services.reward_service import RewardService
 from tools.db_wrapper import DBWrapper
 
@@ -19,6 +20,7 @@ class Controller:
         self.invites = InviteService(self.db)
         self.media = MediaService(app)
         self.rewards = RewardService(self.db, app)
+        self.pass_cards = PassCardService(self.db)
 
     @classmethod
     def _getUser(cls):
@@ -478,6 +480,19 @@ class Controller:
             session["login"] = user.login
 
         return self._renderUserTemplate('settings.html')
+
+    def createPassCard(self):
+        if 'user_id' not in request.form:
+            return abort(404)
+
+        user_id = request.form["user_id"]
+        user = User.query.filter_by(user_id=user_id).first()
+        if not user:
+            return abort(404)
+
+        self.pass_cards.createPassCard(user, 1, 8)
+
+        return redirect(url_for('profile', user_name=user.login))
 
     @staticmethod
     def _errorsToString(form):
