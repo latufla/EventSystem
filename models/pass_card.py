@@ -19,5 +19,5 @@ class PassCard(db.Model):
 
     events_max_count = db.Column(db.Integer, default=8)
 
-    events_visited = db.relationship("PassCard", secondary=pass_card_use, lazy='dynamic')
+    events_visited = db.relationship("Event", secondary=pass_card_use, lazy='dynamic')
 

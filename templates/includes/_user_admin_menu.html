@@ -1,0 +1,21 @@
+<div style="position:fixed; right:20px; bottom:20px;">
+    <div class="ui vertical labeled icon menu">
+
+        <form action="{{ url_for('create_pass_card') }}" method="post"
+              style="display: none">
+            <input name="user_id" type="hidden" value="{{ user.id }}">
+            <button id="create_pass_card_submit" type="submit"></button>
+        </form>
+
+        <a id="create_pass_card_button" class="item">
+            <i class="id card outline icon"></i> Дать <br> абонемент
+        </a>
+
+        <script type="text/javascript">
+            $("#create_pass_card_button").on("click", function () {
+                $("#create_pass_card_submit").click();
+            });
+        </script>
+
+    </div>
+</div>

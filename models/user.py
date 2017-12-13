@@ -29,5 +29,7 @@ class User(db.Model):
     events_created = db.relationship("Event", lazy='dynamic', backref="author")
     events_history = db.relationship("EventResult", backref="user", lazy='dynamic')
 
+    pass_cards = db.relationship("PassCard", lazy='dynamic')#, backref="owner")
+
     def __repr__(self):
         return "<User %r>" % self.login

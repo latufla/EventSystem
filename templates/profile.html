@@ -49,4 +49,9 @@
         <div class="one wide column"></div>
     </div>
 
+
+    {% if viewer.role == "ADMIN" and user.role != "ADMIN" %}
+        {% include 'includes/_user_admin_menu.html' %}
+    {% endif %}
+
 {% endblock %}

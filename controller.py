@@ -1,3 +1,4 @@
+from datetime import datetime
 from flask import request, render_template, session, redirect, url_for, abort
 
 from enums.enums import UserRole, EventStatus, Gender
@@ -5,7 +6,9 @@ from models.event import Event
 from models.forms.edit_settings_form import EditSettingsForm, EditSettingsNoPasswordForm
 from models.forms.event_form import EventForm
 from models.forms.register_form import RegisterForm
+from models.pass_card import PassCard
 from models.user import User
+from services.errors import ESError
 from services.invite_service import InviteService
 from services.media_service import MediaService
 from services.pass_card_service import PassCardService
@@ -486,11 +489,18 @@ class Controller:
             return abort(404)
 
         user_id = request.form["user_id"]
-        user = User.query.filter_by(user_id=user_id).first()
+        user = User.query.filter_by(id=user_id).first()
         if not user:
             return abort(404)
 
-        self.pass_cards.createPassCard(user, 1, 8)
+        now = datetime.utcnow()
+        res = self.pass_cards.tryCreatePassCard(now, user, 1, 8)
+        if isinstance(res, ESError):
+            return redirect(url_for('profile', user_name=user.login))
+
+        if res:
+            self.db.add(res)
+            self.db.commit()
 
         return redirect(url_for('profile', user_name=user.login))
 
