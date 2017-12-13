@@ -496,13 +496,39 @@ class Controller:
         now = datetime.utcnow()
         res = self.pass_cards.tryCreatePassCard(now, user, 1, 8)
         if isinstance(res, ESError):
-            return redirect(url_for('profile', user_name=user.login))
+            return redirect(url_for('profile', user_name=user.login, error=res))
 
         if res:
             self.db.add(res)
             self.db.commit()
 
         return redirect(url_for('profile', user_name=user.login))
+
+
+    def usePassCard(self):
+        if 'user_id' not in request.form \
+                or "event_id" not in request.form:
+            return abort(404)
+
+        user_id = request.form["user_id"]
+        user = User.query.filter_by(id=user_id).first()
+        if not user:
+            return abort(404)
+
+        event_id = request.form["event_id"]
+        event = self._getEvent(event_id)
+        if not event:
+            return abort(404)
+
+        now = datetime.utcnow()
+
+        res = self.pass_cards.tryUsePassCard(now, user, event)
+        if isinstance(res, ESError):
+            return redirect(url_for('profile', user_name=user.login, error=res))
+
+        self.db.commit()
+        return redirect(url_for('profile', user_name=user.login))
+
 
     @staticmethod
     def _errorsToString(form):
