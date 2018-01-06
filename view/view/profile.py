@@ -6,10 +6,11 @@ from view.enum.event_state import EventStates
 
 
 class View:
-    def __init__(self, player: Player, events_history: List[EventHistoryRecord],
+    def __init__(self, player: Player, events_history: List[EventHistoryRecord], change_avatar_url: str,
                  event_states: EventStates = EventStates):
         self.player = player
         self.events_history = events_history
+        self.change_avatar_url = change_avatar_url
 
         self.event_states = event_states
 

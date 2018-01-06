@@ -19,14 +19,19 @@
     <div class="twelve wide column">
         <div class="ui hidden divider"></div>
 
-        <div class="ui center aligned basic segment">
+        <form action="" method=POST enctype=multipart/form-data style="display: none">
+    <input id="load_avatar_browse" type="file" name="image" accept="image/png, image/jpeg">
+    <button id="load_avatar_submit" class="ui primary button" type="submit"></button>
+</form>
+
+<div class="ui center aligned basic segment">
 
     <div class="ui small circular dimmable image">
 
         <div class="ui dimmer">
             <div class="content">
                 <div class="center">
-                    <div class="ui inverted button">Change</div>
+                    <div id="load_avatar_button" class="ui inverted button">Change</div>
                 </div>
             </div>
         </div>
@@ -151,6 +156,14 @@
     $('.image').dimmer({
         on: 'hover'
     });
+
+    $("#load_avatar_button").on("click", function () {
+        $("#load_avatar_browse").click();
+    });
+    $("#load_avatar_browse").on("change", function () {
+        $("#load_avatar_submit").click();
+    })
+
 </script>
 
     </div>
