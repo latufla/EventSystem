@@ -4,7 +4,7 @@ from jinja2 import Environment, PackageLoader, select_autoescape
 
 from view.config import Config as ViewConfig
 from view.data.event import Event as EventData
-from view.data.event_result import EventResult
+from view.data.event_result import EventHistoryRecord
 from view.enum.event_label import EventLabels
 from view.loc import Loc
 from view.view.events_history import View
@@ -18,7 +18,7 @@ events = [
 ]
 
 events_history = list(
-    map(lambda e: EventResult(e, 1, 1000, True), events)
+    map(lambda e: EventHistoryRecord(e, 1, 1000, True), events)
 )
 
 view = View(events_history)

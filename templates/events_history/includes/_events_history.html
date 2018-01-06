@@ -1,21 +1,35 @@
 <div class="ui large feed">
     {% for r in view.events_history %}
-    <div class="ui hidden divider"></div>
-    <div class="event">
-        <div class="content">
-            <div class="summary">
-                {{loc(loc.EVENTS_HISTORY_PARTICIPATED_AT, r.event.url, r.event.title)|safe}}
-                <div class="date">{{r.event.start_date}}</div>
-            </div>
-            <div class="extra text">
-                {% if r.place %}
-                    {{loc(loc.EVENTS_HISTORY_TOOK_PLACE, r.place)|safe}}
-                    {% if r.reward and r.rewarded %}
-                        {{loc(loc.EVENTS_HISTORY_AND_REWARD, r.reward)|safe}}
-                    {% endif %}
+        <div class="ui hidden divider"></div>
+        <div class="event">
+            <div class="content">
+                {% if r.event.state == view.event_states.NOT_READY
+                        or r.event.state == view.event_states.STARTED %}
+
+                    <div class="summary">
+                        {{ loc(loc.EVENTS_HISTORY_YOU_PARTICIPATE_AT, r.event.url, r.event.title)|safe }}
+                        <div class="date">{{ r.event.start_date }}</div>
+                    </div>
+
+                {% else %}
+
+                    <div class="summary">
+                        {{ loc(loc.EVENTS_HISTORY_PARTICIPATED_AT, r.event.url, r.event.title)|safe }}
+                        <div class="date">{{ r.event.start_date }}</div>
+                    </div>
+                    <div class="extra text">
+
+
+                        {% if r.place %}
+                            {{ loc(loc.EVENTS_HISTORY_TOOK_PLACE, r.place)|safe }}
+                            {% if r.reward and r.rewarded %}
+                                {{ loc(loc.EVENTS_HISTORY_AND_REWARD, r.reward)|safe }}
+                            {% endif %}
+                        {% endif %}
+                    </div>
+
                 {% endif %}
             </div>
         </div>
-    </div>
     {% endfor %}
 </div>
