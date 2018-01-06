@@ -39,6 +39,7 @@ class Loc:
     PROFILE_EVENTS_HISTORY = "profile_events_history"
     PROFILE_POINTS = "profile_points"
     PROFILE_NO_EVENTS_PARTICIPATED = "profile_no_events_participated"
+    PROFILE_AVATAR_CHANGE = "profile_avatar_change"
 
     def __init__(self):
         self.all = {
@@ -130,5 +131,8 @@ class Loc:
             },
             self.PROFILE_NO_EVENTS_PARTICIPATED: {
                 "en": "You`ve never participated in any events",
+            },
+            self.PROFILE_AVATAR_CHANGE: {
+                "en": "Change",
             }
         }

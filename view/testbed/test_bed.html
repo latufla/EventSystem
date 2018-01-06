@@ -19,24 +19,39 @@
     <div class="twelve wide column">
         <div class="ui hidden divider"></div>
 
-        <img class="ui small centered circular image" src="https://pbs.twimg.com/profile_images/606791373593837568/eL5DHK0L.png">
+        <div class="ui center aligned basic segment">
 
-<h1 class="ui center aligned header">
-    <div class="content">
-        Red Fox
-        <div class="sub header">1000 points</div>
+    <div class="ui small circular dimmable image">
+
+        <div class="ui dimmer">
+            <div class="content">
+                <div class="center">
+                    <div class="ui inverted button">Change</div>
+                </div>
+            </div>
+        </div>
+
+        <img src="https://pbs.twimg.com/profile_images/606791373593837568/eL5DHK0L.png">
     </div>
-</h1>
+
+    <h1 class="ui header">
+        <div class="content">
+            Red Fox
+            <div class="sub header">1000 points</div>
+        </div>
+    </h1>
+
+</div>
 
 <div class="ui hidden section divider">
 </div>
 
 <h3 class="ui horizontal divider header">
-    History
+    My history
 </h3>
 
 
-
+    
 
     <h4>
         Active:
@@ -131,6 +146,12 @@
     </div>
 
 
+
+<script>
+    $('.image').dimmer({
+        on: 'hover'
+    });
+</script>
 
     </div>
     <div class="two wide column"></div>

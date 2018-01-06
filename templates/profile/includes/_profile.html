@@ -1,23 +1,44 @@
-<img class="ui small centered circular image" src="{{view.player.image}}">
+<div class="ui center aligned basic segment">
 
-<h1 class="ui center aligned header">
-    <div class="content">
-        {{view.player.name}}
-        <div class="sub header">{{loc(loc.PROFILE_POINTS, view.player.points)}}</div>
+    <div class="ui small circular dimmable image">
+
+        <div class="ui dimmer">
+            <div class="content">
+                <div class="center">
+                    <div class="ui inverted button">{{loc(loc.PROFILE_AVATAR_CHANGE)}}</div>
+                </div>
+            </div>
+        </div>
+
+        <img src="{{ view.player.image }}">
     </div>
-</h1>
+
+    <h1 class="ui header">
+        <div class="content">
+            {{ view.player.name }}
+            <div class="sub header">{{ loc(loc.PROFILE_POINTS, view.player.points) }}</div>
+        </div>
+    </h1>
+
+</div>
 
 <div class="ui hidden section divider">
 </div>
 
 <h3 class="ui horizontal divider header">
-    {{loc(loc.PROFILE_EVENTS_HISTORY)}}
+    {{ loc(loc.PROFILE_EVENTS_HISTORY) }}
 </h3>
 
 {% if view.events_history and view.events_history|length %}
-{% include 'events_history/includes/_events_history.html' %}
+    {% include 'events_history/includes/_events_history.html' %}
 {% else %}
-<div class="ui center aligned basic segment">
-    <span style="font-size: 1.1rem; color: grey;"> {{loc(loc.PROFILE_NO_EVENTS_PARTICIPATED)}} </span>
-</div>
+    <div class="ui center aligned basic segment">
+        <span style="font-size: 1.1rem; color: grey;"> {{ loc(loc.PROFILE_NO_EVENTS_PARTICIPATED) }} </span>
+    </div>
 {% endif %}
+
+<script>
+    $('.image').dimmer({
+        on: 'hover'
+    });
+</script>
