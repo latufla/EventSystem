@@ -10,10 +10,16 @@ from models.pass_card import PassCard
 from models.user import User
 from services.errors import ESError
 from services.invite_service import InviteService
-from services.media_service import MediaService
+from services.media_service import MediaService, get_image_path
 from services.pass_card_service import PassCardService
 from services.reward_service import RewardService
 from tools.db_wrapper import DBWrapper
+
+from view.config import Config as ViewConfig
+from view.loc import Loc
+
+from view.view.profile import View as ProfileView
+from view.data.user import User as UserData
 
 
 class Controller:
@@ -131,7 +137,12 @@ class Controller:
             user = self._getUser()
             return redirect(url_for('profile', user_name=user.login))
 
-        return self._renderUserTemplate('profile.html', user=user)
+        user_data = UserData(user.id, user.login, "", get_image_path(user.image_big))
+        user_data.points = 1000
+        view = ProfileView(user_data, [], url_for('upload_avatar'))
+        config = ViewConfig(True)
+
+        return self._renderUserTemplate('profile.html', view=view, config=config, loc=Loc())
 
     def getAllUsers(self):
         users = User.query.all()

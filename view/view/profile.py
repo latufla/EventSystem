@@ -1,14 +1,14 @@
 from typing import List
 
 from view.data.event_result import EventHistoryRecord
-from view.data.player import Player
+from view.data.user import User
 from view.enum.event_state import EventStates
 
 
 class View:
-    def __init__(self, player: Player, events_history: List[EventHistoryRecord], change_avatar_url: str,
+    def __init__(self, user: User, events_history: List[EventHistoryRecord], change_avatar_url: str,
                  event_states: EventStates = EventStates):
-        self.player = player
+        self.user = user
         self.events_history = events_history
         self.change_avatar_url = change_avatar_url
 

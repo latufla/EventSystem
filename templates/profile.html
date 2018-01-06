@@ -8,47 +8,7 @@
 
     {% include 'includes/_main_menu.html' %}
 
-    <div class="ui grid">
-
-        <div class="one wide column"></div>
-
-        <div class="fourteen wide column">
-
-            <div class="ui card">
-                <div class="image">
-                    <img src="{{ get_image_path(user.image_big) }}">
-                    {% if user == viewer %}
-                        {% set image_load_action = url_for('upload_avatar') %}
-                        {% include 'includes/_image_uploader.html' %}
-                    {% endif %}
-                </div>
-                <div class="content">
-                    <a class="header">{{ user.login }}</a>
-                    <div class="description">
-                        {{ user.xp }} очков
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="one wide column"></div>
-
-    </div>
-
-    <div class="ui grid">
-        <div class="one wide column"></div>
-
-        <div class="fourteen wide column">
-
-                <h4 class="ui horizontal divider header">
-                    История событий
-                </h4>
-                {% include 'includes/_user_events_history.html' %}
-        </div>
-
-        <div class="one wide column"></div>
-    </div>
-
+    {% include 'profile/includes/_view.html' %}
 
     {% if viewer.role == "ADMIN" and user.role != "ADMIN" %}
         {% include 'includes/_user_admin_menu.html' %}

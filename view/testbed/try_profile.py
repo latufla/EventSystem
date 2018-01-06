@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 from jinja2 import Environment, PackageLoader, select_autoescape, FileSystemLoader
 
 from view.config import Config as ViewConfig
-from view.data.player import Player
+from view.data.user import User
 from view.enum.event_state import EventStates
 from view.loc import Loc
 from view.view.profile import View
@@ -37,9 +37,9 @@ events_history = [
     EventHistoryRecord(e5)
 ]
 
-player = Player(1, "Red Fox", "", "https://pbs.twimg.com/profile_images/606791373593837568/eL5DHK0L.png")
-player.points = 1000
-view = View(player, events_history, "")
+user = User(1, "Red Fox", "", "https://pbs.twimg.com/profile_images/606791373593837568/eL5DHK0L.png")
+user.points = 1000
+view = View(user, events_history, "")
 view.order_history()
 
 env = Environment(
