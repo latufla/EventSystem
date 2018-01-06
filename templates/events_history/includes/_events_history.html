@@ -1,25 +1,44 @@
-<div class="ui large feed">
-    {% for r in view.events_history %}
-        <div class="ui hidden divider"></div>
-        <div class="event">
-            <div class="content">
-                {% if r.event.state == view.event_states.NOT_READY
-                        or r.event.state == view.event_states.STARTED %}
+{% if view.active_events|length %}
 
-                    <div class="summary">
-                        {{ loc(loc.EVENTS_HISTORY_YOU_PARTICIPATE_AT, r.event.url, r.event.title)|safe }}
-                        <div class="date">{{ r.event.start_date }}</div>
+    <h4>
+        Active:
+    </h4>
+
+        <div class="ui large feed" style="margin-left: 40px">
+
+            {% for r in view.active_events %}
+                <div class="event" style="margin-bottom: 20px;">
+                    <div class="content">
+                        <div class="summary">
+                            <a href='{{ r.event.url }}'>{{ r.event.title }}</a>
+                            <div class="date">{{ r.event.start_date }}</div>
+                        </div>
                     </div>
+                </div>
 
-                {% else %}
+            {% endfor %}
 
+        </div>
+
+{% endif %}
+
+
+{% if view.finished_events|length %}
+
+    <h4>
+        Finished:
+    </h4>
+
+    <div class="ui large feed" style="margin-left: 40px;">
+
+        {% for r in view.finished_events %}
+            <div class="event" style="margin-bottom: 20px;">
+                <div class="content">
                     <div class="summary">
-                        {{ loc(loc.EVENTS_HISTORY_PARTICIPATED_AT, r.event.url, r.event.title)|safe }}
+                        <a href='{{ r.event.url }}'>{{ r.event.title }}</a>
                         <div class="date">{{ r.event.start_date }}</div>
                     </div>
                     <div class="extra text">
-
-
                         {% if r.place %}
                             {{ loc(loc.EVENTS_HISTORY_TOOK_PLACE, r.place)|safe }}
                             {% if r.reward and r.rewarded %}
@@ -27,9 +46,10 @@
                             {% endif %}
                         {% endif %}
                     </div>
-
-                {% endif %}
+                </div>
             </div>
-        </div>
-    {% endfor %}
-</div>
+
+        {% endfor %}
+
+    </div>
+{% endif %}

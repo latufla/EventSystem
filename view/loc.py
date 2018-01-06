@@ -33,8 +33,6 @@ class Loc:
     FINISHED_EVENT_STATE = "finished_event_state"
     REWARDED_EVENT_STATE = "rewarded_event_state"
 
-    EVENTS_HISTORY_YOU_PARTICIPATE_AT = "events_history_you_participate_at"
-    EVENTS_HISTORY_PARTICIPATED_AT = "events_history_participated_at"
     EVENTS_HISTORY_TOOK_PLACE = "events_history_took_place"
     EVENTS_HISTORY_AND_REWARD = "events_history_and_reward"
 
@@ -117,12 +115,6 @@ class Loc:
                 "en": "Rewarded",
             },
 
-            self.EVENTS_HISTORY_PARTICIPATED_AT: {
-                "en": "Participated at <a href='{0}'>{1}</a>",
-            },
-            self.EVENTS_HISTORY_YOU_PARTICIPATE_AT: {
-                "en": "You participate at <a href='{0}'>{1}</a>",
-            },
             self.EVENTS_HISTORY_TOOK_PLACE: {
                 "en": "You took <strong>{0}</strong> place",
             },
@@ -131,7 +123,7 @@ class Loc:
             },
 
             self.PROFILE_EVENTS_HISTORY: {
-                "en": "Events history",
+                "en": "My history",
             },
             self.PROFILE_POINTS: {
                 "en": "{0} points",

@@ -26,16 +26,20 @@ e3.state = EventStates.REWARDED
 e4 = EventData(3, "Tournament 2: Starters", now + timedelta(days=9, hours=4), EventLabels.TOURNAMENT, "http://vk.com")
 e4.state = EventStates.STARTED
 
+e5 = EventData(3, "Tournament 3: Starters", now + timedelta(days=10, hours=4), EventLabels.TOURNAMENT, "http://vk.com")
+e5.state = EventStates.STARTED
+
 events_history = [
     EventHistoryRecord(e, 1, 1000, True),
     EventHistoryRecord(e2),
     EventHistoryRecord(e3, 2, 500),
-    EventHistoryRecord(e4, 2, 500, True)
+    EventHistoryRecord(e4),
+    EventHistoryRecord(e5)
 ]
 
 player = Player(1, "Red Fox", "", "https://pbs.twimg.com/profile_images/606791373593837568/eL5DHK0L.png")
 player.points = 1000
-view = View(player, events_history)
+view = View(player, [])
 view.order_history()
 
 env = Environment(
