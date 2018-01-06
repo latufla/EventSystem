@@ -10,7 +10,8 @@
 
     {% include 'profile/includes/_view.html' %}
 
-    {% if viewer.role == "ADMIN" and user.role != "ADMIN" %}
+
+    {% if view.admin and not view.myself %}
         {% include 'includes/_user_admin_menu.html' %}
     {% endif %}
 

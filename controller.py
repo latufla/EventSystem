@@ -133,13 +133,16 @@ class Controller:
 
     def getUserProfile(self, user_name):
         user = User.query.filter_by(login=user_name).first()
+        myself = self._getUser()
         if user is None:
-            user = self._getUser()
-            return redirect(url_for('profile', user_name=user.login))
+            return redirect(url_for('profile', user_name=myself.login))
 
         user_data = UserData(user.id, user.login, "", get_image_path(user.image_big))
         user_data.points = 1000
-        view = ProfileView(user_data, [], url_for('upload_avatar'))
+
+        view = ProfileView(user_data, [],
+                           myself.role == UserRole.ADMIN.name,
+                           myself == user, url_for('upload_avatar'))
         config = ViewConfig(True)
 
         return self._renderUserTemplate('profile.html', view=view, config=config, loc=Loc())

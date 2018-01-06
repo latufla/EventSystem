@@ -39,7 +39,7 @@ events_history = [
 
 user = User(1, "Red Fox", "", "https://pbs.twimg.com/profile_images/606791373593837568/eL5DHK0L.png")
 user.points = 1000
-view = View(user, events_history, "")
+view = View(user, events_history, False, True, "")
 view.order_history()
 
 env = Environment(

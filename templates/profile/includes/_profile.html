@@ -1,22 +1,48 @@
-<form action="{{ view.change_avatar_url }}" method=POST enctype=multipart/form-data style="display: none">
-    <input id="load_avatar_browse" type="file" name="image" accept="image/png, image/jpeg">
-    <button id="load_avatar_submit" class="ui primary button" type="submit"></button>
-</form>
-
 <div class="ui center aligned basic segment">
 
-    <div class="ui small circular dimmable image">
+    {% if view.myself %}
 
-        <div class="ui dimmer">
-            <div class="content">
-                <div class="center">
-                    <div id="load_avatar_button" class="ui inverted button">{{loc(loc.PROFILE_AVATAR_CHANGE)}}</div>
+        <div class="ui small rounded dimmable image">
+
+            <div class="ui dimmer">
+                <div class="content">
+                    <div class="center">
+                        <div id="load_avatar_button"
+                             class="ui inverted button">{{ loc(loc.PROFILE_AVATAR_CHANGE) }}</div>
+                    </div>
                 </div>
             </div>
+
+            <img src="{{ view.user.image }}">
         </div>
 
-        <img src="{{ view.user.image }}">
-    </div>
+        <form action="{{ view.change_avatar_url }}" method=POST enctype=multipart/form-data style="display: none">
+            <input id="load_avatar_browse" type="file" name="image" accept="image/png, image/jpeg">
+            <button id="load_avatar_submit" class="ui primary button" type="submit"></button>
+        </form>
+
+        <script>
+
+            $('.image').dimmer({
+                on: 'hover'
+            });
+
+            $("#load_avatar_button").on("click", function () {
+                $("#load_avatar_browse").click();
+            });
+            $("#load_avatar_browse").on("change", function () {
+                $("#load_avatar_submit").click();
+            })
+
+        </script>
+
+    {% else %}
+
+        <div class="ui small circular image">
+            <img src="{{ view.user.image }}">
+        </div>
+
+    {% endif %}
 
     <h1 class="ui header">
         <div class="content">
@@ -41,17 +67,3 @@
         <span style="font-size: 1.1rem; color: grey;"> {{ loc(loc.PROFILE_NO_EVENTS_PARTICIPATED) }} </span>
     </div>
 {% endif %}
-
-<script>
-    $('.image').dimmer({
-        on: 'hover'
-    });
-
-    $("#load_avatar_button").on("click", function () {
-        $("#load_avatar_browse").click();
-    });
-    $("#load_avatar_browse").on("change", function () {
-        $("#load_avatar_submit").click();
-    })
-
-</script>
