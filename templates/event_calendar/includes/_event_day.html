@@ -1,0 +1,88 @@
+{% set day_id = calendar_day.date.month|string + '_' + calendar_day.date.day|string %}
+<div id="{{day_id}}" data-html=
+        "
+        {% for e in calendar_day.events %}
+        <div>
+            {{e.title}}
+        </div>
+        <div>
+            {{e.start_time}}
+        </div>
+        <p>
+        {% endfor %}
+" , style="cursor: pointer;">
+    <p>{{calendar_day.date.day}}&nbsp;</p>
+
+    <table class="ui collapsing unstackable table" style="background-color: transparent; border-color:transparent;">
+        <tbody>
+        <tr>
+            {% for e in calendar_day.events %}
+            <td style="border-color:transparent;">
+                <i class="big {{e.label.icon.name}}" style="color:{{e.label.icon.color}};"> </i>
+            </td>
+            {% endfor %}
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+
+
+{% set day_modal = day_id + "_modal" %}
+<div id="{{day_modal}}" class="ui tiny modal">
+    <div class="header">{{calendar_day.date.day|string + " " + view.month.loc_key + " " +
+        view.month.year|string}}
+    </div>
+    <div class="content">
+        <div class="ui small relaxed list">
+
+            {% for event in calendar_day.events %}
+            <div class="item">
+
+                <i class="big {{event.label.icon.name}}"></i>
+
+                <div class="content">
+
+                    <a class="header" href="{{event.link}}">{{ event.title }}</a>
+                    <div class="description">{{event.description_short}}</div>
+
+                    <p></p>
+
+                    <div class="ui label">
+                        Starts at: {{event.start_time}}
+                    </div>
+
+                    <div class="ui {{event.state.color }} label">
+                        {{loc(event.state.loc_key)}}
+                    </div>
+
+                    <div class="ui label">
+                        Participate: {{event.participant_list|length}} / {{event.max_participants}}
+                    </div>
+
+                    <div class="ui label">
+                        Waiting: {{event.wait_list|length}}
+                    </div>
+                </div>
+
+            </div>
+            {% endfor %}
+
+        </div>
+    </div>
+    <div class="actions">
+        <div class="ui primary ok button">Ok</div>
+    </div>
+</div>
+
+
+<script>
+    $('#{{day_id}}').popup({
+        on: 'hover',
+        position: 'top center'
+    });
+
+    $("#{{day_id}}").click(function () {
+        $('#{{day_modal}}').modal('show');
+    });
+</script>

@@ -1,0 +1,23 @@
+<img class="ui small centered circular image" src="{{view.player.image}}">
+
+<h1 class="ui center aligned header">
+    <div class="content">
+        {{view.player.name}}
+        <div class="sub header">{{loc(loc.PROFILE_POINTS, view.player.points)}}</div>
+    </div>
+</h1>
+
+<div class="ui hidden section divider">
+</div>
+
+<h4 class="ui horizontal divider header">
+    {{loc(loc.PROFILE_EVENTS_HISTORY)}}
+</h4>
+
+{% if view.events_history and view.events_history|length %}
+{% include 'events_history/includes/_events_history.html' %}
+{% else %}
+<div class="ui center aligned basic segment">
+    <span style="font-size: 1.1rem; color: grey;"> {{loc(loc.PROFILE_NO_EVENTS_PARTICIPATED)}} </span>
+</div>
+{% endif %}

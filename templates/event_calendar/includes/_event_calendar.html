@@ -1,0 +1,59 @@
+<table class="ui celled unstackable fixed table">
+    <tbody>
+    {% for i in range(0, 5) %}
+    <tr class="top aligned">
+        {% for j in range(0, 7) %}
+
+        {% set calendar_day = view.month.days[i * 7 + j] %}
+
+        {% if view.month.id != calendar_day.date.month %}
+        <td class="selectable disabled right aligned">
+            <p>{{calendar_day.date.day}}&nbsp;</p>
+            <div style="width:50px; height:50px;"></div>
+        </td>
+
+        {% else %}
+
+        {% set day_color = calendar_day.get_color()%}
+        {% set day_event_icons = calendar_day.get_event_icons()%}
+        {% if day_color %}
+        {% set c_style = "background-color:" + day_color + ";" %}
+        {% else %}
+        {% set c_style = "" %}
+        {% endif %}
+
+        <td class="selectable right aligned" style="{{c_style}}">
+            {% if day_event_icons|length > 0 %}
+
+            {% with view=view, calendar_day=calendar_day%}
+            {% include "event_calendar/includes/_event_day.html" %}
+            {% endwith %}
+
+            {% else %}
+            <p>{{calendar_day.date.day}}&nbsp;</p>
+            <div style="width:50px; height:50px;"></div>
+            {% endif %}
+        </td>
+        {% endif %}
+
+        {% endfor %}
+    </tr>
+    {% endfor %}
+    </tbody>
+    <tfoot>
+    <tr>
+        <th colspan="7">
+            <table>
+                <tr>
+                    {% for lb in view.label_config %}
+                    <td style="background-color: {{ lb.color }}; height:30px;">
+                        {{ loc(lb.loc_key) }}
+                    </td>
+                    {% endfor %}
+                </tr>
+            </table>
+
+        </th>
+    </tr>
+    </tfoot>
+</table>

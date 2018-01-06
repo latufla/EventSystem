@@ -1,0 +1,88 @@
+<div id="admin_menu" class="ui sidebar inverted vertical menu left">
+
+    <div class="ui hidden divider"></div>
+
+    <h4 class="ui horizontal divider white header">
+        <span style="color:white;">States</span>
+    </h4>
+
+    <a class="item">
+        Not ready
+
+        <div class="ui label">&nbsp;&nbsp;</div>
+    </a>
+    <a class="active item">
+        Started
+
+        <div class="ui green label">&nbsp;&nbsp;</div>
+    </a>
+    <a class="item">
+        Finished
+
+        <div class="ui orange label">&nbsp;&nbsp;</div>
+    </a>
+    <a class="item">
+        Rewarded
+
+        <div class="ui red label">&nbsp;&nbsp;</div>
+    </a>
+
+    <div class="ui hidden divider"></div>
+
+    <h4 class="ui horizontal divider white header">
+        <span style="color:white;">Commands</span>
+    </h4>
+
+    <a class="item">
+        <i class="toggle on icon"></i>Publish
+    </a>
+
+    <a class="item">
+        <i class="edit icon"></i>Edit
+    </a>
+    <a class="item">
+        <i class="trash icon"></i>Delete
+    </a>
+
+</div>
+
+<div id="admin_menu_pusher" class="pusher">
+
+    <div class="ui grid">
+        <div class="two wide column">
+
+            <div id="admin_menu_button" class="ui black big launch right attached fixed button"
+                 style="position:fixed; top:20px;">
+                <i class="content icon"></i>
+            </div>
+
+        </div>
+        <div class="twelve wide column">
+            <div class="ui hidden divider"></div>
+
+            {% include 'event/includes/_event.html' %}
+
+        </div>
+        <div class="two wide column"></div>
+    </div>
+
+</div>
+
+<script>
+
+    $('#admin_menu').sidebar(
+        {
+            onVisible: function () {
+                $('#admin_menu_button').hide();
+            },
+
+            onHidden: function () {
+                $('#admin_menu_button').show();
+            }
+        });
+
+    $('#admin_menu_button').click(function () {
+        $('#admin_menu').sidebar('toggle');
+    });
+
+</script>

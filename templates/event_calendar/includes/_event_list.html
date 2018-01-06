@@ -1,0 +1,17 @@
+<div class="ui large relaxed list">
+
+    {% if events|length != 0 %}
+
+    {% for event in events%}
+    {% with event=event %}
+    {% include 'event_calendar/includes/_event_list_item.html' %}
+    {% endwith %}
+    {% endfor %}
+
+    {% else %}
+
+    <div class="ui center aligned basic segment">
+        <span style="font-size: 1.1rem; color:grey;"> Sorry, no events yet :( </span>
+    </div>
+    {% endif %}
+</div>

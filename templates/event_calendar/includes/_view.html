@@ -1,0 +1,73 @@
+<div style="min-width:{{view.min_width}}px; max-width:{{view.max_width}}px;">
+    <div id="month_navigation_menu" class="ui right floated menu">
+        <a class="icon item" href="{{view.prev_url}}">
+            <i class="left chevron icon"></i>
+        </a>
+        <div class="item">{{loc(view.month.loc_key)}} {{view.month.year}}</div>
+        <a class="icon item" href="{{view.next_url}}">
+            <i class="right chevron icon"></i>
+        </a>
+    </div>
+
+    <div id="content_menu" class="ui tabular menu">
+        <div id="calendar_tab" class="{% if view.active_tab=='calendar_tab' %}active{% endif %} item"
+             data-tab="calendar"
+             style="cursor: pointer;">{{loc(loc.CALENDAR_CONTENT_MENU_TAB)}}
+        </div>
+
+        <div id="event_list_tab" class="{% if view.active_tab=='event_list_tab' %}active{% endif %} item"
+             data-tab="event_list"
+             style="cursor: pointer;">{{loc(loc.EVENT_LIST_CONTENT_MENU_TAB)}}
+        </div>
+
+        <div id="pass_card_tab" class="{% if view.active_tab=='pass_card_tab' %}active{% endif %} item"
+             data-tab="pass_card"
+             style="cursor: pointer;">{{loc(loc.PASS_CARD_CONTENT_MENU_TAB)}}
+        </div>
+    </div>
+
+    <div class="ui {% if view.active_tab=='calendar_tab' %}active{% endif %} tab" data-tab="calendar">
+        {% include 'event_calendar/includes/_event_calendar.html' %}
+    </div>
+
+    <div class="ui {% if view.active_tab=='event_list_tab' %}active{% endif %} tab" data-tab="event_list">
+        {% with events=view.month.events%}
+        {% include 'event_calendar/includes/_event_list.html' %}
+        {% endwith %}
+    </div>
+
+    {% set is_active = view.active_tab == "pass_card_tab" %}
+
+    <div class="ui {% if is_active %}active{% endif %} tab" data-tab="pass_card">
+        {% with pass_card=view.pass_card %}
+        {% include 'event_calendar/includes/_pass_card.html' %}
+        {% endwith %}
+    </div>
+
+    {% if is_active %}
+
+    <script>
+        $('#month_navigation_menu').hide();
+    </script>
+
+    {% endif %}
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        $('#content_menu .item').tab();
+
+        $('#calendar_tab').click(function () {
+            $('#month_navigation_menu').show();
+        });
+
+        $('#event_list_tab').click(function () {
+            $('#month_navigation_menu').show()
+        });
+
+        $('#pass_card_tab').click(function () {
+            $('#month_navigation_menu').hide()
+        });
+    });
+</script>

@@ -1,0 +1,20 @@
+{% if pass_card %}
+
+<div class="ui center aligned basic segment">
+    <span style="font-size: 1.5rem;"> Events visited {{pass_card.events_visited|length}} of {{pass_card.max_events_visited}}</span>
+
+    <p>expires at {{pass_card.expire_date|string}}</p>
+
+</div>
+
+{% with events=pass_card.events_visited%}
+{% include 'event_calendar/includes/_event_list.html' %}
+{% endwith %}
+
+{% else %}
+
+<div class="ui center aligned basic segment">
+    <span style="font-size: 1.1rem; color: grey; "> You can buy pass card from admin in personal order :) </span>
+</div>
+
+{% endif %}

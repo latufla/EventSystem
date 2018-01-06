@@ -1,0 +1,121 @@
+<link rel="stylesheet" href="{{config.semantic_ui_calendar_css}}"/>
+
+<script type="text/javascript" src="{{config.semantic_ui_calendar}}"></script>
+<script type="text/javascript" src="{{config.ckeditor}}"></script>
+
+
+<div style="min-width:{{view.min_width}}px; max-width:{{view.max_width}}px;">
+
+    <form id="main_form" class="ui form error" action="{{view.save_url}}" method="post">
+
+        <div class="inline field">
+            <label>Type</label>
+            <div class="inline field">
+                <div id="type_dropdown" class="ui selection dropdown">
+                    <input name="type" value={{view.event.label.type_name}} type="hidden">
+                    <i class="dropdown icon"></i>
+                    <div class="default text"></div>
+                    <div class="menu">
+                        {% for lb in view.label_config %}
+                        <div class="item" data-value="{{lb.type_name}}"><i class="{{lb.icon.name}}"></i>{{loc(lb.loc_key)}}</div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="field">
+            <label>Title</label>
+            <input name="title" placeholder="" value="{{ view.event.title }}" type="text">
+        </div>
+
+        <div class="field">
+            <label>Short description</label>
+            <textarea id="description_short" name="description_short"
+                      placeholder="">{{ view.event.description_short }}</textarea>
+        </div>
+
+        <div class="field">
+            <label>Description</label>
+            <textarea id="description" name="description" placeholder="">{{ view.event.description }}</textarea>
+        </div>
+
+        <div class="field">
+            <label>Start at</label>
+            <div class="inline field">
+                <div class="ui calendar" id="date_start">
+                    <div class="ui input right icon">
+                        <i class="calendar icon"></i>
+                        <input name="date_start" type="text" placeholder="Date" value="{{ view.event.date_start }}">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="inline field">
+            <label>Max Participants</label>
+            <div class="inline field">
+                <input name="max_participants" type="text" value="{{ view.event.max_participants }}">
+            </div>
+        </div>
+
+        <div class="ui error message"></div>
+
+        <input type="text" name="event_id" value="{{ view.event.id }}" style="display: none">
+        <button class="ui primary right floated button" type="submit" style="min-width: 150px;">Save</button>
+
+    </form>
+
+</div>
+
+<script type="text/javascript">
+    function addZero(i) {
+        if (i < 10) {
+            i = "0" + i;
+        }
+        return i;
+    }
+
+    $('#date_start').calendar({
+        monthFirst: false,
+        formatter: {
+            date: function (d, settings) {
+                if (!d) return '';
+                var day = d.getDate();
+                var month = d.getMonth() + 1;
+                var year = d.getFullYear();
+                return addZero(day) + '.' + addZero(month) + '.' + year;
+            },
+            time: function (t, settings) {
+                var hour = addZero(t.getHours());
+                var min = addZero(t.getMinutes());
+                return hour + ':' + min;
+            }
+        }
+    });
+
+    $('#main_form')
+        .form({
+            fields: {
+                name: {
+                    identifier: 'date_start',
+                    rules: [
+                        {
+                            type: 'empty',
+                            prompt: 'Enter event date'
+                        }
+                    ]
+                }
+            }
+        });
+
+    $('#type_dropdown').dropdown();
+
+</script>
+
+
+<script type="text/javascript">
+    CKEDITOR.replace('description_short');
+    CKEDITOR.replace('description');
+</script>
