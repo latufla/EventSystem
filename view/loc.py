@@ -120,7 +120,7 @@ class Loc:
                 "en": "You took <strong>{0}</strong> place",
             },
             self.EVENTS_HISTORY_AND_REWARD: {
-                "en": "and get <strong>{0}</strong> points",
+                "en": "and got <strong>{0}</strong> points",
             },
 
             self.PROFILE_EVENTS_HISTORY: {

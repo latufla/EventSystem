@@ -1,4 +1,5 @@
 from datetime import datetime
+
 from flask import request, render_template, session, redirect, url_for, abort
 
 from enums.enums import UserRole, EventStatus, Gender
@@ -6,21 +7,20 @@ from models.event import Event
 from models.forms.edit_settings_form import EditSettingsForm, EditSettingsNoPasswordForm
 from models.forms.event_form import EventForm
 from models.forms.register_form import RegisterForm
-from models.pass_card import PassCard
 from models.user import User
 from services.errors import ESError
 from services.invite_service import InviteService
 from services.media_service import MediaService, get_image_path
 from services.pass_card_service import PassCardService
 from services.reward_service import RewardService
-from tools.db_wrapper import DBWrapper
-
+from utils.db_wrapper import DBWrapper
 from view.config import Config as ViewConfig
-from view.loc import Loc
-
-from view.view.profile import View as ProfileView
 from view.data.user import User as UserData
+from view.loc import Loc
+from view.view.profile import View as ProfileView
 
+from utils.view_data_factory import UserDataCreator
+from utils.view_data_factory import EventHistoryRecordDataCreator
 
 class Controller:
     def __init__(self, app, db):
@@ -137,12 +137,20 @@ class Controller:
         if user is None:
             return redirect(url_for('profile', user_name=myself.login))
 
-        user_data = UserData(user.id, user.login, "", get_image_path(user.image_big))
-        user_data.points = 1000
+        user_data = UserDataCreator.create(user)
+        user_data.points = user.xp
 
-        view = ProfileView(user_data, [],
-                           myself.role == UserRole.ADMIN.name,
-                           myself == user, url_for('upload_avatar'))
+        is_admin = myself.role == UserRole.ADMIN.name
+        is_myself = myself == user
+
+        participated_events = user.events_participate.all() + user.events_wait.all()
+        event_history_records = EventHistoryRecordDataCreator.createList(participated_events)
+
+        events_history = user.events_history.all()
+        EventHistoryRecordDataCreator.applyResultList(event_history_records, events_history)
+
+        view = ProfileView(user_data, event_history_records, is_admin, is_myself, url_for('upload_avatar'))
+
         config = ViewConfig(True)
 
         return self._renderUserTemplate('profile.html', view=view, config=config, loc=Loc())

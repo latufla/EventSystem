@@ -2,7 +2,7 @@
 
     {% if view.myself %}
 
-        <div class="ui small rounded dimmable image">
+        <div id="avatar_image" class="ui small circular dimmable image">
 
             <div class="ui dimmer">
                 <div class="content">
@@ -23,7 +23,7 @@
 
         <script>
 
-            $('.image').dimmer({
+            $('#avatar_image').dimmer({
                 on: 'hover'
             });
 
@@ -38,7 +38,7 @@
 
     {% else %}
 
-        <div class="ui small circular image">
+        <div class="ui small rounded image">
             <img src="{{ view.user.image }}">
         </div>
 
