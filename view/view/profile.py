@@ -20,8 +20,15 @@ class View:
         self._active_events = list(filter(lambda e: e.event.state == EventStates.NOT_READY
                                                     or e.event.state == EventStates.STARTED, self.events_history))
 
+        # waiter or participant ok
+        self._active_events = list(filter(lambda e: e.event.has_waiter(user) or e.event.has_participant(user), self._active_events))
+
+
         self._finished_events = list(filter(lambda e: e.event.state == EventStates.FINISHED
                                                       or e.event.state == EventStates.REWARDED, self.events_history))
+
+        # skip if you are waiter
+        self._finished_events = list(filter(lambda e: e.event.has_participant(user), self._finished_events))
 
     def order_history(self):
         self.events_history = sorted(self.events_history, key=lambda e: e.event.start_datetime, reverse=True)

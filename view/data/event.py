@@ -1,5 +1,6 @@
 from datetime import datetime
 
+from view.data.user import User
 from view.enum.event_label import Label, EventLabels
 from view.enum.event_state import EventStates
 
@@ -33,6 +34,12 @@ class Event:
 
     def __repr__(self):
         return "{name: " + str(self.title) + "}"
+
+    def has_participant(self, user: User):
+        return user in self.participant_list
+
+    def has_waiter(self, user: User):
+        return user in self.wait_list
 
     @property
     def start_date(self):

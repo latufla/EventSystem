@@ -42,7 +42,7 @@ class EventHistoryRecordDataCreator:
         return EventHistoryRecordData(event_data)
 
     @staticmethod
-    def createList(events: List[Event]) -> List[EventHistoryRecordData]:
+    def create_list(events: List[Event]) -> List[EventHistoryRecordData]:
         res = []
         for e in events:
             res.append(EventHistoryRecordDataCreator.create(e))
@@ -50,7 +50,7 @@ class EventHistoryRecordDataCreator:
         return res
 
     @staticmethod
-    def applyResult(to_data: EventHistoryRecordData, result: EventResult) -> bool:
+    def apply_result(to_data: EventHistoryRecordData, result: EventResult) -> bool:
         if result.event.id == to_data.event.id:
             to_data.place = result.place
             to_data.reward = result.reward
@@ -60,8 +60,8 @@ class EventHistoryRecordDataCreator:
         return False
 
     @staticmethod
-    def applyResultList(to_data_list: List[EventHistoryRecordData], results: List[EventResult]):
+    def apply_result_list(to_data_list: List[EventHistoryRecordData], results: List[EventResult]):
         for d in to_data_list:
             for r in results:
-                if EventHistoryRecordDataCreator.applyResult(d, r):
+                if EventHistoryRecordDataCreator.apply_result(d, r):
                     break

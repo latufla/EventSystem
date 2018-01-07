@@ -143,11 +143,21 @@ class Controller:
         is_admin = myself.role == UserRole.ADMIN.name
         is_myself = myself == user
 
-        participated_events = user.events_participate.all() + user.events_wait.all()
-        event_history_records = EventHistoryRecordDataCreator.createList(participated_events)
+        not_finished_statuses = [EventStatus.NOT_READY.name, EventStatus.STARTED.name]
+        not_finished_events_wait = list(user.events_wait.filter(Event.status.in_(not_finished_statuses)))
+        not_finished_events_wait = EventHistoryRecordDataCreator.create_list(not_finished_events_wait)
+        for e in not_finished_events_wait:
+            e.event.wait_list.append(user_data)
+
+        events_participate = user.events_participate.all()
+        events_participate = EventHistoryRecordDataCreator.create_list(events_participate)
+        for e in events_participate:
+            e.event.participant_list.append(user_data)
+
+        event_history_records = not_finished_events_wait + events_participate
 
         events_history = user.events_history.all()
-        EventHistoryRecordDataCreator.applyResultList(event_history_records, events_history)
+        EventHistoryRecordDataCreator.apply_result_list(event_history_records, events_history)
 
         view = ProfileView(user_data, event_history_records, is_admin, is_myself, url_for('upload_avatar'))
 
