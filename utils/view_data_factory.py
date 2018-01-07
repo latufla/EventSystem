@@ -75,9 +75,6 @@ class ProfileViewCreator:
         user_data = UserDataCreator.create(profile_owner)
         user_data.points = profile_owner.xp
 
-        is_admin = myself.role == UserRole.ADMIN.name
-        is_myself = myself == profile_owner
-
         not_finished_statuses = [EventStatus.NOT_READY.name, EventStatus.STARTED.name]
         not_finished_events_wait = list(profile_owner.events_wait.filter(Event.status.in_(not_finished_statuses)))
         not_finished_events_wait = EventHistoryRecordDataCreator.create_list(not_finished_events_wait)
@@ -93,5 +90,8 @@ class ProfileViewCreator:
 
         events_history = profile_owner.events_history.all()
         EventHistoryRecordDataCreator.apply_result_list(event_history_records, events_history)
+
+        is_admin = myself.role == UserRole.ADMIN.name
+        is_myself = myself == profile_owner
 
         return ProfileView(user_data, event_history_records, is_admin, is_myself, url_for('upload_avatar'))
