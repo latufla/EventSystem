@@ -137,7 +137,7 @@ class Controller:
 
         view = ProfileViewCreator.create(myself, user)
         config = ViewConfig(True)
-        return self._renderUserTemplate('profile.html', view=view, config=config, loc=Loc())
+        return self._renderUserTemplate('profile.html', view=view, config=config, loc=Loc("ru"))
 
     def getAllUsers(self):
         users = User.query.all()

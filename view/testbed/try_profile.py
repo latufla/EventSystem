@@ -55,7 +55,7 @@ env = Environment(
 )
 
 template = env.get_template('testbed/try_profile.html')
-html = template.render(view=view, config=ViewConfig(), loc=Loc())
+html = template.render(view=view, config=ViewConfig(), loc=Loc("en"))
 
 with open("test_bed.html", "w") as file:
     file.write(html)

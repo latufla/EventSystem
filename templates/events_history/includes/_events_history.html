@@ -1,7 +1,7 @@
 {% if view.active_events|length %}
 
     <h4>
-        Active:
+        {{ loc(loc.EVENTS_HISTORY_ACTIVE) }}
     </h4>
 
     <div class="ui large feed" style="margin-left: 40px">
@@ -9,15 +9,25 @@
         {% for r in view.active_events %}
             <div class="event" style="margin-bottom: 20px;">
                 <div class="content">
+
                     <div class="summary">
+
                         <a href='{{ r.event.url }}'>{{ r.event.title }}</a>
+
                         <div class="date">{{ r.event.start_date }}</div>
+
+
+                        <div class="ui {{ r.event.state.color }} label">
+                            {{ loc(r.event.state.loc_key) }}
+                        </div>
+
                     </div>
+
                     <div class="extra text">
                         {% if r.event.has_waiter(view.user) %}
-                            In wait list
+                            {{ loc(loc.EVENTS_HISTORY_WAIT) }}
                         {% elif r.event.has_participant(view.user) %}
-                            You are participating
+                            {{ loc(loc.EVENTS_HISTORY_PARTICIPATE) }}
                         {% endif %}
                     </div>
                 </div>
@@ -33,7 +43,7 @@
 {% if view.finished_events|length %}
 
     <h4>
-        Finished:
+        {{ loc(loc.EVENTS_HISTORY_FINISHED) }}
     </h4>
 
     <div class="ui large feed" style="margin-left: 40px;">
@@ -42,8 +52,11 @@
             <div class="event" style="margin-bottom: 20px;">
                 <div class="content">
                     <div class="summary">
+
                         <a href='{{ r.event.url }}'>{{ r.event.title }}</a>
+
                         <div class="date">{{ r.event.start_date }}</div>
+
                     </div>
                     <div class="extra text">
                         {% if r.place %}

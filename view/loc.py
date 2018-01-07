@@ -1,9 +1,14 @@
-from typing import List
-
-
 class Loc:
     def __call__(self, loc_key: str, *args):
-        return self.all[loc_key]["en"].format(*args)
+        value = self.all[loc_key]
+
+        if self.language in value:
+            return value[self.language].format(*args)
+
+        if "en" in value:
+            return value["en"].format(*args)
+
+        return loc_key
 
     JANUARY = "january"
     FEBRUARY = "february"
@@ -35,13 +40,19 @@ class Loc:
 
     EVENTS_HISTORY_TOOK_PLACE = "events_history_took_place"
     EVENTS_HISTORY_AND_REWARD = "events_history_and_reward"
+    EVENTS_HISTORY_ACTIVE = "events_history_active"
+    EVENTS_HISTORY_FINISHED = "events_history_finished"
+    EVENTS_HISTORY_WAIT = "events_history_wait"
+    EVENTS_HISTORY_PARTICIPATE = "events_history_participate"
 
     PROFILE_EVENTS_HISTORY = "profile_events_history"
     PROFILE_POINTS = "profile_points"
     PROFILE_NO_EVENTS_PARTICIPATED = "profile_no_events_participated"
     PROFILE_AVATAR_CHANGE = "profile_avatar_change"
 
-    def __init__(self):
+    def __init__(self, language: str = "en"):
+        self.language = language
+
         self.all = {
             self.JANUARY: {
                 "en": "January",
@@ -121,6 +132,22 @@ class Loc:
             },
             self.EVENTS_HISTORY_AND_REWARD: {
                 "en": "and got <strong>{0}</strong> points",
+            },
+            self.EVENTS_HISTORY_ACTIVE: {
+                "en": "Active:",
+                "ru": "Активные:",
+            },
+            self.EVENTS_HISTORY_FINISHED: {
+                "en": "Finished:",
+                "ru": "Завершенные:",
+            },
+            self.EVENTS_HISTORY_WAIT: {
+                "en": "In wait list",
+                "ru": "Вы в листе ожидания",
+            },
+            self.EVENTS_HISTORY_PARTICIPATE: {
+                "en": "You are participating",
+                "ru": "Вы участвуете",
             },
 
             self.PROFILE_EVENTS_HISTORY: {
