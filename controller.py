@@ -10,17 +10,15 @@ from models.forms.register_form import RegisterForm
 from models.user import User
 from services.errors import ESError
 from services.invite_service import InviteService
-from services.media_service import MediaService, get_image_path
+from services.media_service import MediaService
 from services.pass_card_service import PassCardService
 from services.reward_service import RewardService
 from utils.db_wrapper import DBWrapper
 from view.config import Config as ViewConfig
-from view.data.user import User as UserData
 from view.loc import Loc
-from view.view.profile import View as ProfileView
 
-from utils.view_data_factory import UserDataCreator
-from utils.view_data_factory import EventHistoryRecordDataCreator
+from utils.view_data_factory import ProfileViewCreator
+
 
 class Controller:
     def __init__(self, app, db):
@@ -137,32 +135,8 @@ class Controller:
         if user is None:
             return redirect(url_for('profile', user_name=myself.login))
 
-        user_data = UserDataCreator.create(user)
-        user_data.points = user.xp
-
-        is_admin = myself.role == UserRole.ADMIN.name
-        is_myself = myself == user
-
-        not_finished_statuses = [EventStatus.NOT_READY.name, EventStatus.STARTED.name]
-        not_finished_events_wait = list(user.events_wait.filter(Event.status.in_(not_finished_statuses)))
-        not_finished_events_wait = EventHistoryRecordDataCreator.create_list(not_finished_events_wait)
-        for e in not_finished_events_wait:
-            e.event.wait_list.append(user_data)
-
-        events_participate = user.events_participate.all()
-        events_participate = EventHistoryRecordDataCreator.create_list(events_participate)
-        for e in events_participate:
-            e.event.participant_list.append(user_data)
-
-        event_history_records = not_finished_events_wait + events_participate
-
-        events_history = user.events_history.all()
-        EventHistoryRecordDataCreator.apply_result_list(event_history_records, events_history)
-
-        view = ProfileView(user_data, event_history_records, is_admin, is_myself, url_for('upload_avatar'))
-
+        view = ProfileViewCreator.create(myself, user)
         config = ViewConfig(True)
-
         return self._renderUserTemplate('profile.html', view=view, config=config, loc=Loc())
 
     def getAllUsers(self):
@@ -536,7 +510,6 @@ class Controller:
 
         return redirect(url_for('profile', user_name=user.login))
 
-
     def usePassCard(self):
         if 'user_id' not in request.form \
                 or "event_id" not in request.form:
@@ -560,7 +533,6 @@ class Controller:
 
         self.db.commit()
         return redirect(url_for('profile', user_name=user.login))
-
 
     @staticmethod
     def _errorsToString(form):
