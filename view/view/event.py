@@ -10,4 +10,4 @@ class View:
         self.remove_participant_url = remove_participant_url
 
         self.min_width = 700
-        self.max_width = 1200
+        self.max_width = 4000

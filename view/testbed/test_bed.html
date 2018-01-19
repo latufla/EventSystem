@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Profile</title>
+    <title>Event</title>
 
-    <link rel="stylesheet" href="../../static/node_modules/semantic-ui/semantic.min.css">
+   <link rel="stylesheet" href="../../static/node_modules/semantic-ui/semantic.min.css">
 
     <script src="../../static/node_modules/jquery/jquery-3.2.1.min.js"></script>
     <script src="../../static/node_modules/semantic-ui/semantic.min.js"></script>
@@ -12,164 +12,276 @@
 
 <body>
 
-<div class="ui grid">
-    <div class="two wide column">
+<div id="admin_menu" class="ui sidebar inverted vertical menu left">
 
-    </div>
-    <div class="twelve wide column">
-        <div class="ui hidden divider"></div>
+    <div class="ui hidden divider"></div>
 
-        <div class="ui center aligned basic segment">
-
-    
-
-        <div id="avatar_image" class="ui small circular dimmable image">
-
-            <div class="ui dimmer">
-                <div class="content">
-                    <div class="center">
-                        <div id="load_avatar_button"
-                             class="ui inverted button">Change</div>
-                    </div>
-                </div>
-            </div>
-
-            <img src="https://pbs.twimg.com/profile_images/606791373593837568/eL5DHK0L.png">
-        </div>
-
-        <form action="" method=POST enctype=multipart/form-data style="display: none">
-            <input id="load_avatar_browse" type="file" name="image" accept="image/png, image/jpeg">
-            <button id="load_avatar_submit" class="ui primary button" type="submit"></button>
-        </form>
-
-        <script>
-
-            $('#avatar_image').dimmer({
-                on: 'hover'
-            });
-
-            $("#load_avatar_button").on("click", function () {
-                $("#load_avatar_browse").click();
-            });
-            $("#load_avatar_browse").on("change", function () {
-                $("#load_avatar_submit").click();
-            })
-
-        </script>
-
-    
-
-    <h1 class="ui header">
-        <div class="content">
-            Red Fox
-            <div class="sub header">1000 points</div>
-        </div>
-    </h1>
-
-</div>
-
-<div class="ui hidden section divider">
-</div>
-
-<h3 class="ui horizontal divider header">
-    My history
-</h3>
-
-
-    
-
-    <h4>
-        Active:
+    <h4 class="ui horizontal divider white header">
+        <span style="color:white;">States</span>
     </h4>
 
-    <div class="ui large feed" style="margin-left: 40px">
+    <a class="item">
+        Not ready
 
-        
-            <div class="event" style="margin-bottom: 20px;">
-                <div class="content">
-                    <div class="summary">
-                        <a href='http://vk.com'>Tournament 2: Starters</a>
-                        <div class="date">2018-01-16</div>
-                    </div>
-                    <div class="extra text">
-                        
-                            In wait list
-                        
-                    </div>
-                </div>
-            </div>
+        <div class="ui label">&nbsp;&nbsp;</div>
+    </a>
+    <a class="active item">
+        Started
 
-        
-            <div class="event" style="margin-bottom: 20px;">
-                <div class="content">
-                    <div class="summary">
-                        <a href='http://vk.com'>Tournament 3: Starters</a>
-                        <div class="date">2018-01-17</div>
-                    </div>
-                    <div class="extra text">
-                        
-                            You are participating
-                        
-                    </div>
-                </div>
-            </div>
+        <div class="ui green label">&nbsp;&nbsp;</div>
+    </a>
+    <a class="item">
+        Finished
 
-        
+        <div class="ui orange label">&nbsp;&nbsp;</div>
+    </a>
+    <a class="item">
+        Rewarded
 
-    </div>
+        <div class="ui red label">&nbsp;&nbsp;</div>
+    </a>
 
+    <div class="ui hidden divider"></div>
 
-
-
-
-
-    <h4>
-        Finished:
+    <h4 class="ui horizontal divider white header">
+        <span style="color:white;">Commands</span>
     </h4>
 
-    <div class="ui large feed" style="margin-left: 40px;">
+    <a class="item">
+        <i class="toggle on icon"></i>Publish
+    </a>
 
-        
-            <div class="event" style="margin-bottom: 20px;">
-                <div class="content">
-                    <div class="summary">
-                        <a href='http://google.com'>Game 1: Starters</a>
-                        <div class="date">2018-01-06</div>
-                    </div>
-                    <div class="extra text">
-                        
-                            You took <strong>1</strong> place
-                            
-                                and got <strong>1000</strong> points
-                            
-                        
-                    </div>
-                </div>
-            </div>
-        
-            <div class="event" style="margin-bottom: 20px;">
-                <div class="content">
-                    <div class="summary">
-                        <a href='http://vk.com'>Tournament: Starters</a>
-                        <div class="date">2018-01-14</div>
-                    </div>
-                    <div class="extra text">
-                        
-                            You took <strong>2</strong> place
-                            
-                        
-                    </div>
-                </div>
-            </div>
-        
+    <a class="item">
+        <i class="edit icon"></i>Edit
+    </a>
+    <a class="item">
+        <i class="trash icon"></i>Delete
+    </a>
 
-    </div>
-
-
-
-    </div>
-    <div class="two wide column"></div>
 </div>
+
+<div id="admin_menu_pusher" class="pusher">
+
+    <div class="ui grid">
+        <div class="two wide column">
+
+            <div id="admin_menu_button" class="ui black big launch right attached fixed button"
+                 style="position:fixed; top:20px;">
+                <i class="content icon"></i>
+            </div>
+
+        </div>
+        <div class="twelve wide column">
+            <div class="ui hidden divider"></div>
+
+            <div style="min-width:700px; max-width:4000px;">
+    <div class="ui unstackable items">
+        <div class="item">
+            <p></p>
+            <i class="book icon"></i>
+
+            <div class="content">
+                <div class="header">Lesson 1: Greeting</div>
+
+                <div class="ui right floated primary button" style="min-width: 150px;">
+                    Join
+                </div>
+
+                <div class="description">
+                    <div class="ui label">
+                        Starts at: 00:00:00
+                    </div>
+
+                    <div class="ui green label">
+                        Started
+                    </div>
+
+                    <div class="ui label">
+                        Participate: 4 / 10
+                    </div>
+
+                    <div class="ui label">
+                        Waiting: 3
+                    </div>
+
+                    <p>&nbsp;</p>
+
+                    <div>
+                        <p>Jack Dempsey duckbilled barracudina Razorback sucker longfin escolar; mahseer midshipman warbonnet bramble shark. Blackchin bigeye squaretail eeltail catfish rough scad! Stonecat Cornish Spaktailed Bream hillstream loach longnose lancetfish eel lyretail eel saury: salmon shark Hammerjaw loach minnow, walking catfish.</p><p>Jack yellowfin cutthroat trout clingfish arrowtooth eel yellowtail horse mackerel redmouth whalefish tubeblenny herring tripletail, Owens pupfish summer flounder. Horsefish beachsalmon smalltooth sawfish mud cat catfish tadpole fish.</p><p>Slickhead stoneroller minnow sailfish yellowtail horse mackerel Long-finned sand diver cod, dojo loach sand knifefish lamprey yellowfin croaker labyrinth fish spiny dogfish kappy ground shark. Delta smelt ide noodlefish eel hammerhead shark cookie-cutter shark clown loach sixgill shark bluefish sea chub powen Modoc sucker.</p><p>Southern flounder kelp perch armored searobin yellow-and-black triplefin fangtooth South American Lungfish. Southern Dolly Varden zebra shark smelt-whiting bamboo shark clownfish atka mackerel, shrimpfish. Platy airbreathing catfish Cornish Spaktailed Bream lampfish lagena. Orangespine unicorn fish ribbon sawtail fish, squeaker Blind shark upside-down catfish darter flagfin, blue catfish. Zebra tilapia ilisha stonefish popeye catafula treefish Redhorse sucker. Alooh vendace pomfret ghoul scup kuhli loach ghost carp muskellunge luderick Mexican golden trout orangespine unicorn fish dory, bluntnose minnow orbicular velvetfish, leaffish.</p><p>Nurseryfish zebra trout Alaska blackfish dace squaretail blue eye. Butterflyfish barb; icefish, dorado bandfish snubnose parasitic eel Black mackerel river loach.</p>
+                    </div>
+                </div>
+
+                <p>&nbsp;</p>
+
+                <div id="participants_accordion" class="ui accordion">
+                    <div class="title active">
+                        <i class="dropdown icon"></i>
+                        Participants
+                    </div>
+                    <div class="content active">
+                        
+                        <div>
+                            
+                            <form action="" method="post">
+                                <input name="event_id" type="hidden" value="1">
+                                <input name="user_id" type="hidden" value="1" style="display: none">
+
+                                <button class="ui basic negative tiny icon button" type="submit">
+                                    <i class="minus icon"></i>
+                                </button>
+                                <a href="">Alex</a>
+                            </form>
+                            
+                        </div>
+                        <p>
+                            
+                        <div>
+                            
+                            <form action="" method="post">
+                                <input name="event_id" type="hidden" value="1">
+                                <input name="user_id" type="hidden" value="2" style="display: none">
+
+                                <button class="ui basic negative tiny icon button" type="submit">
+                                    <i class="minus icon"></i>
+                                </button>
+                                <a href="">La</a>
+                            </form>
+                            
+                        </div>
+                        <p>
+                            
+                        <div>
+                            
+                            <form action="" method="post">
+                                <input name="event_id" type="hidden" value="1">
+                                <input name="user_id" type="hidden" value="3" style="display: none">
+
+                                <button class="ui basic negative tiny icon button" type="submit">
+                                    <i class="minus icon"></i>
+                                </button>
+                                <a href="">Uri</a>
+                            </form>
+                            
+                        </div>
+                        <p>
+                            
+                        <div>
+                            
+                            <form action="" method="post">
+                                <input name="event_id" type="hidden" value="1">
+                                <input name="user_id" type="hidden" value="4" style="display: none">
+
+                                <button class="ui basic negative tiny icon button" type="submit">
+                                    <i class="minus icon"></i>
+                                </button>
+                                <a href="">William</a>
+                            </form>
+                            
+                        </div>
+                        <p>
+                            
+                    </div>
+                </div>
+
+                <div class="ui hidden divider"></div>
+
+                <div id="wait_list_accordion" class="ui accordion">
+                    <div class="title active">
+                        <i class="dropdown icon"></i>
+                        Wait list
+                    </div>
+                    <div class="content active">
+                        
+                        <div>
+                            
+                            <form action="" method="post">
+                                <input name="event_id" type="hidden" value="1">
+                                <input name="user_id" type="hidden" value="5" style="display: none">
+
+                                <button class="ui basic positive tiny icon button" type="submit">
+                                    <i class="plus icon"></i>
+                                </button>
+                                <a href="">Ann</a>
+                            </form>
+                            
+
+                        </div>
+
+                        <p>
+                            
+                        <div>
+                            
+                            <form action="" method="post">
+                                <input name="event_id" type="hidden" value="1">
+                                <input name="user_id" type="hidden" value="6" style="display: none">
+
+                                <button class="ui basic positive tiny icon button" type="submit">
+                                    <i class="plus icon"></i>
+                                </button>
+                                <a href="">Dick</a>
+                            </form>
+                            
+
+                        </div>
+
+                        <p>
+                            
+                        <div>
+                            
+                            <form action="" method="post">
+                                <input name="event_id" type="hidden" value="1">
+                                <input name="user_id" type="hidden" value="7" style="display: none">
+
+                                <button class="ui basic positive tiny icon button" type="submit">
+                                    <i class="plus icon"></i>
+                                </button>
+                                <a href="">Jimmy</a>
+                            </form>
+                            
+
+                        </div>
+
+                        <p>
+                            
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    $('#participants_accordion').accordion();
+    $('#wait_list_accordion').accordion();
+</script>
+
+
+        </div>
+        <div class="two wide column"></div>
+    </div>
+
+</div>
+
+<script>
+
+    $('#admin_menu').sidebar(
+        {
+            onVisible: function () {
+                $('#admin_menu_button').hide();
+            },
+
+            onHidden: function () {
+                $('#admin_menu_button').show();
+            }
+        });
+
+    $('#admin_menu_button').click(function () {
+        $('#admin_menu').sidebar('toggle');
+    });
+
+</script>
 
 </body>
 

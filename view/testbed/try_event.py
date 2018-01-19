@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from jinja2 import Environment, PackageLoader, select_autoescape
+from jinja2 import Environment, select_autoescape, FileSystemLoader
 
 from view.config import Config as ViewConfig
 from view.data.event import Event as EventData
@@ -30,12 +30,12 @@ e.wait_list.append(PlayerData(7, "Jimmy", ""))
 view = View(e, True, "", "")
 
 env = Environment(
-    loader=PackageLoader('PyTest', 'templates'),
+    loader=FileSystemLoader('../../templates'),
     autoescape=select_autoescape(['html', 'xml'])
 )
 
 template = env.get_template('testbed/try_event.html')
-html = template.render(view=view, config=ViewConfig(), loc=Loc())
+html = template.render(view=view, config=ViewConfig(), loc=Loc("ru"))
 
 with open("test_bed.html", "w") as file:
     file.write(html)
