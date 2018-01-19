@@ -9,7 +9,7 @@ from view.loc import Loc
 from view.view.profile import View
 
 from view.data.event import Event as EventData
-from view.data.event_result import EventHistoryRecord
+from view.data.event_history_record import EventHistoryRecord
 from view.enum.event_label import EventLabels
 
 now = datetime.utcnow()

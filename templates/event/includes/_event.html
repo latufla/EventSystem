@@ -1,8 +1,8 @@
-<div style="min-width:{{view.min_width}}px; max-width:{{view.max_width}}px;">
+<div style="min-width:{{ view.min_width }}px; max-width:{{ view.max_width }}px;">
     <div class="ui unstackable items">
         <div class="item">
             <p></p>
-            <i class="{{view.event.label.icon.name}}"></i>
+            <i class="{{ view.event.label.icon.name }}"></i>
 
             <div class="content">
                 <div class="header">{{ view.event.title }}</div>
@@ -13,85 +13,116 @@
 
                 <div class="description">
                     <div class="ui label">
-                        Starts at: {{view.event.start_time}}
+                        Starts at: {{ view.event.start_time }}
                     </div>
 
-                    <div class="ui {{view.event.state.color }} label">
-                        {{loc(view.event.state.loc_key)}}
-                    </div>
-
-                    <div class="ui label">
-                        Participate: {{view.event.participant_list|length}} / {{view.event.max_participants}}
+                    <div class="ui {{ view.event.state.color }} label">
+                        {{ loc(view.event.state.loc_key) }}
                     </div>
 
                     <div class="ui label">
-                        Waiting: {{view.event.wait_list|length}}
+                        Participate: {{ view.event.participant_list|length }} / {{ view.event.max_participants }}
+                    </div>
+
+                    <div class="ui label">
+                        Waiting: {{ view.event.wait_list|length }}
                     </div>
 
                     <p>&nbsp;</p>
 
                     <div>
-                        {{view.event.description|safe}}
+                        {{ view.event.description|safe }}
                     </div>
                 </div>
 
-                <p>&nbsp;</p>
-
-                <div id="participants_accordion" class="ui accordion">
-                    <div class="title active">
-                        <i class="dropdown icon"></i>
-                        Participants
-                    </div>
-                    <div class="content active">
-                        {% for p in view.event.participant_list %}
-                        <div>
-                            {% if view.creator %}
-                            <form action="{{ view.remove_event_participant }}" method="post">
-                                <input name="event_id" type="hidden" value="{{ view.event.id }}">
-                                <input name="user_id" type="hidden" value="{{ p['id'] }}" style="display: none">
-
-                                <button class="ui basic negative tiny icon button" type="submit">
-                                    <i class="minus icon"></i>
-                                </button>
-                                <a href="{{ p.url }}">{{ p.name }}</a>
-                            </form>
-                            {% else %}
-                            <a href="{{ p.url}}">{{ p.name }}</a>
-                            {% endif %}
-                        </div>
-                        <p>
-                            {% endfor %}
-                    </div>
-                </div>
+                {% if view.can_show_results %}
+                    <h4> Results </h4>
+                    <table class="ui very basic collapsing unstackable celled table">
+                        <thead>
+                        <tr>
+                            <th>Participant</th>
+                            <th>Place</th>
+                            <th>Reward</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for r in view.event.results %}
+                            <tr>
+                                <td>
+                                    <a href="{{ r.profile_url }}">{{ r.user_name }}</a>
+                                </td>
+                                <td>
+                                    {{ r.place }}
+                                </td>
+                                <td>
+                                    {{ r.reward }}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                {% endif %}
 
                 <div class="ui hidden divider"></div>
 
+                <div id="participants_accordion" class="ui accordion">
+                    <div class="title active">
+                        <h4>
+                            <i class="dropdown icon"></i>
+                            Participants
+                        </h4>
+                    </div>
+                    <div class="content active">
+                        {% for p in view.event.participant_list %}
+                            <div>
+                                {% if view.creator %}
+                                    <form action="{{ view.remove_event_participant }}" method="post">
+                                        <input name="event_id" type="hidden" value="{{ view.event.id }}">
+                                        <input name="user_id" type="hidden" value="{{ p['id'] }}" style="display: none">
+
+                                        <button class="ui basic negative tiny icon button" type="submit">
+                                            <i class="minus icon"></i>
+                                        </button>
+                                        <a href="{{ p.url }}">{{ p.name }}</a>
+                                    </form>
+                                {% else %}
+                                    <a href="{{ p.url }}">{{ p.name }}</a>
+                                {% endif %}
+                            </div>
+                            <p>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <p></p>
                 <div id="wait_list_accordion" class="ui accordion">
                     <div class="title active">
-                        <i class="dropdown icon"></i>
-                        Wait list
+                        <h4>
+                            <i class="dropdown icon"></i>
+                            Wait list
+                        </h4>
                     </div>
                     <div class="content active">
                         {% for p in view.event.wait_list %}
-                        <div>
-                            {% if view.creator %}
-                            <form action="{{ view.add_event_participant }}" method="post">
-                                <input name="event_id" type="hidden" value="{{ view.event.id }}">
-                                <input name="user_id" type="hidden" value="{{ p['id'] }}" style="display: none">
+                            <div>
+                                {% if view.creator %}
+                                    <form action="{{ view.add_event_participant }}" method="post">
+                                        <input name="event_id" type="hidden" value="{{ view.event.id }}">
+                                        <input name="user_id" type="hidden" value="{{ p['id'] }}" style="display: none">
 
-                                <button class="ui basic positive tiny icon button" type="submit">
-                                    <i class="plus icon"></i>
-                                </button>
-                                <a href="{{ p.url }}">{{ p.name }}</a>
-                            </form>
-                            {% else: %}
-                            <a href="{{ p.url }}">{{ p.name }}</a>
-                            {% endif %}
+                                        <button class="ui basic positive tiny icon button" type="submit">
+                                            <i class="plus icon"></i>
+                                        </button>
+                                        <a href="{{ p.url }}">{{ p.name }}</a>
+                                    </form>
+                                {% else: %}
+                                    <a href="{{ p.url }}">{{ p.name }}</a>
+                                {% endif %}
 
-                        </div>
+                            </div>
 
-                        <p>
-                            {% endfor %}
+                            <p>
+                        {% endfor %}
                     </div>
                 </div>
 

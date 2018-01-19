@@ -8,7 +8,7 @@ from models.event_result import EventResult
 from models.user import User
 from services.media_service import get_image_path
 
-from view.data.event_result import EventHistoryRecord as EventHistoryRecordData
+from view.data.event_history_record import EventHistoryRecord as EventHistoryRecordData
 from view.data.user import User as UserData
 from view.data.event import Event as EventData
 from view.enum.event_label import EventLabels

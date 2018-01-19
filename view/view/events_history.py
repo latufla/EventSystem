@@ -1,6 +1,6 @@
 from typing import List
 
-from view.data.event_result import EventHistoryRecord
+from view.data.event_history_record import EventHistoryRecord
 
 
 class View:

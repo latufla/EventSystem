@@ -28,6 +28,8 @@ class Event:
 
         self.wait_list = []
 
+        self.results = []
+
         self.state = EventStates.NOT_READY
 
         self.priority = 0
@@ -52,3 +54,11 @@ class Event:
     @property
     def short_name(self):
         return self.title[0:6] + " ..."
+
+
+class EventResult:
+    def __init__(self, user_name: str = "", profile_url: str = "", place: int = 0, reward: int = 0):
+        self.user_name = user_name
+        self.profile_url = profile_url
+        self.place = place
+        self.reward = reward

@@ -4,7 +4,7 @@ from jinja2 import Environment, PackageLoader, select_autoescape
 
 from view.config import Config as ViewConfig
 from view.data.event import Event as EventData
-from view.data.event_result import EventHistoryRecord
+from view.data.event_history_record import EventHistoryRecord
 from view.enum.event_label import EventLabels
 from view.loc import Loc
 from view.view.events_history import View
