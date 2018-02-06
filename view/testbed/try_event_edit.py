@@ -3,17 +3,17 @@ from datetime import datetime, timedelta
 from jinja2 import Environment, PackageLoader, select_autoescape
 
 from view.config import Config as ViewConfig
-from view.data.event import Event as EventData
+from view.data.event import EventData
 from view.enum.event_label import EventLabels
 from view.loc import Loc
-from view.view.event_edit import View
+from view.view.event_edit import EventEditView
 
 now = datetime.utcnow()
 
 e = EventData(2, "Lesson 2: Red card", now + timedelta(days=2), EventLabels.TOURNAMENT, "http://ya.com")
 e.description_short = "Being a good red citizen"
 
-view = View(e, "", EventLabels.EVENT_TYPES)
+view = EventEditView(e, "", EventLabels.EVENT_TYPES)
 
 env = Environment(
     loader=PackageLoader('PyTest', 'templates'),

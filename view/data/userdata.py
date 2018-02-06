@@ -1,4 +1,4 @@
-class User:
+class UserData:
     def __init__(self, id: int, name: str, url: str, image: str = None):
         self.id = id
         self.name = name

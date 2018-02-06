@@ -3,13 +3,13 @@ from datetime import datetime
 from jinja2 import Environment, select_autoescape, FileSystemLoader
 
 from view.config import Config as ViewConfig
-from view.data.event import Event as EventData, EventResult
-from view.data.user import User as PlayerData
+from view.data.event import EventData, EventResultData
+from view.data.userdata import UserData
 
 from view.enum.event_label import EventLabels
 from view.enum.event_state import EventStates
 from view.loc import Loc
-from view.view.event import View
+from view.view.event import EventView
 
 e = EventData(1, "Lesson 1: Greeting", datetime(2017, 12, 6), EventLabels.LESSON, "http://google.com")
 e.description = "<p>Jack Dempsey duckbilled barracudina Razorback sucker longfin escolar; mahseer midshipman warbonnet bramble shark. Blackchin bigeye squaretail eeltail catfish rough scad! Stonecat Cornish Spaktailed Bream hillstream loach longnose lancetfish eel lyretail eel saury: salmon shark Hammerjaw loach minnow, walking catfish.</p>" \
@@ -18,24 +18,24 @@ e.description = "<p>Jack Dempsey duckbilled barracudina Razorback sucker longfin
                 "<p>Southern flounder kelp perch armored searobin yellow-and-black triplefin fangtooth South American Lungfish. Southern Dolly Varden zebra shark smelt-whiting bamboo shark clownfish atka mackerel, shrimpfish. Platy airbreathing catfish Cornish Spaktailed Bream lampfish lagena. Orangespine unicorn fish ribbon sawtail fish, squeaker Blind shark upside-down catfish darter flagfin, blue catfish. Zebra tilapia ilisha stonefish popeye catafula treefish Redhorse sucker. Alooh vendace pomfret ghoul scup kuhli loach ghost carp muskellunge luderick Mexican golden trout orangespine unicorn fish dory, bluntnose minnow orbicular velvetfish, leaffish.</p>" \
                 "<p>Nurseryfish zebra trout Alaska blackfish dace squaretail blue eye. Butterflyfish barb; icefish, dorado bandfish snubnose parasitic eel Black mackerel river loach.</p>"
 e.state = EventStates.FINISHED
-e.participant_list.append(PlayerData(1, "Alex", ""))
-e.participant_list.append(PlayerData(2, "La", ""))
-e.participant_list.append(PlayerData(3, "Uri", ""))
-e.participant_list.append(PlayerData(4, "William", ""))
+e.participant_list.append(UserData(1, "Alex", ""))
+e.participant_list.append(UserData(2, "La", ""))
+e.participant_list.append(UserData(3, "Uri", ""))
+e.participant_list.append(UserData(4, "William", ""))
 
-e.wait_list.append(PlayerData(5, "Ann", ""))
-e.wait_list.append(PlayerData(6, "Dick", ""))
-e.wait_list.append(PlayerData(7, "Jimmy", ""))
+e.wait_list.append(UserData(5, "Ann", ""))
+e.wait_list.append(UserData(6, "Dick", ""))
+e.wait_list.append(UserData(7, "Jimmy", ""))
 
-e.results.append(EventResult("Alex","/Alex", 1, 1000))
-e.results.append(EventResult("La", "/La", 2, 500))
-e.results.append(EventResult("Uri", "/Uri", 3, 300))
-e.results.append(EventResult("William", "/William", 4, 0))
-e.results.append(EventResult("Ann", "/Ann", 5, 0))
-e.results.append(EventResult("Dick", "/Dick", 6, 0))
-e.results.append(EventResult("Jimmy", "/Jimmy", 7, 0))
+e.results.append(EventResultData("Alex", "/Alex", 1, 1000))
+e.results.append(EventResultData("La", "/La", 2, 500))
+e.results.append(EventResultData("Uri", "/Uri", 3, 300))
+e.results.append(EventResultData("William", "/William", 4, 0))
+e.results.append(EventResultData("Ann", "/Ann", 5, 0))
+e.results.append(EventResultData("Dick", "/Dick", 6, 0))
+e.results.append(EventResultData("Jimmy", "/Jimmy", 7, 0))
 
-view = View(e, True, "", "")
+view = EventView(e, True, "", "")
 
 env = Environment(
     loader=FileSystemLoader('../../templates'),

@@ -1,7 +1,7 @@
 from typing import List
 
-from view.data.month import Month
-from view.data.pass_card import PassCard
+from view.data.month import MonthData
+from view.data.pass_card import PassCardData
 from view.enum.event_label import Label
 
 
@@ -11,8 +11,8 @@ class Tabs:
     PASS_CARD = "pass_card_tab"
 
 
-class View:
-    def __init__(self, month: Month, pass_card: PassCard, label_config: List[Label], prev_url: str, next_url: str):
+class CalendarView:
+    def __init__(self, month: MonthData, pass_card: PassCardData, label_config: List[Label], prev_url: str, next_url: str):
         self.month = month
         self.pass_card = pass_card
 

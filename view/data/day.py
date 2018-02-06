@@ -1,7 +1,7 @@
 import datetime
 
 
-class Day:
+class DayData:
     """
     Day with possible event
     """

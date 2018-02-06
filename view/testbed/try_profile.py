@@ -3,18 +3,18 @@ from datetime import datetime, timedelta
 from jinja2 import Environment, PackageLoader, select_autoescape, FileSystemLoader
 
 from view.config import Config as ViewConfig
-from view.data.user import User
+from view.data.userdata import UserData
 from view.enum.event_state import EventStates
 from view.loc import Loc
-from view.view.profile import View
+from view.view.profile import ProfileView
 
-from view.data.event import Event as EventData
-from view.data.event_history_record import EventHistoryRecord
+from view.data.event import EventData
+from view.data.event_history_record import EventHistoryRecordData
 from view.enum.event_label import EventLabels
 
 now = datetime.utcnow()
 
-user = User(1, "Red Fox", "", "https://pbs.twimg.com/profile_images/606791373593837568/eL5DHK0L.png")
+user = UserData(1, "Red Fox", "", "https://pbs.twimg.com/profile_images/606791373593837568/eL5DHK0L.png")
 user.points = 1000
 
 e = EventData(0, "Game 1: Starters", datetime(2018, 1, 6), EventLabels.GAME, "http://google.com")
@@ -39,14 +39,14 @@ e5.state = EventStates.STARTED
 e5.participant_list.append(user)
 
 events_history = [
-    EventHistoryRecord(e, 1, 1000, True),
-    EventHistoryRecord(e2),
-    EventHistoryRecord(e3, 2, 500),
-    EventHistoryRecord(e4),
-    EventHistoryRecord(e5)
+    EventHistoryRecordData(e, 1, 1000, True),
+    EventHistoryRecordData(e2),
+    EventHistoryRecordData(e3, 2, 500),
+    EventHistoryRecordData(e4),
+    EventHistoryRecordData(e5)
 ]
 
-view = View(user, events_history, False, True, "")
+view = ProfileView(user, events_history, False, True, "")
 view.order_history()
 
 env = Environment(

@@ -1,11 +1,11 @@
 from typing import List
 
-from view.data.event import Event
+from view.data.event import EventData
 from view.enum.event_label import Label
 
 
-class View:
-    def __init__(self, event: Event, save_url: str, label_config: List[Label]):
+class EventEditView:
+    def __init__(self, event: EventData, save_url: str, label_config: List[Label]):
         self.event = event
 
         self.save_url = save_url

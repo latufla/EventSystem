@@ -1,13 +1,13 @@
 from datetime import datetime
 
-from view.data.user import User
+from view.data.userdata import UserData
 from view.enum.event_label import Label, EventLabels
 from view.enum.event_state import EventStates
 
 from view.util import trim_microseconds
 
 
-class Event:
+class EventData:
     """
     Special event, displaying on calendar
     """
@@ -37,10 +37,10 @@ class Event:
     def __repr__(self):
         return "{name: " + str(self.title) + "}"
 
-    def has_participant(self, user: User):
+    def has_participant(self, user: UserData):
         return user in self.participant_list
 
-    def has_waiter(self, user: User):
+    def has_waiter(self, user: UserData):
         return user in self.wait_list
 
     @property
@@ -56,7 +56,7 @@ class Event:
         return self.title[0:6] + " ..."
 
 
-class EventResult:
+class EventResultData:
     def __init__(self, user_name: str = "", profile_url: str = "", place: int = 0, reward: int = 0):
         self.user_name = user_name
         self.profile_url = profile_url

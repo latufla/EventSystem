@@ -2,13 +2,13 @@ from datetime import datetime, timedelta
 from jinja2 import Environment, PackageLoader, select_autoescape
 
 from view.config import Config as ViewConfig
-from view.data.event import Event as EventData
-from view.data.month import Month as MonthData
-from view.data.pass_card import PassCard as PassCardData
+from view.data.event import EventData
+from view.data.month import MonthData
+from view.data.pass_card import PassCardData
 from view.enum.event_label import EventLabels
 from view.enum.event_state import EventStates
 from view.loc import Loc
-from view.view.calendar import View, Tabs
+from view.view.calendar import CalendarView, Tabs
 
 now = datetime.utcnow()
 
@@ -37,7 +37,7 @@ event2.priority = 1
 event2.description_short = "First year novices are welcome"
 month.add_event(event2)
 
-view = View(month, pass_card, EventLabels.ALL, "http://google.com", "http://ya.com")
+view = CalendarView(month, pass_card, EventLabels.ALL, "http://google.com", "http://ya.com")
 view.active_tab = Tabs.CALENDAR
 
 env = Environment(

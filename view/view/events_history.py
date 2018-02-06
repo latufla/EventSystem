@@ -1,10 +1,10 @@
 from typing import List
 
-from view.data.event_history_record import EventHistoryRecord
+from view.data.event_history_record import EventHistoryRecordData
 
 
-class View:
-    def __init__(self, events_history: List[EventHistoryRecord]):
+class EventsHistoryView:
+    def __init__(self, events_history: List[EventHistoryRecordData]):
         self.events_history = events_history
 
         self.min_width = 400

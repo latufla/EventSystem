@@ -2,7 +2,7 @@ from calendar import Calendar
 from datetime import date, timedelta
 
 
-class PassCard:
+class PassCardData:
     """
     Pass card for variable amount of days
     """

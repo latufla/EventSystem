@@ -3,11 +3,11 @@ from datetime import datetime, timedelta
 from jinja2 import Environment, PackageLoader, select_autoescape
 
 from view.config import Config as ViewConfig
-from view.data.event import Event as EventData
-from view.data.event_history_record import EventHistoryRecord
+from view.data.event import EventData
+from view.data.event_history_record import EventHistoryRecordData
 from view.enum.event_label import EventLabels
 from view.loc import Loc
-from view.view.events_history import View
+from view.view.events_history import EventsHistoryView
 
 now = datetime.utcnow()
 
@@ -18,10 +18,10 @@ events = [
 ]
 
 events_history = list(
-    map(lambda e: EventHistoryRecord(e, 1, 1000, True), events)
+    map(lambda e: EventHistoryRecordData(e, 1, 1000, True), events)
 )
 
-view = View(events_history)
+view = EventsHistoryView(events_history)
 
 env = Environment(
     loader=PackageLoader('PyTest', 'templates'),

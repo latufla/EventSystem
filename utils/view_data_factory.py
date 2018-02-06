@@ -8,14 +8,14 @@ from models.event_result import EventResult
 from models.user import User
 from services.media_service import get_image_path
 
-from view.data.event_history_record import EventHistoryRecord as EventHistoryRecordData
-from view.data.user import User as UserData
-from view.data.event import Event as EventData
-from view.data.event import EventResult as EventResultData
+from view.data.event_history_record import EventHistoryRecordData
+from view.data.userdata import UserData
+from view.data.event import EventData
+from view.data.event import EventResultData
 from view.enum.event_label import EventLabels
 from view.enum.event_state import EventStates
 
-from view.view.profile import View as ProfileView
+from view.view.profile import ProfileView
 
 event_status_to_state = {
     EventStatus.NOT_READY.name: EventStates.NOT_READY,
@@ -35,9 +35,10 @@ class UserDataCreator:
             get_image_path(user.image_big)
         )
 
+
 class EventResultDataCreator:
     @staticmethod
-    def create(result:EventResult):
+    def create(result: EventResult):
         user = result.user
         return EventResultData(
             user.login,
@@ -47,10 +48,9 @@ class EventResultDataCreator:
         )
 
 
-
 class EventDataCreator:
     @staticmethod
-    def create(event:Event):
+    def create(event: Event):
         data = EventData(event.id, event.title, event.date_start, EventLabels.GAME)
         data.url = url_for('event', event_id=event.id)
         data.description = event.description
@@ -70,6 +70,7 @@ class EventDataCreator:
         data.priority = 1
 
         return data
+
 
 class EventHistoryRecordDataCreator:
     @staticmethod

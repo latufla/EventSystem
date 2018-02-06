@@ -1,9 +1,9 @@
-from view.data.event import Event
+from view.data.event import EventData
 from view.enum.event_state import EventStates
 
 
-class View:
-    def __init__(self, event: Event, creator: bool, add_participant_url: "", remove_participant_url: ""):
+class EventView:
+    def __init__(self, event: EventData, creator: bool, add_participant_url: "", remove_participant_url: ""):
         self.event = event
         self.creator = creator
 

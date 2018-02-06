@@ -1,12 +1,12 @@
 from typing import List
 
-from view.data.event_history_record import EventHistoryRecord
-from view.data.user import User
+from view.data.event_history_record import EventHistoryRecordData
+from view.data.userdata import UserData
 from view.enum.event_state import EventStates
 
 
-class View:
-    def __init__(self, user: User, events_history: List[EventHistoryRecord], admin: bool = False, myself: bool = True,
+class ProfileView:
+    def __init__(self, user: UserData, events_history: List[EventHistoryRecordData], admin: bool = False, myself: bool = True,
                  change_avatar_url: str = "", event_states: EventStates = EventStates):
         self.user = user
         self.events_history = events_history
