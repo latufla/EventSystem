@@ -11,6 +11,7 @@ from services.media_service import get_image_path
 from view.data.event_history_record import EventHistoryRecord as EventHistoryRecordData
 from view.data.user import User as UserData
 from view.data.event import Event as EventData
+from view.data.event import EventResult as EventResultData
 from view.enum.event_label import EventLabels
 from view.enum.event_state import EventStates
 
@@ -34,6 +35,41 @@ class UserDataCreator:
             get_image_path(user.image_big)
         )
 
+class EventResultDataCreator:
+    @staticmethod
+    def create(result:EventResult):
+        user = result.user
+        return EventResultData(
+            user.login,
+            url_for('profile', user_id=user.id),
+            result.place,
+            result.reward
+        )
+
+
+
+class EventDataCreator:
+    @staticmethod
+    def create(event:Event):
+        data = EventData(event.id, event.title, event.date_start, EventLabels.GAME)
+        data.url = url_for('event', event_id=event.id)
+        data.description = event.description
+        data.description_short = event.description_short
+
+        participant_list = event.participants.all()
+        data.participant_list = list(map(lambda u: UserDataCreator.create(u), participant_list))
+
+        wait_list = event.wait_list.all()
+        data.wait_list = list(map(lambda u: UserDataCreator.create(u), wait_list))
+
+        results = event.results.all()
+        data.results = list(map(lambda r: EventResultDataCreator.create(r), results))
+
+        data.state = event_status_to_state[event.status]
+
+        data.priority = 1
+
+        return data
 
 class EventHistoryRecordDataCreator:
     @staticmethod
