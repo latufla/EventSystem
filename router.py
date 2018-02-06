@@ -63,7 +63,7 @@ def index():
 @app.route('/<string:user_name>', methods=['GET'])
 @is_logged_in
 def profile(user_name):
-    return controller.getUserProfile(user_name)
+    return controller.get_user_profile(user_name)
 
 
 @app.route('/all', methods=['GET'])

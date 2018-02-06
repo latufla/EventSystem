@@ -129,7 +129,7 @@ class Controller:
         user = self._getUser()
         return redirect(url_for('profile', user_name=user.login))
 
-    def getUserProfile(self, user_name):
+    def get_user_profile(self, user_name):
         user = User.query.filter_by(login=user_name).first()
         myself = self._getUser()
         if user is None:
